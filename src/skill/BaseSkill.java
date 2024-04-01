@@ -2,10 +2,10 @@ package skill;
 
 public abstract class BaseSkill {
     String name;
-    int pp;
-    int power;
-    int accuracy;
-    int maxPP;
+    private int pp;
+    private int power;
+    private int accuracy;
+    private int maxPP;
 
     public BaseSkill(String name, int pp, int power, int accuracy) {
         this.setName(name);
