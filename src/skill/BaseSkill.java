@@ -1,7 +1,7 @@
 package skill;
 
 public abstract class BaseSkill {
-    String name;
+    private String name;
     private int pp;
     private int power;
     private int accuracy;
