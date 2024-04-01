@@ -4,14 +4,14 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import pane.RootPane;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        Pane root = new Pane();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(RootPane.getRootPane(), 1600, 900);
         stage.setScene(scene);
-        stage.setTitle("Pokemon");
+        stage.setTitle("Pokemon Battle!");
         stage.show();
     }
 
