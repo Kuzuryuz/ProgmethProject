@@ -1,5 +1,7 @@
 package usage;
 
+import pokemon.Pokemon;
+
 public interface Curable {
-    void useCure();
+    void useCure(Pokemon target);
 }

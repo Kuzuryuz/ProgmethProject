@@ -1,5 +1,7 @@
 package usage;
 
+import pokemon.Pokemon;
+
 public interface Revivable {
-    void useRevive();
+    void useRevive(Pokemon target);
 }

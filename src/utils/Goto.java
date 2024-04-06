@@ -1,7 +1,8 @@
 package utils;
 
+import game.GameController;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,12 +23,21 @@ public class Goto {
     public static void mainPage() {
         clear();
 
-        Text text = new Text("Pokemon Battle!");
+        Text text = new Text("PokeBattle!");
         text.setFill(Color.DARKCYAN);
-        text.setFont(Font.font("Verdana", FontWeight.BOLD, 32));
+        text.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
 
-        Button playButton = new Button("Play");
+        rootPane.getChildren().addAll(text, initPlayButton());
+    }
 
-        rootPane.getChildren().addAll(text, playButton);
+    private static Button initPlayButton() {
+        Button button = new Button("Play");
+        button.setBorder(new Border(new BorderStroke(Color.DARKCYAN, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        button.setBackground(Background.fill(Color.WHITE));
+        button.setTextFill(Color.DARKCYAN);
+        button.setFont(Font.font(null, FontWeight.BOLD, 25));
+        button.setPrefWidth(300);
+        button.setOnMouseClicked(e -> GameController.getInstance().initGame());
+        return button;
     }
 }

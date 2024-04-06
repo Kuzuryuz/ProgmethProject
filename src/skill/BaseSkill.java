@@ -1,5 +1,7 @@
 package skill;
 
+import pokemon.Pokemon;
+
 public abstract class BaseSkill {
     private String name;
     private int pp;
@@ -15,7 +17,7 @@ public abstract class BaseSkill {
         this.setMaxPP(pp*160/100);
     }
 
-    public abstract void useSkill();
+    public abstract void useSkill(Pokemon opponent);
 
     public String getName() {
         return name;

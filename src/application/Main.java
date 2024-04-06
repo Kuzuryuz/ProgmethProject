@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         Scene scene = new Scene(RootPane.getRootPane(), 1600, 900);
         stage.setScene(scene);
-        stage.setTitle("Pokemon Battle!");
+        stage.setTitle("PokeBattle!");
         stage.show();
     }
 

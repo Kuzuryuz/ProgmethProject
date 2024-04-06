@@ -1,7 +1,7 @@
 package usage;
 
+import pokemon.Pokemon;
+
 public interface Healable {
-    int getHealAmount();
-    void setHealAmount();
-    void useHeal(int healAmount);
+    void useHeal(Pokemon target);
 }
