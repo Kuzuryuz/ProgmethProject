@@ -5,13 +5,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pane.RootPane;
+import utils.Goto;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(RootPane.getRootPane(), 1600, 900);
+        Goto.setStage(stage);
+
+        Scene scene = new Scene(RootPane.getRootPane(), 1400, 787.5);
         stage.setScene(scene);
         stage.setTitle("PokeBattle!");
+        stage.setResizable(false);
         stage.show();
     }
 

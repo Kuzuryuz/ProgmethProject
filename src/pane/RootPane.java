@@ -1,6 +1,5 @@
 package pane;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
@@ -12,9 +11,7 @@ public class RootPane extends VBox {
 
     private RootPane() {
         setBackground(Background.fill(Color.WHITE));
-        setAlignment(Pos.CENTER);
-        setSpacing(16);
-//        setPadding(new Insets(32, 0, 32, 0));
+        setAlignment(Pos.TOP_CENTER);
         Goto.setRootPane(this);
         Goto.mainPage();
     }
