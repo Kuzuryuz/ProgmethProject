@@ -16,7 +16,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import pane.PokemonListPane;
 import pane.RootPane;
+import pokemon.Pokemon;
 
 public class Goto {
     private static RootPane rootPane;
@@ -188,6 +190,7 @@ public class Goto {
             // init Select Pokemon Button
             for (int k = 0; k < 2; k++) {
                 Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#C3C3C3" : "#969696");
+                selectPokemonButton.setOnMouseClicked(e->ListPage());
                 tilePane.getChildren().add(selectPokemonButton);
             }
 
@@ -309,5 +312,35 @@ public class Goto {
 
         // add howToPlayPage to RootPane
         rootPane.getChildren().addAll(stack);
+    }
+
+    private static void ListPage() {
+        clear();
+        VBox listPage = new VBox();
+        listPage.setAlignment(Pos.CENTER);
+        listPage.setSpacing(40);
+
+        Text title = GetDisplay.initText("List",50,true,"Verdana");
+        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#868BFF");
+        backToMainMenu.setOnAction(e -> mainPage());
+        HBox pokemonInfo = new HBox();
+        pokemonInfo.setAlignment(Pos.CENTER);
+        pokemonInfo.setSpacing(10);
+        for (int i=0;i<PokemonListPane.getInstance().getPokemons().size();i++) {
+            Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(i);
+            ImageView pokemonimg =  GetDisplay.displayImg(pokemon.getImgsrc());
+            pokemonimg.setFitWidth(100);
+            pokemonimg.setFitHeight(100);
+
+            Text pokemonName = GetDisplay.initText(pokemon.getName(), 16,true,"Verdana");
+            VBox pokemonelement = new VBox();
+            pokemonelement.getChildren().addAll(pokemonimg,pokemonName);
+            pokemonelement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px;");
+            pokemonelement.setSpacing(20);
+            pokemonInfo.getChildren().addAll(pokemonelement);
+        }
+
+        listPage.getChildren().addAll(title,pokemonInfo,backToMainMenu);
+        rootPane.getChildren().addAll(listPage);
     }
 }
