@@ -1,15 +1,17 @@
 package pokemon;
 
 import skill.BaseSkill;
+import usage.Status;
+import usage.Type;
 
 import java.util.ArrayList;
 
 public class Pokemon{
 
     private String name;
-    private String type;
+    private Type type;
 
-    private String type2;
+    private Type type2;
     private int hp;
 
     private int atk;
@@ -22,12 +24,14 @@ public class Pokemon{
 
     private int spe;
 
+    private Status status;
+
     private String imgsrc;
     private ArrayList<BaseSkill> moves;
 
 
 
-    public Pokemon(String name, String type,String type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc) {
+    public Pokemon(String name, Type type,Type type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc) {
         this.setName(name);
         this.setType(type);
         this.setType2(type2);
@@ -40,6 +44,10 @@ public class Pokemon{
         this.setImgsrc(imgsrc);
     }
 
+    public void checkStatus(){
+
+    }
+
 
 
     public String getName() {
@@ -50,19 +58,19 @@ public class Pokemon{
         this.name = name;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public String getType2() {
+    public Type getType2() {
         return type2;
     }
 
-    public void setType2(String type2) {
+    public void setType2(Type type2) {
         this.type2 = type2;
     }
 
@@ -120,6 +128,14 @@ public class Pokemon{
 
     public void setSpe(int spe) {
         this.spe = spe;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getImgsrc() {
