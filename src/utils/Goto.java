@@ -21,7 +21,16 @@ import pane.RootPane;
 public class Goto {
     private static RootPane rootPane;
     private static Stage stage;
-    public static boolean volState = true;
+    private static boolean  volState = true;
+
+    public static boolean getVolState() {
+        return volState;
+    }
+
+    public static void setVolState(boolean volState) {
+        Goto.volState = volState;
+    }
+
     public static void setRootPane(RootPane rootPane) {
 
         Goto.rootPane = rootPane;
@@ -37,13 +46,13 @@ public class Goto {
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
         bgSound.setVolume(0.2);
-        if (volState) {
+        if (getVolState()) {
             bgSound.play();
         }else bgSound.pause();
 
         ImageView soundON = GetDisplay.displayImg("soundON.png");
         ImageView soundOFF = GetDisplay.displayImg("soundOFF.png");
-        if (volState) {
+        if (getVolState()) {
             bgSound.play();
             soundOFF.setVisible(false);
         }else{
@@ -54,7 +63,7 @@ public class Goto {
         soundON.setFitHeight(30);
         soundON.setOnMouseClicked(e -> {
             bgSound.pause();
-            volState = false;
+            setVolState(false);
             soundON.setVisible(false);
             soundOFF.setVisible(true);
         });
@@ -62,7 +71,7 @@ public class Goto {
         soundOFF.setFitHeight(30);
         soundOFF.setOnMouseClicked(e -> {
             bgSound.play();
-            volState = true;
+            setVolState(true);
             soundON.setVisible(true);
             soundOFF.setVisible(false);
         });
@@ -220,7 +229,7 @@ public class Goto {
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
         bgSound.setVolume(0.2);
-        if (volState) {
+        if (getVolState()) {
             bgSound.play();
         }else bgSound.pause();
 
