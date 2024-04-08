@@ -5,25 +5,23 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import pane.PokemonListPane;
 import pane.RootPane;
-import pokemon.Pokemon;
-
-import java.io.File;
 
 public class Goto {
     private static RootPane rootPane;
     private static Stage stage;
-    public static StackPane stack = new StackPane();
+    public static boolean volState = true;
     public static void setRootPane(RootPane rootPane) {
 
         Goto.rootPane = rootPane;
@@ -38,15 +36,25 @@ public class Goto {
         clear();
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
-        bgSound.play();
+        bgSound.setVolume(0.2);
+        if (volState) {
+            bgSound.play();
+        }else bgSound.pause();
 
         ImageView soundON = GetDisplay.displayImg("soundON.png");
         ImageView soundOFF = GetDisplay.displayImg("soundOFF.png");
-        soundOFF.setVisible(false);
+        if (volState) {
+            bgSound.play();
+            soundOFF.setVisible(false);
+        }else{
+            bgSound.pause();
+            soundON.setVisible(false);
+        }
         soundON.setFitWidth(30);
         soundON.setFitHeight(30);
         soundON.setOnMouseClicked(e -> {
             bgSound.pause();
+            volState = false;
             soundON.setVisible(false);
             soundOFF.setVisible(true);
         });
@@ -54,11 +62,12 @@ public class Goto {
         soundOFF.setFitHeight(30);
         soundOFF.setOnMouseClicked(e -> {
             bgSound.play();
+            volState = true;
             soundON.setVisible(true);
             soundOFF.setVisible(false);
         });
-
         StackPane soundStatus = new StackPane(soundON,soundOFF);
+
         ImageView backgroundImageView = GetDisplay.displayImg("pokebg.png");
         backgroundImageView.setFitHeight(787.5);
         backgroundImageView.setFitWidth(1400);
@@ -71,13 +80,14 @@ public class Goto {
 
         // init game title
         //Text title = GetDisplay.initText("PokeBattle!", 70, true, "Verdana");
-        ImageView MainPageTitle = GetDisplay.displayImg("pokebattle.png");
+        ImageView mainPageTitle = GetDisplay.displayImg("pokebattle.png");
 
         // init Region for spacing
         Region spacer = new Region();
         spacer.setPrefHeight(80);
 
         MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound.setVolume(0.4);
 
         // init Play button
         Button playButton = GetDisplay.initButton("Play", 350, "#386abb");
@@ -122,7 +132,8 @@ public class Goto {
         soundBox.setPadding(new Insets(0, 50, 0, 0));
 
         // add elements to mainPage
-        mainPage.getChildren().addAll(MainPageTitle, spacer, playButton, howToPlayButton, exitButton, soundBox);
+        mainPage.getChildren().addAll(mainPageTitle, spacer, playButton, howToPlayButton, exitButton, soundBox);
+        StackPane stack = new StackPane();
         stack.getChildren().addAll(backgroundImageView, mainPage);
         // add mainPage to RootPane
         rootPane.getChildren().add(stack);
@@ -168,7 +179,6 @@ public class Goto {
             // init Select Pokemon Button
             for (int k = 0; k < 2; k++) {
                 Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#C3C3C3" : "#969696");
-                selectPokemonButton.setOnMouseClicked(e->ListPage());
                 tilePane.getChildren().add(selectPokemonButton);
             }
 
@@ -196,66 +206,99 @@ public class Goto {
         AnchorPane.setRightAnchor(backButton, 20.0);
         AnchorPane.setBottomAnchor(backButton, 20.0);
 
+        StackPane stack = new StackPane();
         // add elements to playPage
         playPage.getChildren().addAll(vbox, backButton);
+        stack.getChildren().addAll(playPage);
 
         // add playPage to RootPane
-        rootPane.getChildren().addAll(playPage);
+        rootPane.getChildren().addAll(stack);
     }
 
     private static void howToPlayPage() {
         clear();
 
+        MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setVolume(0.2);
+        if (volState) {
+            bgSound.play();
+        }else bgSound.pause();
+
+        ImageView backgroundImageView = GetDisplay.displayImg("pokebg.png");
+        backgroundImageView.setFitHeight(787.5);
+        backgroundImageView.setFitWidth(1400);
+
         // init new VBox and setup
         VBox howToPlayPage = new VBox();
         howToPlayPage.setAlignment(Pos.CENTER);
-        howToPlayPage.setPadding(new Insets(60,0,0,0));
-        howToPlayPage.setSpacing(40);
+        howToPlayPage.setPadding(new Insets(60,0,50,0));
 
         // init page title
-        Text title = GetDisplay.initText("How to Play", 50, true, "Verdana");
+        //Text title = GetDisplay.initText("How to Play", 50, true, "Verdana");
+        ImageView howToPlayTitle = GetDisplay.displayImg("howToPlay.png");
 
         // mock box
-        Rectangle mock = new Rectangle(900,450);
+        Rectangle rect = new Rectangle(900,450);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Paint.valueOf("#386abb"));
+        rect.setStrokeWidth(3);
+        rect.setArcWidth(30);
+        rect.setArcHeight(30);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+
+        VBox vBoxIN = new VBox();
+        vBoxIN.setPrefSize(900,450);
+
+        Text explanation = new Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
+                "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
+                "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit " +
+                "anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
+                "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
+                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat " +
+                "cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor" +
+                " sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea");
+        explanation.setLineSpacing(15);
+        explanation.setWrappingWidth(800);
+        explanation.setFont(Font.font(20));
+        vBoxIN.getChildren().addAll(explanation);
+        scrollPane.setContent(vBoxIN);
+        VBox vBoxOUT = new VBox(scrollPane);
+        vBoxOUT.setPadding(new Insets(75,0,75,300));
+
+        MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound.setVolume(0.4);
 
         // init Back to Main Menu button
-        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#868BFF");
-        backToMainMenu.setOnAction(e -> mainPage());
+        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
+        backToMainMenu.setOnMousePressed(e -> {
+            clickSound.play();
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> clickSound.pause());
+            delay.play();
+        });
+        backToMainMenu.setOnMouseReleased(e->{
+            bgSound.pause();
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
+            delay.setOnFinished(event -> mainPage());
+            delay.play();
+        });
 
+        StackPane explanationBox = new StackPane(rect, vBoxOUT);
+        explanationBox.setAlignment(Pos.CENTER);
+        StackPane stack = new StackPane();
         // add elements to howToPlayPage
-        howToPlayPage.getChildren().addAll(title, mock, backToMainMenu);
+        howToPlayPage.getChildren().addAll(howToPlayTitle, explanationBox, backToMainMenu);
+        stack.getChildren().addAll(backgroundImageView, howToPlayPage);
 
         // add howToPlayPage to RootPane
-        rootPane.getChildren().addAll(howToPlayPage);
-    }
-
-    private static void ListPage() {
-        clear();
-        VBox listPage = new VBox();
-        listPage.setAlignment(Pos.CENTER);
-        listPage.setSpacing(40);
-
-        Text title = GetDisplay.initText("List",50,true,"Verdana");
-        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#868BFF");
-        backToMainMenu.setOnAction(e -> mainPage());
-        HBox pokemonInfo = new HBox();
-        pokemonInfo.setAlignment(Pos.CENTER);
-        pokemonInfo.setSpacing(10);
-        for (int i=0;i<PokemonListPane.getInstance().getPokemons().size();i++) {
-            Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(i);
-            ImageView pokemonimg =  GetDisplay.displayImg(pokemon.getImgsrc());
-            pokemonimg.setFitWidth(100);
-            pokemonimg.setFitHeight(100);
-
-            Text pokemonName = GetDisplay.initText(pokemon.getName(), 16,true,"Verdana");
-            VBox pokemonelement = new VBox();
-            pokemonelement.getChildren().addAll(pokemonimg,pokemonName);
-            pokemonelement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px;");
-            pokemonelement.setSpacing(20);
-            pokemonInfo.getChildren().addAll(pokemonelement);
-        }
-
-        listPage.getChildren().addAll(title,pokemonInfo,backToMainMenu);
-        rootPane.getChildren().addAll(listPage);
+        rootPane.getChildren().addAll(stack);
     }
 }
