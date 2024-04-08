@@ -4,6 +4,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -102,33 +103,11 @@ public class Goto {
 
         // init Play button
         Button playButton = GetDisplay.initButton("Play", 350, "#386abb");
-        playButton.setOnMousePressed(e -> {
-            clickSound.play();
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(event -> clickSound.pause());
-            delay.play();
-        });
-        playButton.setOnMouseReleased(e->{
-            bgSound.pause();
-            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-            delay.setOnFinished(event -> playPage());
-            delay.play();
-        });
+        GetDisplay.clickSoundEffect(playButton, clickSound, bgSound, () -> playPage());
 
         // init How to Play button
         Button howToPlayButton = GetDisplay.initButton("How to Play", 350, "#386abb");
-        howToPlayButton.setOnMousePressed(e -> {
-            clickSound.play();
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(event -> clickSound.pause());
-            delay.play();
-        });
-        howToPlayButton.setOnMouseReleased(e -> {
-            bgSound.pause();
-            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-            delay.setOnFinished(event -> howToPlayPage());
-            delay.play();
-        });
+        GetDisplay.clickSoundEffect(howToPlayButton, clickSound, bgSound, () -> howToPlayPage());
 
         // init Exit button
         Button exitButton = GetDisplay.initButton("Exit", 350, "#386abb");
@@ -152,6 +131,12 @@ public class Goto {
 
     private static void playPage() {
         clear();
+
+        MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setVolume(0.2);
+        if (getVolState()) {
+            bgSound.play();
+        }else bgSound.pause();
 
         // init new AnchorPane
         AnchorPane playPage = new AnchorPane();
@@ -180,6 +165,9 @@ public class Goto {
         // add elements to vbox
         vbox.getChildren().addAll(title, playerText);
 
+        MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound.setVolume(0.4);
+
         // add Select Pokemon button to vbox
         for (int i = 0; i < 3; i++) {
             // init new TilePane for Select Pokemon button
@@ -190,7 +178,7 @@ public class Goto {
             // init Select Pokemon Button
             for (int k = 0; k < 2; k++) {
                 Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#C3C3C3" : "#969696");
-                selectPokemonButton.setOnMouseClicked(e->ListPage());
+                GetDisplay.clickSoundEffect(selectPokemonButton, clickSound, bgSound, () -> ListPage());
                 tilePane.getChildren().add(selectPokemonButton);
             }
 
@@ -203,7 +191,7 @@ public class Goto {
 
         // init Back button
         Button backButton = GetDisplay.initButton("Back", 150, "#386abb");
-        backButton.setOnAction(e -> mainPage());
+        GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, () -> mainPage());
 
         // add elements to playPage
         vbox.getChildren().addAll(guideline);
@@ -290,18 +278,7 @@ public class Goto {
 
         // init Back to Main Menu button
         Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
-        backToMainMenu.setOnMousePressed(e -> {
-            clickSound.play();
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(event -> clickSound.pause());
-            delay.play();
-        });
-        backToMainMenu.setOnMouseReleased(e->{
-            bgSound.pause();
-            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-            delay.setOnFinished(event -> mainPage());
-            delay.play();
-        });
+        GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
 
         StackPane explanationBox = new StackPane(rect, vBoxOUT);
         explanationBox.setAlignment(Pos.CENTER);
@@ -316,13 +293,23 @@ public class Goto {
 
     private static void ListPage() {
         clear();
+
+        MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setVolume(0.2);
+        if (getVolState()) {
+            bgSound.play();
+        }else bgSound.pause();
+
+        MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound.setVolume(0.4);
+
         VBox listPage = new VBox();
         listPage.setAlignment(Pos.CENTER);
         listPage.setSpacing(40);
 
         Text title = GetDisplay.initText("List",50,true,"Verdana");
-        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#868BFF");
-        backToMainMenu.setOnAction(e -> mainPage());
+        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
+        GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
         HBox pokemonInfo = new HBox();
         pokemonInfo.setAlignment(Pos.CENTER);
         pokemonInfo.setSpacing(10);

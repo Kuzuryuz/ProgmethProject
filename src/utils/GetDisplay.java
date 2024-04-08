@@ -1,5 +1,7 @@
 package utils;
 
+import javafx.animation.PauseTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.File;
 
@@ -39,5 +42,20 @@ public class GetDisplay {
         Media media = new Media(new File(soundPath).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         return mediaPlayer;
+    }
+
+    public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
+        clickNode.setOnMousePressed(e -> {
+            clickSound.play();
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> clickSound.pause());
+            delay.play();
+        });
+        clickNode.setOnMouseReleased(e->{
+            bgSound.pause();
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
+            delay.setOnFinished(event -> onReleaseAction.run());
+            delay.play();
+        });
     }
 }
