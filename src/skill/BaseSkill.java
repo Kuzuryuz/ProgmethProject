@@ -34,6 +34,10 @@ public class BaseSkill {
     }
 
     public void useSkill(Pokemon opponent, int atk, int spa){
+        if(this.getPp()<=0){
+            System.out.println("No PP left for this move!");
+            return;
+        }
         if(this.getCategory()!=Category.STATUS) {
             boolean sup = false;
             boolean not = false;
@@ -46,6 +50,14 @@ public class BaseSkill {
                 damage = (int) Math.round((1.3 * this.getPower() * (spa / opponent.getSpd())) + 2);
             } else {
                 damage = 0;
+            }
+
+            int min = 0;
+            int max = 100;
+            int gacha = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha > this.getAccuracy()) {
+                System.out.println("But it missed..!");
+                return;
             }
 
             if (Objects.equals(this.getType(), Type.NORMAL) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL))) && (nope!=true)) {
@@ -186,9 +198,873 @@ public class BaseSkill {
 
             }
 
+            if (Objects.equals(this.getType(), Type.GRASS) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GRASS) && (Objects.equals(opponent.getType(), Type.BUG) || (Objects.equals(opponent.getType2(), Type.BUG)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GRASS) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GRASS) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
             if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
                 damage = damage * 2;
                 sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.WATER) || (Objects.equals(opponent.getType2(), Type.WATER)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.WATER) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.WATER) || (Objects.equals(opponent.getType2(), Type.WATER)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.ELECTRIC) || (Objects.equals(opponent.getType2(), Type.ELECTRIC)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.WATER) || (Objects.equals(opponent.getType2(), Type.WATER)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.ICE) || (Objects.equals(opponent.getType2(), Type.ICE)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ICE) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.NORMAL) || (Objects.equals(opponent.getType2(), Type.NORMAL)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.ICE) || (Objects.equals(opponent.getType2(), Type.ICE)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.PSYCHIC) || (Objects.equals(opponent.getType2(), Type.PSYCHIC)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.BUG) || (Objects.equals(opponent.getType2(), Type.BUG)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FIGHTING) && (Objects.equals(opponent.getType(), Type.GHOST) || (Objects.equals(opponent.getType2(), Type.GHOST)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.GHOST) || (Objects.equals(opponent.getType2(), Type.GHOST)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.POISON) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.ELECTRIC) || (Objects.equals(opponent.getType2(), Type.ELECTRIC)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.BUG) || (Objects.equals(opponent.getType2(), Type.BUG)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GROUND) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.FIGHTING) || (Objects.equals(opponent.getType2(), Type.FIGHTING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.BUG) || (Objects.equals(opponent.getType2(), Type.BUG)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.ELECTRIC) || (Objects.equals(opponent.getType2(), Type.ELECTRIC)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FLYING) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.PSYCHIC) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.PSYCHIC) && (Objects.equals(opponent.getType(), Type.FIGHTING) || (Objects.equals(opponent.getType2(), Type.FIGHTING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.PSYCHIC) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.PSYCHIC) && (Objects.equals(opponent.getType(), Type.PSYCHIC) || (Objects.equals(opponent.getType2(), Type.PSYCHIC)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.PSYCHIC) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.GRASS) || (Objects.equals(opponent.getType2(), Type.GRASS)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.PSYCHIC) || (Objects.equals(opponent.getType2(), Type.PSYCHIC)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.GHOST) || (Objects.equals(opponent.getType2(), Type.GHOST)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.BUG) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.ICE) || (Objects.equals(opponent.getType2(), Type.ICE)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.FLYING) || (Objects.equals(opponent.getType2(), Type.FLYING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.BUG) || (Objects.equals(opponent.getType2(), Type.BUG)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.FIGHTING) || (Objects.equals(opponent.getType2(), Type.FIGHTING)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.ROCK) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GHOST) && (Objects.equals(opponent.getType(), Type.GHOST) || (Objects.equals(opponent.getType2(), Type.GHOST)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GHOST) && (Objects.equals(opponent.getType(), Type.PSYCHIC) || (Objects.equals(opponent.getType2(), Type.PSYCHIC)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.GHOST) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.GHOST) && (Objects.equals(opponent.getType(), Type.NORMAL) || (Objects.equals(opponent.getType2(), Type.NORMAL)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.DRAGON) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.DRAGON) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.DRAGON) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+                damage = 0;
+                if(sup==true){
+                    sup=false;
+                    nope=true;
+                }else if(not==true){
+                    not=false;
+                    nope=true;
+                }else{
+                    nope=true;
+                }
+            }
+
+            if (Objects.equals(this.getType(), Type.DARK) && (Objects.equals(opponent.getType(), Type.PSYCHIC) || (Objects.equals(opponent.getType2(), Type.PSYCHIC)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.DARK) && (Objects.equals(opponent.getType(), Type.GHOST) || (Objects.equals(opponent.getType2(), Type.GHOST)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.DARK) && (Objects.equals(opponent.getType(), Type.FIGHTING) || (Objects.equals(opponent.getType2(), Type.FIGHTING)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.DARK) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.DARK) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.ICE) || (Objects.equals(opponent.getType2(), Type.ICE)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.ROCK) || (Objects.equals(opponent.getType2(), Type.ROCK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.FAIRY) || (Objects.equals(opponent.getType2(), Type.FAIRY)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.WATER) || (Objects.equals(opponent.getType2(), Type.WATER)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.ELECTRIC) || (Objects.equals(opponent.getType2(), Type.ELECTRIC)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.STEEL) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.FIGHTING) || (Objects.equals(opponent.getType2(), Type.FIGHTING)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.DRAGON) || (Objects.equals(opponent.getType2(), Type.DRAGON)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.DARK) || (Objects.equals(opponent.getType2(), Type.DARK)))&& (nope!=true)) {
+                damage = damage * 2;
+                sup = true;
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.FIRE) || (Objects.equals(opponent.getType2(), Type.FIRE)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
+            }
+
+            if (Objects.equals(this.getType(), Type.FAIRY) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))&& (nope!=true)) {
+
+                damage = damage / 2;
+                if (sup == true) {
+                    sup = false;
+                } else {
+                    not = true;
+                }
+
             }
 
             opponent.setHp(opponent.getHp() - damage);
@@ -204,12 +1080,48 @@ public class BaseSkill {
             if (nope == true) {
                 System.out.println("But it had no effect...!");
             }
-        }else{
 
+            int gacha2 = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha2 <= this.getStatusChance()) {
+                opponent.setStatus(this.getStatus());
+                if(Objects.equals(opponent.getStatus(), Status.POISON)){
+                    System.out.println(opponent.getName() + " was poisoned!");
+                }else if(Objects.equals(opponent.getStatus(), Status.PARALYSIS)){
+                    System.out.println(opponent.getName() + " was paralyzed!");
+                }else if(Objects.equals(opponent.getStatus(), Status.BURN)){
+                    System.out.println(opponent.getName() + " was burned!");
+                }else if(Objects.equals(opponent.getStatus(), Status.FREEZE)){
+                    System.out.println(opponent.getName() + " was frozen!");
+                }else if(Objects.equals(opponent.getStatus(), Status.SLEEP)){
+                    System.out.println(opponent.getName() + " was put to sleep!");
+                }
+            }
+        }else{
+            int min = 0;
+            int max = 100;
+            int gacha = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha > this.getAccuracy()) {
+                System.out.println("But it missed..!");
+                return;
+            }
+
+            opponent.setStatus(this.getStatus());
+            if(Objects.equals(opponent.getStatus(), Status.POISON)){
+                System.out.println(opponent.getName() + " was poisoned!");
+            }else if(Objects.equals(opponent.getStatus(), Status.PARALYSIS)){
+                System.out.println(opponent.getName() + " was paralyzed!");
+            }else if(Objects.equals(opponent.getStatus(), Status.BURN)){
+                System.out.println(opponent.getName() + " was burned!");
+            }else if(Objects.equals(opponent.getStatus(), Status.FREEZE)){
+                System.out.println(opponent.getName() + " was frozen!");
+            }else if(Objects.equals(opponent.getStatus(), Status.SLEEP)){
+                System.out.println(opponent.getName() + " was put to sleep!");
+            }
         }
 
         this.setPp(this.getPp()-1);
     };
+
 
     public String getName() {
         return name;
