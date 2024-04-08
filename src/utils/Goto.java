@@ -1,19 +1,25 @@
 package utils;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import pane.RootPane;
+
+import java.io.File;
 
 public class Goto {
     private static RootPane rootPane;
     private static Stage stage;
-
+    public static StackPane stack = new StackPane();
     public static void setRootPane(RootPane rootPane) {
 
         Goto.rootPane = rootPane;
@@ -27,39 +33,95 @@ public class Goto {
     public static void mainPage() {
         clear();
 
+        MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.play();
+
+        ImageView soundON = GetDisplay.displayImg("soundON.png");
+        ImageView soundOFF = GetDisplay.displayImg("soundOFF.png");
+        soundOFF.setVisible(false);
+        soundON.setFitWidth(30);
+        soundON.setFitHeight(30);
+        soundON.setOnMouseClicked(e -> {
+            bgSound.pause();
+            soundON.setVisible(false);
+            soundOFF.setVisible(true);
+        });
+        soundOFF.setFitWidth(30);
+        soundOFF.setFitHeight(30);
+        soundOFF.setOnMouseClicked(e -> {
+            bgSound.play();
+            soundON.setVisible(true);
+            soundOFF.setVisible(false);
+        });
+
+        StackPane soundStatus = new StackPane(soundON,soundOFF);
+        ImageView backgroundImageView = GetDisplay.displayImg("pokebg.png");
+        backgroundImageView.setFitHeight(787.5);
+        backgroundImageView.setFitWidth(1400);
+
         // init new VBox and setup
         VBox mainPage = new VBox();
         mainPage.setAlignment(Pos.CENTER);
-        mainPage.setPadding(new Insets(150,0,0,0));
+        mainPage.setPadding(new Insets(80, 0, 0, 0));
         mainPage.setSpacing(25);
 
         // init game title
-        Text title = GetDisplay.initText("PokeBattle!", 70, true, "Verdana");
+        //Text title = GetDisplay.initText("PokeBattle!", 70, true, "Verdana");
+        ImageView MainPageTitle = GetDisplay.displayImg("pokebattle.png");
 
         // init Region for spacing
         Region spacer = new Region();
         spacer.setPrefHeight(80);
 
+        MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+
         // init Play button
-        Button playButton = GetDisplay.initButton("Play", 350, "#868BFF");
-        playButton.setOnAction(e -> playPage());
+        Button playButton = GetDisplay.initButton("Play", 350, "#386abb");
+        playButton.setOnMousePressed(e -> {
+            clickSound.play();
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> clickSound.pause());
+            delay.play();
+        });
+        playButton.setOnMouseReleased(e->{
+            bgSound.pause();
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
+            delay.setOnFinished(event -> playPage());
+            delay.play();
+        });
 
         // init How to Play button
-        Button howToPlayButton = GetDisplay.initButton("How to Play", 350, "#868BFF");
-        howToPlayButton.setOnAction(e -> howToPlayPage());
+        Button howToPlayButton = GetDisplay.initButton("How to Play", 350, "#386abb");
+        howToPlayButton.setOnMousePressed(e -> {
+            clickSound.play();
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> clickSound.pause());
+            delay.play();
+        });
+        howToPlayButton.setOnMouseReleased(e -> {
+            bgSound.pause();
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
+            delay.setOnFinished(event -> howToPlayPage());
+            delay.play();
+        });
 
         // init Exit button
-        Button exitButton = GetDisplay.initButton("Exit", 350, "#868BFF");
+        Button exitButton = GetDisplay.initButton("Exit", 350, "#386abb");
         exitButton.setOnAction(e -> {
             stage.close();
             Platform.exit();
         });
 
-        // add elements to mainPage
-        mainPage.getChildren().addAll(title, spacer, playButton, howToPlayButton, exitButton);
+        HBox soundBox = new HBox();
+        soundBox.setAlignment(Pos.TOP_RIGHT);
+        soundBox.getChildren().add(soundStatus);
+        soundBox.setPadding(new Insets(0, 50, 0, 0));
 
+        // add elements to mainPage
+        mainPage.getChildren().addAll(MainPageTitle, spacer, playButton, howToPlayButton, exitButton, soundBox);
+        stack.getChildren().addAll(backgroundImageView, mainPage);
         // add mainPage to RootPane
-        rootPane.getChildren().add(mainPage);
+        rootPane.getChildren().add(stack);
     }
 
     private static void playPage() {
@@ -113,7 +175,7 @@ public class Goto {
         Text guideline = GetDisplay.initText("Player 1 select 1st Pokemon", 25, true, null);
 
         // init Back button
-        Button backButton = GetDisplay.initButton("Back", 150, "#868BFF");
+        Button backButton = GetDisplay.initButton("Back", 150, "#386abb");
         backButton.setOnAction(e -> mainPage());
 
         // add elements to playPage
