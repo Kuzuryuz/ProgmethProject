@@ -48,6 +48,7 @@ public class Goto {
         clear();
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
         if (getVolState()) {
             bgSound.play();
@@ -133,6 +134,7 @@ public class Goto {
         clear();
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
         if (getVolState()) {
             bgSound.play();
@@ -219,6 +221,7 @@ public class Goto {
         clear();
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
         if (getVolState()) {
             bgSound.play();
@@ -295,6 +298,7 @@ public class Goto {
         clear();
 
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
         if (getVolState()) {
             bgSound.play();
@@ -306,27 +310,53 @@ public class Goto {
         VBox listPage = new VBox();
         listPage.setAlignment(Pos.CENTER);
         listPage.setSpacing(40);
+        listPage.setPadding(new Insets(60,0,60,0));
 
-        Text title = GetDisplay.initText("List",50,true,"Verdana");
+        Text title = GetDisplay.initText("Pokémon List",50,true,"Verdana");
         Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
         GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
-        HBox pokemonInfo = new HBox();
-        pokemonInfo.setAlignment(Pos.CENTER);
-        pokemonInfo.setSpacing(10);
-        for (int i=0;i<PokemonListPane.getInstance().getPokemons().size();i++) {
-            Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(i);
-            ImageView pokemonimg =  GetDisplay.displayImg(pokemon.getImgsrc());
-            pokemonimg.setFitWidth(100);
-            pokemonimg.setFitHeight(100);
-            Text pokemonName = GetDisplay.initText(pokemon.getName(), 16,true,"Verdana");
-            VBox pokemonelement = new VBox();
-            pokemonelement.getChildren().addAll(pokemonimg,pokemonName);
-            pokemonelement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px;");
-            pokemonelement.setSpacing(20);
-            pokemonInfo.getChildren().addAll(pokemonelement);
-        }
 
-        listPage.getChildren().addAll(title,pokemonInfo,backToMainMenu);
+        listPage.getChildren().add(title);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+
+        VBox pokemonContainer = new VBox();
+        pokemonContainer.setAlignment(Pos.CENTER);
+        pokemonContainer.setPrefSize(1400,450);
+        pokemonContainer.setSpacing(30);
+
+        for (int i=0, p=0; i<5; i++){
+            HBox pokemonInfo = new HBox();
+            pokemonInfo.setAlignment(Pos.CENTER);
+            pokemonInfo.setSpacing(50);
+
+            for (int j=0; j<4 && p < PokemonListPane.getInstance().getPokemons().size(); j++, p++) {
+                Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(p);
+                ImageView pokemonImg = GetDisplay.displayImg(pokemon.getImgsrc());
+                pokemonImg.setFitHeight(180);
+                pokemonImg.setFitWidth(180);
+                Text pokemonName = GetDisplay.initText(pokemon.getName(), 18, true, "Verdana");
+                VBox pokemonElement = new VBox();
+                pokemonElement.setAlignment(Pos.CENTER);
+                pokemonElement.getChildren().addAll(pokemonImg, pokemonName);
+                pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
+                pokemonElement.setSpacing(20);
+
+                pokemonElement.setOnMouseEntered(e->{
+                    pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
+                });
+                pokemonElement.setOnMouseExited(e->{
+                    pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
+                });
+                pokemonInfo.getChildren().addAll(pokemonElement);
+            }
+            pokemonContainer.getChildren().add(pokemonInfo);
+        }
+        scrollPane.setContent(pokemonContainer);
+        listPage.getChildren().addAll(scrollPane, backToMainMenu);
         rootPane.getChildren().addAll(listPage);
     }
 
