@@ -13,7 +13,7 @@ public class PokemonListPane extends VBox {
     private PokemonListPane() {
         pokemons = new ArrayList<>();
         pokemons.add(new Pokemon("Bulbasaur", Type.GRASS,Type.POISON,45,49,49,65,65,45, "pokemon/001.png"));
-        pokemons.add(new Pokemon("Charmander",Type.FIRE,Type.NORMAL,39,52,43,60,50,65, "pokemon/002.png"));
+        pokemons.add(new Pokemon("Charmander",Type.FIRE,Type.NULL,39,52,43,60,50,65, "pokemon/002.png"));
 
 
         setFillWidth(false);

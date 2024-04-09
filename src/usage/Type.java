@@ -1,6 +1,7 @@
 package usage;
 
 public enum Type {
+    NULL,
     NORMAL,
     FIRE,
     WATER,
