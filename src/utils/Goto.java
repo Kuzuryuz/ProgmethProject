@@ -318,7 +318,6 @@ public class Goto {
             ImageView pokemonimg =  GetDisplay.displayImg(pokemon.getImgsrc());
             pokemonimg.setFitWidth(100);
             pokemonimg.setFitHeight(100);
-
             Text pokemonName = GetDisplay.initText(pokemon.getName(), 16,true,"Verdana");
             VBox pokemonelement = new VBox();
             pokemonelement.getChildren().addAll(pokemonimg,pokemonName);
@@ -329,5 +328,9 @@ public class Goto {
 
         listPage.getChildren().addAll(title,pokemonInfo,backToMainMenu);
         rootPane.getChildren().addAll(listPage);
+    }
+
+    private static void detailpage() {
+
     }
 }
