@@ -29,6 +29,11 @@ public class PokemonListPane {
         pokemons.add(new Pokemon("Magcargo",Type.FIRE,Type.ROCK,60,50,120,90,80,30, "pokemon/magcargo.png"));
         pokemons.add(new Pokemon("Wo-Chien",Type.DARK,Type.GRASS,85,85,100,95,135,70, "pokemon/wo-chien.png"));
         pokemons.add(new Pokemon("Iron Thorns",Type.ROCK,Type.ELECTRIC,100,134,110,70,84,72, "pokemon/ironthorns.png"));
+        pokemons.add(new Pokemon("Swampert",Type.WATER,Type.GROUND,100,150,110,95,110,70, "pokemon/swampert.png"));
+        pokemons.add(new Pokemon("Togekiss",Type.FAIRY,Type.FLYING,85,50,95,120,115,80, "pokemon/togekiss.png"));
+        pokemons.add(new Pokemon("Blaziken",Type.FIRE,Type.FIGHTING,80,160,80,130,80,100, "pokemon/blaziken.png"));
+        pokemons.add(new Pokemon("Rayquaza",Type.DRAGON,Type.FLYING,105,180,100,180,100,115, "pokemon/rayquaza.png"));
+        pokemons.add(new Pokemon("Weavile",Type.DARK,Type.ICE,70,120,65,45,85,125, "pokemon/weavile.png"));
     }
 
     public static PokemonListPane getInstance() {
