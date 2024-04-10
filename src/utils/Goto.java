@@ -1,12 +1,11 @@
 package utils;
 
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
@@ -15,9 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import pane.PokemonListPane;
 import pane.RootPane;
 import pokemon.Pokemon;
@@ -125,8 +122,7 @@ public class Goto {
 
         // add elements to mainPage
         mainPage.getChildren().addAll(mainPageTitle, spacer, playButton, howToPlayButton, exitButton, soundBox);
-        StackPane stack = new StackPane();
-        stack.getChildren().addAll(backgroundImageView, mainPage);
+        StackPane stack = new StackPane(backgroundImageView, mainPage);
         // add mainPage to RootPane
         rootPane.getChildren().add(stack);
     }
@@ -286,10 +282,9 @@ public class Goto {
 
         StackPane explanationBox = new StackPane(rect, vBoxOUT);
         explanationBox.setAlignment(Pos.CENTER);
-        StackPane stack = new StackPane();
         // add elements to howToPlayPage
         howToPlayPage.getChildren().addAll(howToPlayTitle, explanationBox, backToMainMenu);
-        stack.getChildren().addAll(backgroundImageView, howToPlayPage);
+        StackPane stack = new StackPane(backgroundImageView, howToPlayPage);
 
         // add howToPlayPage to RootPane
         rootPane.getChildren().addAll(stack);
@@ -366,6 +361,10 @@ public class Goto {
     private static void detailPage(int index) {
         clear();
 
+        ImageView backgroundImageView = GetDisplay.displayImg("skyBackground.jpg");
+        backgroundImageView.setFitHeight(787.5);
+        backgroundImageView.setFitWidth(1400);
+
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
         bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
@@ -377,27 +376,72 @@ public class Goto {
         clickSound.setVolume(0.4);
 
         VBox detailPage = new VBox();
-        detailPage.setPadding(new Insets(80,200,80,200));
-        detailPage.setSpacing(30);
-        detailPage.setAlignment(Pos.BASELINE_RIGHT);
+        detailPage.setPadding(new Insets(80,300,80,300));
+        detailPage.setSpacing(40);
+        detailPage.setAlignment(Pos.CENTER);
 
         Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(index);
         ImageView pokemonImg = GetDisplay.displayImg(pokemon.getImgsrc());
+        pokemonImg.setEffect(new DropShadow());
         pokemonImg.setFitHeight(400);
         pokemonImg.setFitWidth(400);
         Text pokemonName = GetDisplay.initText(pokemon.getName(), 60, true, "Verdana");
-        Text pokemonHP = GetDisplay.initText("HP: " + String.valueOf(pokemon.getHp()), 20, true, "Verdana");
-        Text pokemonAtk = GetDisplay.initText("Attack: " + String.valueOf(pokemon.getAtk()), 20, true, "Verdana");
-        Text pokemonDef = GetDisplay.initText("Defense: " + String.valueOf(pokemon.getDef()), 20, true, "Verdana");
-        Text pokemonSpAtk = GetDisplay.initText("Sp.Attack: " + String.valueOf(pokemon.getSpa()), 20, true, "Verdana");
-        Text pokemonSpDef = GetDisplay.initText("Sp.Defense: " + String.valueOf(pokemon.getSpd()), 20, true, "Verdana");
-        Text pokemonSpeed = GetDisplay.initText("Speed: " + String.valueOf(pokemon.getSpe()), 20, true, "Verdana");
+        pokemonName.setStyle("-fx-fill: white;");
 
+        Text pType = GetDisplay.initText("Type: ", 20, true, "Verdana");
+        Text pHP = GetDisplay.initText("HP: ", 20, true, "Verdana");
+        Text pAtk = GetDisplay.initText("Attack: ", 20, true, "Verdana");
+        Text pDef = GetDisplay.initText("Defense: ", 20, true, "Verdana");
+        Text pSpAtk = GetDisplay.initText("Sp.Attack: ", 20, true, "Verdana");
+        Text pSpDef = GetDisplay.initText("Sp.Defense: ", 20, true, "Verdana");
+        Text pSpeed = GetDisplay.initText("Speed: ", 20, true, "Verdana");
+
+        HBox pokemonType = new HBox(pType);
+        pokemonType.setSpacing(20);
+
+        if (!pokemon.getType().name().equals("NULL")){
+            Button pokemonType1 = new Button(pokemon.getType().name());
+            pokemonType1.setMinWidth(150);
+            String buttonColor1 = GetDisplay.getColorOfType(pokemon.getType().name());
+            pokemonType1.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: " + buttonColor1 + "; -fx-padding: 10px; -fx-background-radius: 10px;");
+            pokemonType.getChildren().add(pokemonType1);
+        }
+
+        if (!pokemon.getType2().name().equals("NULL")){
+            Button pokemonType2 = new Button(pokemon.getType2().name());
+            pokemonType2.setMinWidth(150);
+            String buttonColor2 = GetDisplay.getColorOfType(pokemon.getType2().name());
+            pokemonType2.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: " + buttonColor2 + "; -fx-padding: 10px; -fx-background-radius: 10px;");
+            pokemonType.getChildren().add(pokemonType2);
+        }
+
+        Text pokemonHP = GetDisplay.initText(String.valueOf(pokemon.getHp()), 20, true, "Verdana");
+        Text pokemonAtk = GetDisplay.initText(String.valueOf(pokemon.getAtk()), 20, true, "Verdana");
+        Text pokemonDef = GetDisplay.initText(String.valueOf(pokemon.getDef()), 20, true, "Verdana");
+        Text pokemonSpAtk = GetDisplay.initText(String.valueOf(pokemon.getSpa()), 20, true, "Verdana");
+        Text pokemonSpDef = GetDisplay.initText(String.valueOf(pokemon.getSpd()), 20, true, "Verdana");
+        Text pokemonSpeed = GetDisplay.initText(String.valueOf(pokemon.getSpe()), 20, true, "Verdana");
+
+        VBox statTopic = new VBox(pokemonType,pHP,pAtk,pDef,pSpAtk,pSpDef,pSpeed);
+        statTopic.setSpacing(20);
+        statTopic.setPadding(new Insets(0,110,0,0));
         VBox pokemonStat = new VBox(pokemonHP,pokemonAtk,pokemonDef,pokemonSpAtk,pokemonSpDef,pokemonSpeed);
         pokemonStat.setSpacing(20);
-        pokemonStat.setPadding(new Insets(50,200,50,50));
+        pokemonStat.setAlignment(Pos.CENTER_RIGHT);
+        pokemonStat.setPadding(new Insets(0,0,0,110));
 
-        HBox pokemonElement = new HBox(pokemonImg, pokemonStat);
+        HBox stat = new HBox(statTopic,pokemonStat);
+        VBox allDetail = new VBox(pokemonType,stat);
+        allDetail.setAlignment(Pos.CENTER_LEFT);
+        allDetail.setSpacing(20);
+        allDetail.setPadding(new Insets(0,50,0,50));
+        allDetail.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px;");
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
+        allDetail.setEffect(dropShadow);
+
+        HBox pokemonElement = new HBox(pokemonImg, allDetail);
         pokemonElement.setSpacing(100);
 
         Button backButton = GetDisplay.initButton("Back", 450, "#386abb");
@@ -411,6 +455,8 @@ public class Goto {
         button.setSpacing(50);
 
         detailPage.getChildren().addAll(pokemonName, pokemonElement, button);
-        rootPane.getChildren().add(detailPage);
+
+        StackPane stack = new StackPane(backgroundImageView, detailPage);
+        rootPane.getChildren().add(stack);
     }
 }
