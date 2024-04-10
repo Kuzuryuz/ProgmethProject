@@ -293,6 +293,10 @@ public class Goto {
     private static void ListPage() {
         clear();
 
+        ImageView backgroundImageView = GetDisplay.displayImg("skyBackground.jpg");
+        backgroundImageView.setFitHeight(787.5);
+        backgroundImageView.setFitWidth(1400);
+
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
         bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
@@ -309,6 +313,7 @@ public class Goto {
         listPage.setPadding(new Insets(60,0,60,0));
 
         Text title = GetDisplay.initText("Pokémon List",50,true,"Verdana");
+        title.setStyle("-fx-fill: white;");
         Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
         GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
 
@@ -338,16 +343,16 @@ public class Goto {
                 VBox pokemonElement = new VBox();
                 pokemonElement.setAlignment(Pos.CENTER);
                 pokemonElement.getChildren().addAll(pokemonImg, pokemonName);
-                pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
+                pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
                 pokemonElement.setSpacing(20);
 
                 int indexP = p;
                 GetDisplay.clickSoundEffect(pokemonElement, clickSound, bgSound, () -> detailPage(indexP));
                 pokemonElement.setOnMouseEntered(e->{
-                    pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
+                    pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
                 });
                 pokemonElement.setOnMouseExited(e->{
-                    pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
+                    pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
                 });
                 pokemonInfo.getChildren().addAll(pokemonElement);
             }
@@ -355,7 +360,9 @@ public class Goto {
         }
         scrollPane.setContent(pokemonContainer);
         listPage.getChildren().addAll(scrollPane, backToMainMenu);
-        rootPane.getChildren().add(listPage);
+
+        StackPane stack = new StackPane(backgroundImageView, listPage);
+        rootPane.getChildren().add(stack);
     }
 
     private static void detailPage(int index) {
@@ -378,13 +385,17 @@ public class Goto {
         VBox detailPage = new VBox();
         detailPage.setPadding(new Insets(80,300,80,300));
         detailPage.setSpacing(40);
-        detailPage.setAlignment(Pos.CENTER);
+        detailPage.setAlignment(Pos.CENTER_LEFT);
 
         Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(index);
         ImageView pokemonImg = GetDisplay.displayImg(pokemon.getImgsrc());
-        pokemonImg.setEffect(new DropShadow());
+        DropShadow imgShadow = new DropShadow();
+        imgShadow.setColor(Color.WHITE);
+        imgShadow.setRadius(50);
+        pokemonImg.setEffect(imgShadow);
         pokemonImg.setFitHeight(400);
         pokemonImg.setFitWidth(400);
+
         Text pokemonName = GetDisplay.initText(pokemon.getName(), 60, true, "Verdana");
         pokemonName.setStyle("-fx-fill: white;");
 
@@ -437,8 +448,8 @@ public class Goto {
         allDetail.setPadding(new Insets(0,50,0,50));
         allDetail.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px;");
         DropShadow dropShadow = new DropShadow();
-        dropShadow.setOffsetX(5);
-        dropShadow.setOffsetY(5);
+        dropShadow.setColor(Color.WHITE);
+        dropShadow.setRadius(50);
         allDetail.setEffect(dropShadow);
 
         HBox pokemonElement = new HBox(pokemonImg, allDetail);
