@@ -5,6 +5,7 @@ import usage.Status;
 import usage.Type;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Pokemon{
 
@@ -13,6 +14,8 @@ public class Pokemon{
 
     private Type type2;
     private int hp;
+
+    private int maxHp;
 
     private int atk;
 
@@ -23,6 +26,22 @@ public class Pokemon{
     private int spd;
 
     private int spe;
+
+    private boolean wasPara;
+
+    private boolean wasBurn;
+
+    private boolean isSleep;
+
+    private boolean notSleep;
+
+
+    private int sleepTurns;
+
+    private int currentSleep = 0;
+
+    private int special = 0;
+
 
     private Status status;
 
@@ -36,6 +55,7 @@ public class Pokemon{
         this.setType(type);
         this.setType2(type2);
         this.setHp(hp);
+        this.setMaxHp(hp);
         this.setAtk(atk);
         this.setDef(def);
         this.setSpa(spa);
@@ -45,7 +65,69 @@ public class Pokemon{
     }
 
     public void checkStatus(){
+        if(Objects.equals(this.getStatus(), Status.POISON)){
+            System.out.println(this.getName() + " was hurt by Poison!");
+            this.setHp(this.getHp()-(this.getMaxHp()/16));
+        }
 
+        if(Objects.equals(this.getStatus(), Status.PARALYSIS)){
+            if(!wasPara) {
+                this.setSpe(this.getSpe() / 2);
+                this.setWasPara(true);
+            }
+        }
+        if(Objects.equals(this.getStatus(), Status.BURN)){
+            if(!wasBurn){
+                this.setAtk(this.getAtk()/2);
+                this.setWasBurn(true);
+            }
+            System.out.println(this.getName() + " was hurt by burn!");
+            this.setHp(this.getHp()-(this.getMaxHp()/16));
+        }
+
+        if(Objects.equals(this.getStatus(),Status.NONE)){
+            if(wasPara){
+                this.setSpe(this.getSpe()*2);
+                this.setWasPara(false);
+            }
+            if(wasBurn){
+                this.setAtk(this.getAtk()*2);
+                this.setWasBurn(false);
+            }
+
+
+        }
+    }
+
+    public void checkSleep(){
+        if(Objects.equals(this.getStatus(), Status.SLEEP)){
+            if(!isSleep) {
+                int min = 1;
+                int max = 7;
+                int gacha = (int) (Math.random() * (max - min + 1)) + min;
+                this.setSleepTurns(gacha);
+                this.setSleep(true);
+                this.setNotSleep(false);
+            }
+
+            currentSleep++;
+            if(currentSleep<sleepTurns){
+                System.out.println(this.getName()+ " is fast asleep! ");
+                special = 1;
+                return;
+            }else{
+                System.out.println(this.getName()+ " woke up! ");
+                special = 0;
+                this.setSleepTurns(0);
+                this.setCurrentSleep(0);
+                this.setSleep(false);
+                this.setNotSleep(true);
+            }
+            if(this.isNotSleep()){
+
+                this.setStatus(Status.NONE);
+            }
+        }
     }
 
 
@@ -80,6 +162,14 @@ public class Pokemon{
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     public ArrayList<BaseSkill> getMoves() {
@@ -144,6 +234,54 @@ public class Pokemon{
 
     public void setImgsrc(String imgsrc) {
         this.imgsrc = imgsrc;
+    }
+
+    public boolean isWasPara() {
+        return wasPara;
+    }
+
+    public void setWasPara(boolean wasPara) {
+        this.wasPara = wasPara;
+    }
+
+    public boolean isWasBurn() {
+        return wasBurn;
+    }
+
+    public void setWasBurn(boolean wasBurn) {
+        this.wasBurn = wasBurn;
+    }
+
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
+    public boolean isNotSleep() {
+        return notSleep;
+    }
+
+    public void setNotSleep(boolean notSleep) {
+        this.notSleep = notSleep;
+    }
+
+    public int getSleepTurns() {
+        return sleepTurns;
+    }
+
+    public void setSleepTurns(int sleepTurns) {
+        this.sleepTurns = sleepTurns;
+    }
+
+    public int getCurrentSleep() {
+        return currentSleep;
+    }
+
+    public void setCurrentSleep(int currentSleep) {
+        this.currentSleep = currentSleep;
     }
 }
 
