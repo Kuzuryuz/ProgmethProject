@@ -143,7 +143,7 @@ public class Goto {
 
         // init new AnchorPane
         AnchorPane playPage = new AnchorPane();
-        playPage.setMinHeight(787.5);
+        playPage.setPadding(new Insets(50,20,20,20));
 
         // init new VBox and setup
         VBox vbox = new VBox();
