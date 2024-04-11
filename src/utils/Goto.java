@@ -52,8 +52,8 @@ public class Goto {
             bgSound.play();
         }else bgSound.pause();
 
-        ImageView soundON = GetDisplay.displayImg("soundON.png");
-        ImageView soundOFF = GetDisplay.displayImg("soundOFF.png");
+        ImageView soundON = GetDisplay.displayImg("sound/soundON.png");
+        ImageView soundOFF = GetDisplay.displayImg("sound/soundOFF.png");
         if (getVolState()) {
             bgSound.play();
             soundOFF.setVisible(false);
@@ -79,7 +79,7 @@ public class Goto {
         });
         StackPane soundStatus = new StackPane(soundON,soundOFF);
 
-        ImageView backgroundImageView = GetDisplay.displayImg("pokebg.png");
+        ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/pokebg.png");
         backgroundImageView.setFitHeight(787.5);
         backgroundImageView.setFitWidth(1400);
 
@@ -91,7 +91,7 @@ public class Goto {
 
         // init game title
         //Text title = GetDisplay.initText("PokeBattle!", 70, true, "Verdana");
-        ImageView mainPageTitle = GetDisplay.displayImg("pokebattle.png");
+        ImageView mainPageTitle = GetDisplay.displayImg("titleAndBackground/pokebattle.png");
 
         // init Region for spacing
         Region spacer = new Region();
@@ -130,6 +130,10 @@ public class Goto {
     private static void playPage() {
         clear();
 
+        ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/pokebg.png");
+        backgroundImageView.setFitHeight(787.5);
+        backgroundImageView.setFitWidth(1400);
+
         MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
         bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
@@ -147,7 +151,7 @@ public class Goto {
         vbox.setSpacing(35);
 
         // init page title
-        Text title = GetDisplay.initText("Select Pokemon", 70, true, null);
+        ImageView title = GetDisplay.displayImg("titleAndBackground/selectPokemon.png");
 
         // init new TilePane for playerText
         TilePane playerText = new TilePane();
@@ -176,7 +180,7 @@ public class Goto {
 
             // init Select Pokemon Button
             for (int k = 0; k < 2; k++) {
-                Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#C3C3C3" : "#969696");
+                Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#ffc900" : "#386abb");
                 GetDisplay.clickSoundEffect(selectPokemonButton, clickSound, bgSound, () -> ListPage());
                 tilePane.getChildren().add(selectPokemonButton);
             }
@@ -208,7 +212,7 @@ public class Goto {
         StackPane stack = new StackPane();
         // add elements to playPage
         playPage.getChildren().addAll(vbox, backButton);
-        stack.getChildren().addAll(playPage);
+        stack.getChildren().addAll(backgroundImageView,playPage);
 
         // add playPage to RootPane
         rootPane.getChildren().addAll(stack);
@@ -224,7 +228,7 @@ public class Goto {
             bgSound.play();
         }else bgSound.pause();
 
-        ImageView backgroundImageView = GetDisplay.displayImg("pokebg.png");
+        ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/pokebg.png");
         backgroundImageView.setFitHeight(787.5);
         backgroundImageView.setFitWidth(1400);
 
@@ -235,7 +239,7 @@ public class Goto {
 
         // init page title
         //Text title = GetDisplay.initText("How to Play", 50, true, "Verdana");
-        ImageView howToPlayTitle = GetDisplay.displayImg("howToPlay.png");
+        ImageView howToPlayTitle = GetDisplay.displayImg("titleAndBackground/howToPlay.png");
 
         // mock box
         Rectangle rect = new Rectangle(900,450);
@@ -293,7 +297,7 @@ public class Goto {
     private static void ListPage() {
         clear();
 
-        ImageView backgroundImageView = GetDisplay.displayImg("skyBackground.jpg");
+        ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/skyBackground.jpg");
         backgroundImageView.setFitHeight(787.5);
         backgroundImageView.setFitWidth(1400);
 
@@ -334,7 +338,7 @@ public class Goto {
             pokemonInfo.setAlignment(Pos.CENTER);
             pokemonInfo.setSpacing(50);
 
-            for (int j=0; j<4 && p < PokemonListPane.getInstance().getPokemons().size(); j++, p++) {
+            for (int j = 0; j<4 && p < PokemonListPane.getInstance().getPokemons().size(); j++, p++) {
                 Pokemon pokemon = PokemonListPane.getInstance().getPokemons().get(p);
                 ImageView pokemonImg = GetDisplay.displayImg(pokemon.getImgsrc());
                 pokemonImg.setFitHeight(180);
@@ -343,16 +347,16 @@ public class Goto {
                 VBox pokemonElement = new VBox();
                 pokemonElement.setAlignment(Pos.CENTER);
                 pokemonElement.getChildren().addAll(pokemonImg, pokemonName);
-                pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
+                pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
                 pokemonElement.setSpacing(20);
 
                 int indexP = p;
                 GetDisplay.clickSoundEffect(pokemonElement, clickSound, bgSound, () -> detailPage(indexP));
                 pokemonElement.setOnMouseEntered(e->{
-                    pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
+                    pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
                 });
                 pokemonElement.setOnMouseExited(e->{
-                    pokemonElement.setStyle("-fx-background-color: #d6d4d4; -fx-padding: 10px; -fx-background-radius: 10px;");
+                    pokemonElement.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-background-radius: 10px;");
                 });
                 pokemonInfo.getChildren().addAll(pokemonElement);
             }
@@ -368,7 +372,7 @@ public class Goto {
     private static void detailPage(int index) {
         clear();
 
-        ImageView backgroundImageView = GetDisplay.displayImg("skyBackground.jpg");
+        ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/skyBackground.jpg");
         backgroundImageView.setFitHeight(787.5);
         backgroundImageView.setFitWidth(1400);
 

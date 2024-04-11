@@ -62,13 +62,6 @@ public class GetDisplay {
         });
     }
 
-    public static HBox statLayOut(String topic, Node detail){
-        Text text = GetDisplay.initText(topic, 20, true, "Verdana");
-        HBox statLayout = new HBox();
-        statLayout.getChildren().addAll(text, detail);
-        return statLayout;
-    }
-
     public static String getColorOfType(String type){
         Map<String, String> colorOfType = new HashMap<>();
         colorOfType.put("NORMAL", "#AAB09F");
