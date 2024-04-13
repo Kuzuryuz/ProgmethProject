@@ -5,8 +5,8 @@ import usage.Curable;
 import usage.Healable;
 
 public class FullRestore extends Item implements Healable, Curable {
-    public FullRestore(int restoreHP,int amount) {
-        super("Full Restore", restoreHP, amount);
+    public FullRestore(int amount) {
+        super("Full Restore", amount);
     }
 
     @Override

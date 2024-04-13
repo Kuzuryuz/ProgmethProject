@@ -6,8 +6,11 @@ import usage.Healable;
 import usage.Revivable;
 
 public class Revive extends Item implements Revivable, Healable, Curable {
+    private int restoreHP;
+
     public Revive(int restoreHP,int amount){
-        super("Revive", restoreHP, amount);
+        super("Revive", amount);
+        setRestoreHP(restoreHP);
     }
 
     @Override
@@ -23,5 +26,13 @@ public class Revive extends Item implements Revivable, Healable, Curable {
     @Override
     public void useRevive(Pokemon target) {
 
+    }
+
+    public int getRestoreHP() {
+        return restoreHP;
+    }
+
+    public void setRestoreHP(int restoreHP) {
+        this.restoreHP = restoreHP;
     }
 }

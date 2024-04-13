@@ -1,5 +1,7 @@
 package utils;
 
+import game.GameController;
+import game.GameUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -102,6 +104,7 @@ public class Goto {
 
         // init Play button
         Button playButton = GetDisplay.initButton("Play", 350, "#386abb");
+        playButton.setOnMouseClicked(e -> GameController.getInstance().endGame());
         GetDisplay.clickSoundEffect(playButton, clickSound, bgSound, () -> playPage());
 
         // init How to Play button
@@ -139,7 +142,7 @@ public class Goto {
         bgSound.setVolume(0.2);
         if (getVolState()) {
             bgSound.play();
-        }else bgSound.pause();
+        } else bgSound.pause();
 
         // init new AnchorPane
         AnchorPane playPage = new AnchorPane();
@@ -153,44 +156,68 @@ public class Goto {
         // init page title
         ImageView title = GetDisplay.displayImg("titleAndBackground/selectPokemon.png");
 
-        // init new TilePane for playerText
-        TilePane playerText = new TilePane();
-        playerText.setAlignment(Pos.CENTER);
-        playerText.setHgap(300);
-
-        // init player text
-        Text player1 = GetDisplay.initText("Player 1", 40, false, null);
-        Text player2 = GetDisplay.initText("Player 2", 40, false, null);
-
-        // add elements to tilePane
-        playerText.getChildren().addAll(player1, player2);
-
         // add elements to vbox
-        vbox.getChildren().addAll(title, playerText);
+        vbox.getChildren().add(title);
 
         MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
         clickSound.setVolume(0.4);
 
         // add Select Pokemon button to vbox
-        for (int i = 0; i < 3; i++) {
-            // init new TilePane for Select Pokemon button
-            TilePane tilePane = new TilePane();
-            tilePane.setAlignment(Pos.CENTER);
-            tilePane.setHgap(100);
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(50);
+        for (int i = 1; i <= 2; i++) {
+            VBox vBox = new VBox();
+            vBox.setAlignment(Pos.CENTER);
+            vBox.setSpacing(40);
 
-            // init Select Pokemon Button
-            for (int k = 0; k < 2; k++) {
-                Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350, i==0&&k==0? "#ffc900" : "#386abb");
-                GetDisplay.clickSoundEffect(selectPokemonButton, clickSound, bgSound, () -> ListPage());
-                tilePane.getChildren().add(selectPokemonButton);
+            Text text = GetDisplay.initText("Player " + i, 40, true, "Verdana");
+            vBox.getChildren().add(text);
+
+            int buttonRemain = 3;
+            if (!GameController.getInstance().getPlayers().get(i-1).getPokemonsParty().isEmpty()) {
+                for (Pokemon pokemon : GameController.getInstance().getPlayers().get(i-1).getPokemonsParty()) {
+                    Rectangle rectangle = new Rectangle(350, 75);
+                    rectangle.setStyle("-fx-fill: #386abb;");
+                    rectangle.setArcHeight(25);
+                    rectangle.setArcWidth(25);
+
+                    ImageView imageView = GetDisplay.displayImg(pokemon.getImgsrc());
+                    imageView.setFitWidth(60);
+                    imageView.setFitHeight(60);
+
+                    Text text1 = GetDisplay.initText(pokemon.getName(), 35, true, "Verdana");
+                    text1.setFill(Color.WHITE);
+
+                    HBox hBox = new HBox(imageView, text1);
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.setSpacing(10);
+
+                    StackPane stackPane = new StackPane(rectangle, hBox);
+
+                    vBox.getChildren().add(stackPane);
+                    buttonRemain--;
+                }
             }
 
-            // add elements to vbox
-            vbox.getChildren().addAll(tilePane);
+            boolean selected = true, alreadySelected = false;
+            for (int k = buttonRemain; k > 0; k--) {
+                if (!GameController.getInstance().getPlayerSelectTurn().equals("Player " + i)) {
+                    selected = false;
+                }
+                Button selectPokemonButton = GetDisplay.initButton("Select Pokemon", 350,selected&&!alreadySelected? "#ffc900" : "#386abb");
+                if (selected&&!alreadySelected) {
+                    GetDisplay.clickSoundEffect(selectPokemonButton, clickSound, bgSound, Goto::ListPage);
+                }
+                vBox.getChildren().add(selectPokemonButton);
+                alreadySelected = true;
+            }
+            hbox.getChildren().add(vBox);
         }
+        vbox.getChildren().add(hbox);
 
         // init guideline text
-        Text guideline = GetDisplay.initText("Player 1 select 1st Pokemon", 25, true, null);
+        Text guideline = GetDisplay.initText(GameController.getInstance().getPlayerSelectTurn() + " selects pokemon.", 25, true, null);
 
         // init Back button
         Button backButton = GetDisplay.initButton("Back", 150, "#386abb");
@@ -286,6 +313,7 @@ public class Goto {
 
         StackPane explanationBox = new StackPane(rect, vBoxOUT);
         explanationBox.setAlignment(Pos.CENTER);
+
         // add elements to howToPlayPage
         howToPlayPage.getChildren().addAll(howToPlayTitle, explanationBox, backToMainMenu);
         StackPane stack = new StackPane(backgroundImageView, howToPlayPage);
@@ -460,10 +488,11 @@ public class Goto {
         pokemonElement.setSpacing(100);
 
         Button backButton = GetDisplay.initButton("Back", 450, "#386abb");
-        GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, () -> ListPage());
+        GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, Goto::ListPage);
 
         Button chooseButton = GetDisplay.initButton("Choose", 450, "#386abb");
-        GetDisplay.clickSoundEffect(chooseButton, clickSound, bgSound, () -> playPage());
+        chooseButton.setOnMouseClicked(e ->GameUtils.choosePokemon(pokemon));
+        GetDisplay.clickSoundEffect(chooseButton, clickSound, bgSound, Goto::playPage);
 
         HBox button = new HBox(backButton, chooseButton);
         button.setAlignment(Pos.CENTER);

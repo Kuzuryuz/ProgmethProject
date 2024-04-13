@@ -1,6 +1,9 @@
 package player;
 
+import item.FullRestore;
 import item.Item;
+import item.Potion;
+import item.Revive;
 import pokemon.Pokemon;
 
 import java.util.ArrayList;
@@ -11,15 +14,18 @@ public class Player {
     private ArrayList<Item> items;
     private Pokemon currentPokemon;
 
-    public Player(String name, ArrayList<Pokemon> pokemonsParty, Pokemon currentPokemon) {
+    public Player(String name, ArrayList<Pokemon> pokemonsParty) {
         setName(name);
         setPokemonsParty(pokemonsParty);
-        setCurrentPokemon(currentPokemon);
+        setCurrentPokemon(null);
         initItems();
     }
 
     private void initItems() {
         items = new ArrayList<Item>();
+        items.add(new Potion(100, 5));
+        items.add(new Revive(50,2));
+        items.add(new FullRestore(1));
     }
 
     public void changeCurrentPokemon(Pokemon newPokemon) {
