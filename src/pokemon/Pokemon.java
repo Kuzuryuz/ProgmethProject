@@ -130,6 +130,27 @@ public class Pokemon{
         }
     }
 
+    public void checkFrozen(){
+        if(Objects.equals(this.getStatus(), Status.FREEZE)){
+
+            int min = 1;
+            int max = 100;
+            int gacha = (int) (Math.random() * (max - min + 1)) + min;
+            if(gacha<=80){
+                System.out.println(this.getName()+" is frozen solid!");
+                special=1;
+                return;
+
+
+            }else{
+                System.out.println(this.getName()+" thawed out!");
+                this.setStatus(Status.NONE);
+                special=0;
+            }
+
+        }
+    }
+
 
 
     public String getName() {
