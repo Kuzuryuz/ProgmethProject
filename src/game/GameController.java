@@ -8,7 +8,7 @@ public class GameController {
     public static GameController instance;
     private ArrayList<Player> players;
     private String playerSelectTurn;
-
+    private String playerPlayTurn;
 
     private GameController() {
         players = new ArrayList<>();
@@ -45,5 +45,11 @@ public class GameController {
         this.playerSelectTurn = playerSelectTurn;
     }
 
+    public String getPlayerPlayTurn() {
+        return playerPlayTurn;
+    }
 
+    public void setPlayerPlayTurn(String playerPlayTurn) {
+        this.playerPlayTurn = playerPlayTurn;
+    }
 }

@@ -2,6 +2,7 @@ package game;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import player.Player;
 import pokemon.Pokemon;
 
 import java.util.ArrayList;
@@ -32,6 +33,17 @@ public class GameUtils {
         }
         else {
             return false;
+        }
+    }
+
+    public static void switchPlayerPlay() {
+        switch (GameController.getInstance().getPlayerPlayTurn()) {
+            case "Player 1" -> {
+                GameController.getInstance().setPlayerPlayTurn("Player 2");
+            }
+            case "Player 2" -> {
+                GameController.getInstance().setPlayerPlayTurn("Player 1");
+            }
         }
     }
 }
