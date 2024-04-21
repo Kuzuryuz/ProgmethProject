@@ -2,6 +2,7 @@ package utils;
 
 import game.GameController;
 import game.GameUtils;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import pane.PokemonListPane;
 import pane.RootPane;
 import pokemon.Pokemon;
@@ -243,6 +245,14 @@ public class Goto {
 
         // add playPage to RootPane
         rootPane.getChildren().addAll(stack);
+        if(GameUtils.isFinishChoose()) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+            delay.setOnFinished(e -> {
+                // After the delay
+                battlePage();
+            });
+            delay.play();
+        }
     }
 
     private static void howToPlayPage() {
@@ -502,5 +512,115 @@ public class Goto {
 
         StackPane stack = new StackPane(backgroundImageView, detailPage);
         rootPane.getChildren().add(stack);
+    }
+
+
+    private static VBox bottomBattle; // สร้างตัวแปร global
+    private static void battlePage(){
+        clear();
+        //set battlepage
+        VBox battlePage = new VBox();
+        battlePage.setAlignment(Pos.CENTER);
+        //battlePage.setSpacing(40);
+        //battlePage.setPadding(new Insets(60,0,60,0));
+        //element in battlepage
+        Button test = GetDisplay.initButton("test",450,"fe0000");
+        test.setOnMouseClicked(e->{
+            actionPage();
+        });
+        //setbottompage
+        bottomBattle = new VBox();
+        bottomBattle.setPrefHeight(300);
+        bottomBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
+        bottomBattle.setAlignment(Pos.BOTTOM_CENTER);
+        bottomBattle.setTranslateY(426.5);
+        //add to rootpane
+        battlePage.getChildren().addAll(test,bottomBattle);
+        rootPane.getChildren().addAll(battlePage);
+    }
+
+    private static void actionPage() {
+        bottomBattle.getChildren().clear();
+        //set actionpage
+        VBox actionBattle = new VBox();
+        actionBattle.setPrefHeight(300);
+        actionBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
+        actionBattle.setAlignment(Pos.BOTTOM_CENTER);
+        actionBattle.setTranslateY(426.5);
+        //make button
+        Button fight = GetDisplay.initButton("Fight",450,"#fe0000");
+        Button item = GetDisplay.initButton("Item",450,"#fe0000");
+        Button Switch = GetDisplay.initButton("Switch",450,"#fe0000");
+        Button surrender = GetDisplay.initButton("Surrender",450,"#fe0000");
+        //add action to fight
+        fight.setOnMouseClicked(e->{
+            fightPage();
+        });
+        item.setOnMouseClicked(e->{
+            itemPage();
+        });
+        Switch.setOnMouseClicked(e->{
+            switchPage();
+        });
+
+        //add all to children
+        bottomBattle.getChildren().addAll(fight, item, Switch, surrender);
+    }
+
+    private static void fightPage() {
+        bottomBattle.getChildren().clear();
+        //set fightpage
+        VBox fightBattle = new VBox();
+        fightBattle.setPrefHeight(300);
+        fightBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
+        fightBattle.setAlignment(Pos.BOTTOM_CENTER);
+        fightBattle.setTranslateY(426.5);
+        //make button
+        Button fight1 = GetDisplay.initButton("Fight1",450,"#fe0000");
+        Button fight2 = GetDisplay.initButton("Fight1",450,"#fe0000");
+        Button fight3 = GetDisplay.initButton("Fight1",450,"#fe0000");
+        Button back = GetDisplay.initButton("Back",450,"#fe0000");
+        //add action button
+        back.setOnMouseClicked(e->{
+            actionPage();
+        });
+        //add all to children
+        bottomBattle.getChildren().addAll(fight1,fight2,fight3,back);
+    }
+
+    private static void itemPage() {
+        bottomBattle.getChildren().clear();
+        //set itempage
+        VBox itemBattle = new VBox();
+        itemBattle.setPrefHeight(300);
+        itemBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
+        itemBattle.setAlignment(Pos.BOTTOM_CENTER);
+        itemBattle.setTranslateY(426.5);
+        //make button
+        Button item1 = GetDisplay.initButton("Item1",450,"#fe0000");
+        Button item2 = GetDisplay.initButton("Item2",450,"#fe0000");
+        Button item3 = GetDisplay.initButton("Item3",450,"#fe0000");
+        Button item4 = GetDisplay.initButton("Item4",450,"#fe0000");
+
+        //add all to children
+        bottomBattle.getChildren().addAll(item1,item2,item3,item4);
+    }
+
+    private static void switchPage() {
+        bottomBattle.getChildren().clear();
+        //set itempage
+        VBox itemBattle = new VBox();
+        itemBattle.setPrefHeight(300);
+        itemBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
+        itemBattle.setAlignment(Pos.BOTTOM_CENTER);
+        itemBattle.setTranslateY(426.5);
+        //make button
+        Button pokemon1 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(),450,"#fe0000");
+        Button pokemon2 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(1).getName(),450,"#fe0000");
+        Button pokemon3 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getName(),450,"#fe0000");
+
+
+        //add all to children
+        bottomBattle.getChildren().addAll(pokemon1,pokemon2,pokemon3);
     }
 }

@@ -9,6 +9,7 @@ public class GameController {
     private ArrayList<Player> players;
     private String playerSelectTurn;
 
+
     private GameController() {
         players = new ArrayList<>();
         players.add(new Player("Player 1", new ArrayList<>()));
@@ -43,4 +44,6 @@ public class GameController {
     public void setPlayerSelectTurn(String playerSelectTurn) {
         this.playerSelectTurn = playerSelectTurn;
     }
+
+
 }

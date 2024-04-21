@@ -25,4 +25,13 @@ public class GameUtils {
             }
         }
     }
+
+    public static boolean isFinishChoose() {
+        if(GameController.getInstance().getPlayers().get(0).getPokemonsParty().size()==3 && GameController.getInstance().getPlayers().get(1).getPokemonsParty().size()==3) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
