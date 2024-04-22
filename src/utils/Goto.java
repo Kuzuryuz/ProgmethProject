@@ -549,9 +549,17 @@ public class Goto {
         actionBattle.setTranslateY(426.5);
         //make button
         Button fight = GetDisplay.initButton("Fight",450,"#fe0000");
+        fight.setTranslateX(-400);
+        fight.setTranslateY(20);
         Button item = GetDisplay.initButton("Item",450,"#fe0000");
+        item.setTranslateX(400);
+        item.setTranslateY(-57);
         Button Switch = GetDisplay.initButton("Switch",450,"#fe0000");
+        Switch.setTranslateX(-400);
+        Switch.setTranslateY(20);
         Button surrender = GetDisplay.initButton("Surrender",450,"#fe0000");
+        surrender.setTranslateX(400);
+        surrender.setTranslateY(-57);
         //add action to fight
         fight.setOnMouseClicked(e->{
             fightPage();
@@ -561,6 +569,10 @@ public class Goto {
         });
         Switch.setOnMouseClicked(e->{
             switchPage();
+        });
+
+        surrender.setOnMouseClicked(e->{
+            mainPage();
         });
 
         //add all to children
@@ -577,15 +589,21 @@ public class Goto {
         fightBattle.setTranslateY(426.5);
         //make button
         Button fight1 = GetDisplay.initButton("Fight1",450,"#fe0000");
+        fight1.setTranslateX(-400);
+        fight1.setTranslateY(20);
         Button fight2 = GetDisplay.initButton("Fight1",450,"#fe0000");
+        fight2.setTranslateX(400);
+        fight2.setTranslateY(-57);
         Button fight3 = GetDisplay.initButton("Fight1",450,"#fe0000");
-        Button back = GetDisplay.initButton("Back",450,"#fe0000");
+        fight3.setTranslateX(-400);
+        fight3.setTranslateY(20);
+        Button fight4 = GetDisplay.initButton("Skill4",450,"#fe0000");
+        fight4.setTranslateX(400);
+        fight4.setTranslateY(-57);
         //add action button
-        back.setOnMouseClicked(e->{
-            actionPage();
-        });
+
         //add all to children
-        bottomBattle.getChildren().addAll(fight1,fight2,fight3,back);
+        bottomBattle.getChildren().addAll(fight1,fight2,fight3,fight4);
     }
 
     private static void itemPage() {
@@ -598,9 +616,17 @@ public class Goto {
         itemBattle.setTranslateY(426.5);
         //make button
         Button item1 = GetDisplay.initButton("Item1",450,"#fe0000");
+        item1.setTranslateX(-400);
+        item1.setTranslateY(20);
         Button item2 = GetDisplay.initButton("Item2",450,"#fe0000");
+        item2.setTranslateX(400);
+        item2.setTranslateY(-57);
         Button item3 = GetDisplay.initButton("Item3",450,"#fe0000");
+        item3.setTranslateX(-400);
+        item3.setTranslateY(20);
         Button item4 = GetDisplay.initButton("Item4",450,"#fe0000");
+        item4.setTranslateX(400);
+        item4.setTranslateY(-57);
 
         //add all to children
         bottomBattle.getChildren().addAll(item1,item2,item3,item4);
@@ -616,9 +642,14 @@ public class Goto {
         itemBattle.setTranslateY(426.5);
         //make button
         Button pokemon1 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(),450,"#fe0000");
+        pokemon1.setTranslateX(-400);
+        pokemon1.setTranslateY(20);
         Button pokemon2 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(1).getName(),450,"#fe0000");
+        pokemon2.setTranslateX(400);
+        pokemon2.setTranslateY(-57);
         Button pokemon3 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getName(),450,"#fe0000");
-
+        pokemon3.setTranslateX(-400);
+        pokemon3.setTranslateY(20);
 
         //add all to children
         bottomBattle.getChildren().addAll(pokemon1,pokemon2,pokemon3);
