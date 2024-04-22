@@ -34,15 +34,18 @@ public class BaseSkill {
     }
 
     public void useSkill(Pokemon opponent, int atk, int spa) {
+        //if PP = 0 then you cannot use this skill
         if (this.getPp() <= 0) {
             System.out.println("No PP left for this move!");
             return;
         }
+        //if this skill is not a status move (skill attack ธรรมดา)
         if (this.getCategory() != Category.STATUS) {
             boolean sup = false;
             boolean not = false;
             boolean nope = false;
 
+            //check paralysis (25% chance to not move)
             if (Objects.equals(this.getStatus(), Status.PARALYSIS)) {
                 int min = 0;
                 int max = 100;
@@ -53,7 +56,7 @@ public class BaseSkill {
                 }
             }
 
-
+            //คำนวน damage
             int damage;
             if (this.getCategory() == Category.PHYSICAL) {
                 damage = (int) Math.round((1.3 * this.getPower() * (atk / opponent.getDef())) + 2);
@@ -63,6 +66,7 @@ public class BaseSkill {
                 damage = 0;
             }
 
+            //check accuracy (if the rolled number is more than accuracy it will miss)
             int min = 0;
             int max = 100;
             int gacha = (int) (Math.random() * (max - min + 1)) + min;
@@ -71,6 +75,7 @@ public class BaseSkill {
                 return;
             }
 
+            //type effectiveness line 78-1084
             if (Objects.equals(this.getType(), Type.NORMAL) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL))) && (nope != true)) {
                 damage = damage / 2;
                 if (sup == true) {
@@ -1080,6 +1085,7 @@ public class BaseSkill {
 
             opponent.setHp(opponent.getHp() - damage);
 
+            //print out effective message
             if (sup == true) {
                 System.out.println("It's super effective!");
             }
@@ -1092,6 +1098,7 @@ public class BaseSkill {
                 System.out.println("But it had no effect...!");
             }
 
+            //if this move can inflict status AND damage then calculate here
             int gacha2 = (int) (Math.random() * (max - min + 1)) + min;
             if (gacha2 <= this.getStatusChance()) {
                 opponent.setStatus(this.getStatus());
@@ -1107,7 +1114,9 @@ public class BaseSkill {
                     System.out.println(opponent.getName() + " was put to sleep!");
                 }
             }
+        //if this move is a status move (ให้ status อย่างเดียว ไม่ damage)
         } else {
+            //check paralysis
             if (Objects.equals(this.getStatus(), Status.PARALYSIS)) {
                 int min = 0;
                 int max = 100;
@@ -1118,7 +1127,7 @@ public class BaseSkill {
                 }
             }
 
-
+            //check accuracy
             int min = 0;
             int max = 100;
             int gacha = (int) (Math.random() * (max - min + 1)) + min;
@@ -1127,6 +1136,7 @@ public class BaseSkill {
                 return;
             }
 
+            //set opponent's status to the move's status
             opponent.setStatus(this.getStatus());
             if (Objects.equals(opponent.getStatus(), Status.POISON)) {
                 System.out.println(opponent.getName() + " was poisoned!");
@@ -1141,6 +1151,7 @@ public class BaseSkill {
             }
         }
 
+        //Deplete pp by 1
         this.setPp(this.getPp() - 1);
     }
 

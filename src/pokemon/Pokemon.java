@@ -65,17 +65,21 @@ public class Pokemon{
     }
 
     public void checkStatus(){
+        //For Poison, takes damage every turn when checkstatus is activated
         if(Objects.equals(this.getStatus(), Status.POISON)){
             System.out.println(this.getName() + " was hurt by Poison!");
             this.setHp(this.getHp()-(this.getMaxHp()/16));
         }
 
+        //Half the speed when inflicted paralysis
         if(Objects.equals(this.getStatus(), Status.PARALYSIS)){
             if(!wasPara) {
                 this.setSpe(this.getSpe() / 2);
                 this.setWasPara(true);
             }
         }
+
+        //Half attack and damage every turn when inflicted burn
         if(Objects.equals(this.getStatus(), Status.BURN)){
             if(!wasBurn){
                 this.setAtk(this.getAtk()/2);
@@ -85,6 +89,7 @@ public class Pokemon{
             this.setHp(this.getHp()-(this.getMaxHp()/16));
         }
 
+        //if wasPara or wasBurn is true, if the pokemon is healed of its status this will return its attack and speed back to normal
         if(Objects.equals(this.getStatus(),Status.NONE)){
             if(wasPara){
                 this.setSpe(this.getSpe()*2);
@@ -98,7 +103,7 @@ public class Pokemon{
 
         }
     }
-
+    //(ทำแยกออกมาเพราะว่าต้องเอาไว้ก่อน pokemon attack) randomise sleep turns (1-7) and immobilizes the pokemon until the counter reaches the turn
     public void checkSleep(){
         if(Objects.equals(this.getStatus(), Status.SLEEP)){
             if(!isSleep) {
@@ -110,6 +115,7 @@ public class Pokemon{
                 this.setNotSleep(false);
             }
 
+            //special is used to determine if the pokemon will move
             currentSleep++;
             if(currentSleep<sleepTurns){
                 System.out.println(this.getName()+ " is fast asleep! ");
@@ -130,6 +136,7 @@ public class Pokemon{
         }
     }
 
+    //similar to checkSleep but the Pokemon has a 20% chance to be able to move again each check instead of a predetermined amount of turns
     public void checkFrozen(){
         if(Objects.equals(this.getStatus(), Status.FREEZE)){
 
