@@ -518,14 +518,18 @@ public class Goto {
     private static VBox bottomBattle; // สร้างตัวแปร global
     private static void battlePage(){
         clear();
+        //set turn
+
+        GameController.getInstance().setPlayerPlayTurn("Player 1");
+        GameController.getInstance().setIndexPlayerPlayTurn(0);
         //set battlepage
         VBox battlePage = new VBox();
         battlePage.setAlignment(Pos.CENTER);
-        //battlePage.setSpacing(40);
-        //battlePage.setPadding(new Insets(60,0,60,0));
         //element in battlepage
-        Button test = GetDisplay.initButton("test",450,"fe0000");
-        test.setOnMouseClicked(e->{
+
+        Button turn = GetDisplay.initButton(GameController.getInstance().getPlayerPlayTurn(),450,"fe0000");
+        turn.setOnMouseClicked(e->{
+            GameUtils.switchPlayerPlay();
             actionPage();
         });
         //setbottompage
@@ -535,7 +539,8 @@ public class Goto {
         bottomBattle.setAlignment(Pos.BOTTOM_CENTER);
         bottomBattle.setTranslateY(426.5);
         //add to rootpane
-        battlePage.getChildren().addAll(test,bottomBattle);
+        actionPage();
+        battlePage.getChildren().addAll(turn,bottomBattle);
         rootPane.getChildren().addAll(battlePage);
     }
 
@@ -614,10 +619,12 @@ public class Goto {
         itemBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
         itemBattle.setAlignment(Pos.BOTTOM_CENTER);
         itemBattle.setTranslateY(426.5);
+        //get index player turn
+        int indexPlayer = GameController.getInstance().getIndexPlayerPlayTurn();
         //make button
-        Button pokemon1 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(),450,"#fe0000");
-        Button pokemon2 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(1).getName(),450,"#fe0000");
-        Button pokemon3 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getName(),450,"#fe0000");
+        Button pokemon1 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(indexPlayer).getPokemonsParty().get(0).getName(),450,"#fe0000");
+        Button pokemon2 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(indexPlayer).getPokemonsParty().get(1).getName(),450,"#fe0000");
+        Button pokemon3 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(indexPlayer).getPokemonsParty().get(2).getName(),450,"#fe0000");
 
 
         //add all to children

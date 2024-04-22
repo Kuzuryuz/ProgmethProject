@@ -9,12 +9,13 @@ public class GameController {
     private ArrayList<Player> players;
     private String playerSelectTurn;
     private String playerPlayTurn;
+    private int indexPlayerPlayTurn;
+    private int indexSelectPokemon;
 
     private GameController() {
         players = new ArrayList<>();
         players.add(new Player("Player 1", new ArrayList<>()));
         players.add(new Player("Player 2", new ArrayList<>()));
-
         startGame();
     }
 
@@ -27,6 +28,8 @@ public class GameController {
 
     private void startGame() {
         playerSelectTurn = "Player 1";
+        playerPlayTurn = "Player 1";
+        indexPlayerPlayTurn = 0;
     }
 
     public void endGame() {
@@ -52,4 +55,21 @@ public class GameController {
     public void setPlayerPlayTurn(String playerPlayTurn) {
         this.playerPlayTurn = playerPlayTurn;
     }
+
+    public int getIndexPlayerPlayTurn() {
+        return indexPlayerPlayTurn;
+    }
+
+    public void setIndexPlayerPlayTurn(int indexPlayerPlayTurn) {
+        this.indexPlayerPlayTurn = indexPlayerPlayTurn;
+    }
+
+    public int getIndexSelectPokemon() {
+        return indexSelectPokemon;
+    }
+
+    public void setIndexSelectPokemon(int indexSelectPokemon) {
+        this.indexSelectPokemon = indexSelectPokemon;
+    }
+
 }

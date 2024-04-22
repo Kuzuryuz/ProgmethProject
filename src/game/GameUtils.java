@@ -37,13 +37,16 @@ public class GameUtils {
     }
 
     public static void switchPlayerPlay() {
-        switch (GameController.getInstance().getPlayerPlayTurn()) {
-            case "Player 1" -> {
+        switch (GameController.getInstance().getIndexPlayerPlayTurn()) {
+            case 0 -> {
                 GameController.getInstance().setPlayerPlayTurn("Player 2");
+                GameController.getInstance().setIndexPlayerPlayTurn(1);
             }
-            case "Player 2" -> {
+            case 1 -> {
                 GameController.getInstance().setPlayerPlayTurn("Player 1");
+                GameController.getInstance().setIndexPlayerPlayTurn(0);
             }
         }
     }
+
 }
