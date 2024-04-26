@@ -28,23 +28,16 @@ public class GameUtils {
     }
 
     public static boolean isFinishChoose() {
-        if(GameController.getInstance().getPlayers().get(0).getPokemonsParty().size()==3 && GameController.getInstance().getPlayers().get(1).getPokemonsParty().size()==3) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return GameController.getInstance().getPlayers().get(0).getPokemonsParty().size() == 3 && GameController.getInstance().getPlayers().get(1).getPokemonsParty().size() == 3;
     }
 
     public static void switchPlayerPlay() {
-        switch (GameController.getInstance().getIndexPlayerPlayTurn()) {
-            case 0 -> {
+        switch (GameController.getInstance().getPlayerPlayTurn()) {
+            case "Player 1" -> {
                 GameController.getInstance().setPlayerPlayTurn("Player 2");
-                GameController.getInstance().setIndexPlayerPlayTurn(1);
             }
-            case 1 -> {
+            case "Player 2" -> {
                 GameController.getInstance().setPlayerPlayTurn("Player 1");
-                GameController.getInstance().setIndexPlayerPlayTurn(0);
             }
         }
     }

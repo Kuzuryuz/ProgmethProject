@@ -27,6 +27,7 @@ public class Goto {
     private static RootPane rootPane;
     private static Stage stage;
     private static boolean  volState = true;
+    private static VBox bottomBattle;
 
     public static boolean getVolState() {
         return volState;
@@ -148,7 +149,6 @@ public class Goto {
 
         // init new AnchorPane
         AnchorPane playPage = new AnchorPane();
-        playPage.setPadding(new Insets(50,20,20,20));
 
         // init new VBox and setup
         VBox vbox = new VBox();
@@ -171,9 +171,9 @@ public class Goto {
         for (int i = 1; i <= 2; i++) {
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
-            vBox.setSpacing(40);
+            vBox.setSpacing(35);
 
-            Text text = GetDisplay.initText("Player " + i, 40, true, "Verdana");
+            Text text = GetDisplay.initText("Player " + i, 35, true, "Verdana");
             vBox.getChildren().add(text);
 
             int buttonRemain = 3;
@@ -218,15 +218,21 @@ public class Goto {
         }
         vbox.getChildren().add(hbox);
 
-        // init guideline text
-        Text guideline = GetDisplay.initText(GameController.getInstance().getPlayerSelectTurn() + " selects pokemon.", 25, true, null);
-
         // init Back button
         Button backButton = GetDisplay.initButton("Back", 150, "#386abb");
         GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, () -> mainPage());
 
         // add elements to playPage
-        vbox.getChildren().addAll(guideline);
+        if (!GameUtils.isFinishChoose()) {
+            // init guideline text
+            Text guideline = GetDisplay.initText(GameController.getInstance().getPlayerSelectTurn() + " selects pokemon.", 25, true, null);
+            vbox.getChildren().addAll(guideline);
+        } else {
+            // init play button
+            Button playButton = GetDisplay.initButton("Play Game", 300, "#ffc900");
+            GetDisplay.clickSoundEffect(playButton, clickSound, bgSound, () -> battlePage());
+            vbox.getChildren().addAll(playButton);
+        }
 
         // set vbox to center of playPage
         AnchorPane.setRightAnchor(vbox, 0.0);
@@ -245,14 +251,14 @@ public class Goto {
 
         // add playPage to RootPane
         rootPane.getChildren().addAll(stack);
-        if(GameUtils.isFinishChoose()) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(3));
-            delay.setOnFinished(e -> {
-                // After the delay
-                battlePage();
-            });
-            delay.play();
-        }
+//        if(GameUtils.isFinishChoose()) {
+//            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+//            delay.setOnFinished(e -> {
+//                // After the delay
+//                battlePage();
+//            });
+//            delay.play();
+//        }
     }
 
     private static void howToPlayPage() {
@@ -356,8 +362,8 @@ public class Goto {
 
         Text title = GetDisplay.initText("Pokémon List",50,true,"Verdana");
         title.setStyle("-fx-fill: white;");
-        Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
-        GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
+        Button backToPlayPage = GetDisplay.initButton("Back", 450, "#386abb");
+        GetDisplay.clickSoundEffect(backToPlayPage, clickSound, bgSound, () -> playPage());
 
         listPage.getChildren().add(title);
 
@@ -401,7 +407,7 @@ public class Goto {
             pokemonContainer.getChildren().add(pokemonInfo);
         }
         scrollPane.setContent(pokemonContainer);
-        listPage.getChildren().addAll(scrollPane, backToMainMenu);
+        listPage.getChildren().addAll(scrollPane, backToPlayPage);
 
         StackPane stack = new StackPane(backgroundImageView, listPage);
         rootPane.getChildren().add(stack);
@@ -514,39 +520,37 @@ public class Goto {
         rootPane.getChildren().add(stack);
     }
 
-
-    private static VBox bottomBattle; // สร้างตัวแปร global
     private static void battlePage(){
         clear();
-        //set turn
 
-        GameController.getInstance().setPlayerPlayTurn("Player 1");
-        GameController.getInstance().setIndexPlayerPlayTurn(0);
-        //set battlepage
+        // set battle page
         VBox battlePage = new VBox();
         battlePage.setAlignment(Pos.CENTER);
-        //element in battlepage
 
+        // element in battle page
         Button turn = GetDisplay.initButton(GameController.getInstance().getPlayerPlayTurn(),450,"fe0000");
         turn.setOnMouseClicked(e->{
             GameUtils.switchPlayerPlay();
             actionPage();
         });
-        //setbottompage
+
+        // set bottom page
         bottomBattle = new VBox();
         bottomBattle.setPrefHeight(300);
         bottomBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
         bottomBattle.setAlignment(Pos.BOTTOM_CENTER);
         bottomBattle.setTranslateY(426.5);
-        //add to rootpane
+
+        // add to rootpane
         actionPage();
-        battlePage.getChildren().addAll(turn,bottomBattle);
+        battlePage.getChildren().addAll(turn, bottomBattle);
         rootPane.getChildren().addAll(battlePage);
     }
 
     private static void actionPage() {
         bottomBattle.getChildren().clear();
-        //set actionpage
+
+        //set action page
         VBox actionBattle = new VBox();
         actionBattle.setPrefHeight(300);
         actionBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
@@ -639,14 +643,14 @@ public class Goto {
 
     private static void switchPage() {
         bottomBattle.getChildren().clear();
-        //set itempage
+
+        //set item page
         VBox itemBattle = new VBox();
         itemBattle.setPrefHeight(300);
         itemBattle.setBackground((new Background(new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY))));
         itemBattle.setAlignment(Pos.BOTTOM_CENTER);
         itemBattle.setTranslateY(426.5);
-        //get index player turn
-        int indexPlayer = GameController.getInstance().getIndexPlayerPlayTurn();
+
         //make button
         Button pokemon1 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(),450,"#fe0000");
         pokemon1.setTranslateX(-400);
@@ -657,6 +661,7 @@ public class Goto {
         Button pokemon3 = GetDisplay.initButton(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getName(),450,"#fe0000");
         pokemon3.setTranslateX(-400);
         pokemon3.setTranslateY(20);
+
         //add all to children
         bottomBattle.getChildren().addAll(pokemon1,pokemon2,pokemon3);
     }
