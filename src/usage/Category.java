@@ -3,5 +3,6 @@ package usage;
 public enum Category {
     PHYSICAL,
     SPECIAL,
-    STATUS
+    STATUS,
+    BUFF
 }

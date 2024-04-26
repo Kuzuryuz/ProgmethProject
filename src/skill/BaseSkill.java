@@ -1,6 +1,7 @@
 package skill;
 
 import pokemon.Pokemon;
+import usage.Buff;
 import usage.Category;
 import usage.Status;
 import usage.Type;
@@ -19,9 +20,27 @@ public class BaseSkill {
     private int accuracy;
 
     private int statusChance;
+
+    private Buff[] buff;
+
+    private int buffChance;
+
+    private boolean selfBuff;
     private int maxPP;
 
-    public BaseSkill(String name, Type type, Category category, Status status, int pp, int power, int statusChance, int accuracy) {
+    //Read line 1392 for more info
+    private int userAtk;
+
+    private int userSpa;
+
+    private int userDef;
+
+    private int userSpd;
+
+    private int userSpe;
+
+
+    public BaseSkill(String name, Type type, Category category, Status status, Buff[] buff, int pp, int power, int buffChance, int statusChance, int accuracy, boolean selfBuff) {
         this.setName(name);
         this.setType(type);
         this.setCategory(category);
@@ -31,16 +50,24 @@ public class BaseSkill {
         this.setStatusChance(statusChance);
         this.setAccuracy(accuracy);
         this.setMaxPP(pp * 160 / 100);
+        this.setBuff(buff);
+        this.setBuffChance(buffChance);
+        this.setSelfBuff(selfBuff);
     }
 
-    public void useSkill(Pokemon opponent, int atk, int spa) {
+    public void useSkill(Pokemon opponent, String name, int atk, int spa, int def, int spd, int spe) {
+        this.setUserAtk(atk);
+        this.setUserDef(def);
+        this.setUserSpa(spa);
+        this.setUserSpd(spd);
+        this.setUserSpe(spe);
         //if PP = 0 then you cannot use this skill
         if (this.getPp() <= 0) {
             System.out.println("No PP left for this move!");
             return;
         }
-        //if this skill is not a status move (skill attack ธรรมดา)
-        if (this.getCategory() != Category.STATUS) {
+        //if this skill is not a status move or a buff/debuff move (skill attack ธรรมดา)
+        if (this.getCategory() != Category.STATUS && this.getCategory() != Category.BUFF) {
             boolean sup = false;
             boolean not = false;
             boolean nope = false;
@@ -1114,8 +1141,96 @@ public class BaseSkill {
                     System.out.println(opponent.getName() + " was put to sleep!");
                 }
             }
+
+            //if this move can inflict status AND buff/debuff then calculate here
+            int gacha3 = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha3 <= this.getBuffChance()) {
+                for(int i=0;i< this.getBuff().length;i++) {
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
+                        opponent.setAtk(opponent.getAtk() * 2);
+                        System.out.println(opponent.getName() + "'s attack rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
+                        opponent.setAtk(opponent.getAtk() * 4);
+                        System.out.println(opponent.getName() + "'s attack rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
+                        opponent.setDef(opponent.getDef() * 2);
+                        System.out.println(opponent.getName() + "'s defense rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
+                        opponent.setDef(opponent.getDef() * 4);
+                        System.out.println(opponent.getName() + "'s defense rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
+                        opponent.setSpa(opponent.getSpa() * 2);
+                        System.out.println(opponent.getName() + "'s special attack rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
+                        opponent.setSpa(opponent.getSpa() * 4);
+                        System.out.println(opponent.getName() + "'s special attack rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
+                        opponent.setSpd(opponent.getSpd() * 2);
+                        System.out.println(opponent.getName() + "'s special defense rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
+                        opponent.setSpd(opponent.getSpd() * 4);
+                        System.out.println(opponent.getName() + "'s special defense rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
+                        opponent.setSpe(opponent.getSpe() * 2);
+                        System.out.println(opponent.getName() + "'s speed rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
+                        opponent.setSpe(opponent.getSpe() * 4);
+                        System.out.println(opponent.getName() + "'s speed rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
+                        opponent.setAtk(opponent.getAtk() / 2);
+                        System.out.println(opponent.getName() + "'s attack fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
+                        opponent.setAtk(opponent.getAtk() / 4);
+                        System.out.println(opponent.getName() + "'s attack fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
+                        opponent.setDef(opponent.getDef() / 2);
+                        System.out.println(opponent.getName() + "'s defense fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
+                        opponent.setDef(opponent.getDef() / 4);
+                        System.out.println(opponent.getName() + "'s defense fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
+                        opponent.setSpa(opponent.getSpa() / 2);
+                        System.out.println(opponent.getName() + "'s special attack fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
+                        opponent.setSpa(opponent.getSpa() / 4);
+                        System.out.println(opponent.getName() + "'s special attack fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
+                        opponent.setSpd(opponent.getSpd() / 2);
+                        System.out.println(opponent.getName() + "'s special defense fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
+                        opponent.setSpd(opponent.getSpd() / 4);
+                        System.out.println(opponent.getName() + "'s special defense fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
+                        opponent.setSpe(opponent.getSpe() / 2);
+                        System.out.println(opponent.getName() + "'s speed fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
+                        opponent.setSpe(opponent.getSpe() / 4);
+                        System.out.println(opponent.getName() + "'s speed fell harshly!");
+                    }
+
+                }
+            }
         //if this move is a status move (ให้ status อย่างเดียว ไม่ damage)
-        } else {
+        } else if(this.getCategory() == Category.STATUS) {
             //check paralysis
             if (Objects.equals(this.getStatus(), Status.PARALYSIS)) {
                 int min = 0;
@@ -1136,6 +1251,27 @@ public class BaseSkill {
                 return;
             }
 
+            //Toxic does not work on Poison and steel types
+            if (Objects.equals(this.getStatus(), Status.POISON) && (Objects.equals(opponent.getType(), Type.STEEL) || (Objects.equals(opponent.getType2(), Type.STEEL)))) {
+                System.out.println("But it had no effect...!");
+                return;
+            }
+            if (Objects.equals(this.getStatus(), Status.POISON) && (Objects.equals(opponent.getType(), Type.POISON) || (Objects.equals(opponent.getType2(), Type.POISON)))) {
+                System.out.println("But it had no effect...!");
+                return;
+            }
+            //if attack is electric and opponent is ground type, cannot paralyze
+            if (Objects.equals(this.getType(), Type.ELECTRIC) && (Objects.equals(opponent.getType(), Type.GROUND) || (Objects.equals(opponent.getType2(), Type.GROUND)))) {
+                System.out.println("But it had no effect...!");
+                return;
+            }
+            //electric pokemon cannot be paralyzed
+            if (Objects.equals(this.getStatus(), Status.PARALYSIS) && (Objects.equals(opponent.getType(), Type.ELECTRIC) || (Objects.equals(opponent.getType2(), Type.ELECTRIC)))) {
+                System.out.println("But it had no effect...!");
+                return;
+            }
+
+
             //set opponent's status to the move's status
             opponent.setStatus(this.getStatus());
             if (Objects.equals(opponent.getStatus(), Status.POISON)) {
@@ -1148,6 +1284,221 @@ public class BaseSkill {
                 System.out.println(opponent.getName() + " was frozen!");
             } else if (Objects.equals(opponent.getStatus(), Status.SLEEP)) {
                 System.out.println(opponent.getName() + " was put to sleep!");
+            }
+
+        //Only buff/debuff the opponent with no damage
+        } else if(this.getCategory() == Category.BUFF && !this.selfBuff){
+            //check paralysis
+            if (Objects.equals(this.getStatus(), Status.PARALYSIS)) {
+                int min = 0;
+                int max = 100;
+                int gacha = (int) (Math.random() * (max - min + 1)) + min;
+                if (gacha > 75) {
+                    System.out.println(" is fully paralyzed! ");
+                    return;
+                }
+            }
+
+            //check accuracy
+            int min = 0;
+            int max = 100;
+            int gacha = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha > this.getAccuracy()) {
+                System.out.println("But it missed..!");
+                return;
+            }
+
+            //calculate buff and debuff based on the buffs array
+            for(int i=0;i< this.getBuff().length;i++) {
+                if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
+                    opponent.setAtk(opponent.getAtk() * 2);
+                    System.out.println(opponent.getName() + "'s attack rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
+                    opponent.setAtk(opponent.getAtk() * 4);
+                    System.out.println(opponent.getName() + "'s attack rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
+                    opponent.setDef(opponent.getDef() * 2);
+                    System.out.println(opponent.getName() + "'s defense rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
+                    opponent.setDef(opponent.getDef() * 4);
+                    System.out.println(opponent.getName() + "'s defense rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
+                    opponent.setSpa(opponent.getSpa() * 2);
+                    System.out.println(opponent.getName() + "'s special attack rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
+                    opponent.setSpa(opponent.getSpa() * 4);
+                    System.out.println(opponent.getName() + "'s special attack rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
+                    opponent.setSpd(opponent.getSpd() * 2);
+                    System.out.println(opponent.getName() + "'s special defense rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
+                    opponent.setSpd(opponent.getSpd() * 4);
+                    System.out.println(opponent.getName() + "'s special defense rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
+                    opponent.setSpe(opponent.getSpe() * 2);
+                    System.out.println(opponent.getName() + "'s speed rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
+                    opponent.setSpe(opponent.getSpe() * 4);
+                    System.out.println(opponent.getName() + "'s speed rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
+                    opponent.setAtk(opponent.getAtk() / 2);
+                    System.out.println(opponent.getName() + "'s attack fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
+                    opponent.setAtk(opponent.getAtk() / 4);
+                    System.out.println(opponent.getName() + "'s attack fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
+                    opponent.setDef(opponent.getDef() / 2);
+                    System.out.println(opponent.getName() + "'s defense fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
+                    opponent.setDef(opponent.getDef() / 4);
+                    System.out.println(opponent.getName() + "'s defense fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
+                    opponent.setSpa(opponent.getSpa() / 2);
+                    System.out.println(opponent.getName() + "'s special attack fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
+                    opponent.setSpa(opponent.getSpa() / 4);
+                    System.out.println(opponent.getName() + "'s special attack fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
+                    opponent.setSpd(opponent.getSpd() / 2);
+                    System.out.println(opponent.getName() + "'s special defense fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
+                    opponent.setSpd(opponent.getSpd() / 4);
+                    System.out.println(opponent.getName() + "'s special defense fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
+                    opponent.setSpe(opponent.getSpe() / 2);
+                    System.out.println(opponent.getName() + "'s speed fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
+                    opponent.setSpe(opponent.getSpe() / 4);
+                    System.out.println(opponent.getName() + "'s speed fell harshly!");
+                }
+
+            }
+        //Only buff AND Self buff
+        }else if(this.getCategory() == Category.BUFF && this.selfBuff){
+            //check paralysis
+            if (Objects.equals(this.getStatus(), Status.PARALYSIS)) {
+                int min = 0;
+                int max = 100;
+                int gacha = (int) (Math.random() * (max - min + 1)) + min;
+                if (gacha > 75) {
+                    System.out.println(" is fully paralyzed! ");
+                    return;
+                }
+            }
+
+            //check accuracy
+            int min = 0;
+            int max = 100;
+            int gacha = (int) (Math.random() * (max - min + 1)) + min;
+            if (gacha > this.getAccuracy()) {
+                System.out.println("But it failed..!");
+                return;
+            }
+
+            //UserAtk and stuff explanation: After the user uses useSkill please set the user's stats to the user stat variables
+            //(ไปเซต atk ของ user เป็น skillname.getUserAtk และทุกอย่าง หลังใช้ useSkill )
+            //ยังไม่ได้ลอง test แต่น่าจะได้ (มั้ง)  หาวิธีอื่นไม่ได้ละ
+            for(int i=0;i< this.getBuff().length;i++) {
+                if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
+                    this.setUserAtk(this.getUserAtk() * 2);
+                    System.out.println(name + "'s attack rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
+                    this.setUserAtk(this.getUserAtk() * 4);
+                    System.out.println(name + "'s attack rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
+                    this.setUserDef(this.getUserDef() * 2);
+                    System.out.println(name + "'s defense rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
+                    this.setUserDef(this.getUserDef() * 4);
+                    System.out.println(name + "'s defense rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
+                    this.setUserSpa(this.getUserSpa() * 2);
+                    System.out.println(name + "'s special attack rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
+                    this.setUserSpa(this.getUserSpa() * 4);
+                    System.out.println(name + "'s special attack rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
+                    this.setUserSpd(this.getUserSpd() * 2);
+                    System.out.println(name + "'s special defense rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
+                    this.setUserSpd(this.getUserSpd() * 4);
+                    System.out.println(name + "'s special defense rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
+                    this.setUserSpe(this.getUserSpe() * 2);
+                    System.out.println(name + "'s speed rose!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
+                    this.setUserSpe(this.getUserSpe() * 4);
+                    System.out.println(name + "'s speed rose sharply!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
+                    this.setUserAtk(this.getUserAtk() / 2);
+                    System.out.println(name + "'s attack fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
+                    this.setUserAtk(this.getUserAtk() / 4);
+                    System.out.println(name + "'s attack fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
+                    this.setUserDef(this.getUserDef() / 2);
+                    System.out.println(name + "'s defense fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
+                    this.setUserDef(this.getUserDef() / 4);
+                    System.out.println(name + "'s defense fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
+                    this.setUserSpa(this.getUserSpa() / 2);
+                    System.out.println(name + "'s special attack fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
+                    this.setUserSpa(this.getUserSpa() / 4);
+                    System.out.println(name + "'s special attack fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
+                    this.setUserSpd(this.getUserSpd() / 2);
+                    System.out.println(name + "'s special defense fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
+                    this.setUserSpd(this.getUserSpd() / 4);
+                    System.out.println(name + "'s special defense fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
+                    this.setUserSpe(this.getUserSpe() / 2);
+                    System.out.println(name + "'s speed fell!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
+                    this.setUserSpe(this.getUserSpe() / 4);
+                    System.out.println(name + "'s speed fell harshly!");
+                }
+
             }
         }
 
@@ -1228,5 +1579,69 @@ public class BaseSkill {
 
     public void setMaxPP(int maxPP) {
         this.maxPP = maxPP;
+    }
+
+    public Buff[] getBuff() {
+        return buff;
+    }
+
+    public void setBuff(Buff[] buff) {
+        this.buff = buff;
+    }
+
+    public int getBuffChance() {
+        return buffChance;
+    }
+
+    public void setBuffChance(int buffChance) {
+        this.buffChance = buffChance;
+    }
+
+    public boolean isSelfBuff() {
+        return selfBuff;
+    }
+
+    public void setSelfBuff(boolean selfBuff) {
+        this.selfBuff = selfBuff;
+    }
+
+    public int getUserAtk() {
+        return userAtk;
+    }
+
+    public void setUserAtk(int userAtk) {
+        this.userAtk = userAtk;
+    }
+
+    public int getUserSpa() {
+        return userSpa;
+    }
+
+    public void setUserSpa(int userSpa) {
+        this.userSpa = userSpa;
+    }
+
+    public int getUserDef() {
+        return userDef;
+    }
+
+    public void setUserDef(int userDef) {
+        this.userDef = userDef;
+    }
+
+    public int getUserSpd() {
+        return userSpd;
+    }
+
+    public void setUserSpd(int userSpd) {
+        this.userSpd = userSpd;
+    }
+
+    public int getUserSpe() {
+        return userSpe;
+    }
+
+    public void setUserSpe(int userSpe) {
+        this.userSpe = userSpe;
     }
 }
