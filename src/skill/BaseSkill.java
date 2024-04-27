@@ -39,6 +39,9 @@ public class BaseSkill {
 
     private int userSpe;
 
+    private int userHp;
+
+    private int userMaxHp;
 
     public BaseSkill(String name, Type type, Category category, Status status, Buff[] buff, int pp, int power, int buffChance, int statusChance, int accuracy, boolean selfBuff) {
         this.setName(name);
@@ -55,12 +58,14 @@ public class BaseSkill {
         this.setSelfBuff(selfBuff);
     }
 
-    public void useSkill(Pokemon opponent, String name, int atk, int spa, int def, int spd, int spe) {
+    public void useSkill(Pokemon opponent, String name, int atk, int spa, int def, int spd, int spe, int hp, int maxHp) {
         this.setUserAtk(atk);
         this.setUserDef(def);
         this.setUserSpa(spa);
         this.setUserSpd(spd);
         this.setUserSpe(spe);
+        this.setUserHp(hp);
+        this.setUserMaxHp(maxHp);
         //if PP = 0 then you cannot use this skill
         if (this.getPp() <= 0) {
             System.out.println("No PP left for this move!");
@@ -1498,6 +1503,10 @@ public class BaseSkill {
                     this.setUserSpe(this.getUserSpe() / 4);
                     System.out.println(name + "'s speed fell harshly!");
                 }
+                if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
+                    this.setUserHp(this.getUserMaxHp()*50/100);
+                    System.out.println(name + "'s HP recovered!");
+                }
 
             }
         }
@@ -1643,5 +1652,21 @@ public class BaseSkill {
 
     public void setUserSpe(int userSpe) {
         this.userSpe = userSpe;
+    }
+
+    public int getUserHp() {
+        return userHp;
+    }
+
+    public void setUserHp(int userHp) {
+        this.userHp = userHp;
+    }
+
+    public int getUserMaxHp() {
+        return userMaxHp;
+    }
+
+    public void setUserMaxHp(int userMaxHp) {
+        this.userMaxHp = userMaxHp;
     }
 }
