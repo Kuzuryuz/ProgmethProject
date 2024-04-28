@@ -58,14 +58,14 @@ public class BaseSkill {
         this.setSelfBuff(selfBuff);
     }
 
-    public void useSkill(Pokemon opponent, String name, int atk, int spa, int def, int spd, int spe, int hp, int maxHp) {
-        this.setUserAtk(atk);
-        this.setUserDef(def);
-        this.setUserSpa(spa);
-        this.setUserSpd(spd);
-        this.setUserSpe(spe);
-        this.setUserHp(hp);
-        this.setUserMaxHp(maxHp);
+    public void useSkill(Pokemon opponent, Pokemon user) {
+        this.setUserAtk(user.getAtk());
+        this.setUserDef(user.getDef());
+        this.setUserSpa(user.getSpa());
+        this.setUserSpd(user.getSpd());
+        this.setUserSpe(user.getSpe());
+        this.setUserHp(user.getHp());
+        this.setUserMaxHp(user.getMaxHp());
         //if PP = 0 then you cannot use this skill
         if (this.getPp() <= 0) {
             System.out.println("No PP left for this move!");
@@ -91,11 +91,15 @@ public class BaseSkill {
             //คำนวน damage
             int damage;
             if (this.getCategory() == Category.PHYSICAL) {
-                damage = (int) Math.round((1.3 * this.getPower() * (atk / opponent.getDef())) + 2);
+                damage = (int) Math.round((1.3 * this.getPower() * (this.getUserAtk() / opponent.getDef())) + 2);
             } else if (this.getCategory() == Category.SPECIAL) {
-                damage = (int) Math.round((1.3 * this.getPower() * (spa / opponent.getSpd())) + 2);
+                damage = (int) Math.round((1.3 * this.getPower() * (this.getUserSpa() / opponent.getSpd())) + 2);
             } else {
                 damage = 0;
+            }
+
+            if(Objects.equals(this.getType(),user.getType())){
+                damage = (int) Math.round(damage * 1.5);
             }
 
             //check accuracy (if the rolled number is more than accuracy it will miss)
@@ -1149,7 +1153,7 @@ public class BaseSkill {
 
             //if this move can inflict status AND buff/debuff then calculate here
             int gacha3 = (int) (Math.random() * (max - min + 1)) + min;
-            if (gacha3 <= this.getBuffChance()) {
+            if (gacha3 <= this.getBuffChance() && !this.selfBuff) {
                 for(int i=0;i< this.getBuff().length;i++) {
                     if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
                         opponent.setAtk(opponent.getAtk() * 2);
@@ -1231,7 +1235,102 @@ public class BaseSkill {
                         opponent.setSpe(opponent.getSpe() / 4);
                         System.out.println(opponent.getName() + "'s speed fell harshly!");
                     }
+                    if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
+                        this.setUserHp(this.getUserHp()-(damage/4));
+                        System.out.println(name + " took recoil damage!");
+                    }
 
+                }
+            }else if(gacha3 <= this.getBuffChance() && this.selfBuff){
+                for(int i=0;i< this.getBuff().length;i++) {
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
+                        this.setUserAtk(this.getUserAtk() * 2);
+                        System.out.println(name + "'s attack rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
+                        this.setUserAtk(this.getUserAtk() * 4);
+                        System.out.println(name + "'s attack rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
+                        this.setUserDef(this.getUserDef() * 2);
+                        System.out.println(name + "'s defense rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
+                        this.setUserDef(this.getUserDef() * 4);
+                        System.out.println(name + "'s defense rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
+                        this.setUserSpa(this.getUserSpa() * 2);
+                        System.out.println(name + "'s special attack rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
+                        this.setUserSpa(this.getUserSpa() * 4);
+                        System.out.println(name + "'s special attack rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
+                        this.setUserSpd(this.getUserSpd() * 2);
+                        System.out.println(name + "'s special defense rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
+                        this.setUserSpd(this.getUserSpd() * 4);
+                        System.out.println(name + "'s special defense rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
+                        this.setUserSpe(this.getUserSpe() * 2);
+                        System.out.println(name + "'s speed rose!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
+                        this.setUserSpe(this.getUserSpe() * 4);
+                        System.out.println(name + "'s speed rose sharply!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
+                        this.setUserAtk(this.getUserAtk() / 2);
+                        System.out.println(name + "'s attack fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
+                        this.setUserAtk(this.getUserAtk() / 4);
+                        System.out.println(name + "'s attack fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
+                        this.setUserDef(this.getUserDef() / 2);
+                        System.out.println(name + "'s defense fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
+                        this.setUserDef(this.getUserDef() / 4);
+                        System.out.println(name + "'s defense fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
+                        this.setUserSpa(this.getUserSpa() / 2);
+                        System.out.println(name + "'s special attack fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
+                        this.setUserSpa(this.getUserSpa() / 4);
+                        System.out.println(name + "'s special attack fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
+                        this.setUserSpd(this.getUserSpd() / 2);
+                        System.out.println(name + "'s special defense fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
+                        this.setUserSpd(this.getUserSpd() / 4);
+                        System.out.println(name + "'s special defense fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
+                        this.setUserSpe(this.getUserSpe() / 2);
+                        System.out.println(name + "'s speed fell!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
+                        this.setUserSpe(this.getUserSpe() / 4);
+                        System.out.println(name + "'s speed fell harshly!");
+                    }
+                    if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
+                        this.setUserHp(this.getUserMaxHp()*50/100);
+                        System.out.println(name + "'s HP recovered!");
+                    }
+                    if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
+                        this.setUserHp(this.getUserHp()-(damage/4));
+                        System.out.println(name + " took recoil damage!");
+                    }
                 }
             }
         //if this move is a status move (ให้ status อย่างเดียว ไม่ damage)
@@ -1513,6 +1612,12 @@ public class BaseSkill {
 
         //Deplete pp by 1
         this.setPp(this.getPp() - 1);
+        user.setAtk(this.getUserAtk());
+        user.setDef(this.getUserDef());
+        user.setSpa(this.getUserSpa());
+        user.setSpd(this.getUserSpd());
+        user.setSpe(this.getUserSpe());
+        user.setHp(this.getUserHp());
     }
 
     ;

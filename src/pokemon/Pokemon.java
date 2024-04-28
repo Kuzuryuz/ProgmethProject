@@ -46,11 +46,11 @@ public class Pokemon{
     private Status status;
 
     private String imgsrc;
-    private ArrayList<BaseSkill> moves;
+    private BaseSkill[] moves;
 
 
 
-    public Pokemon(String name, Type type,Type type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc) {
+    public Pokemon(String name, Type type,Type type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc, BaseSkill[] moves) {
         this.setName(name);
         this.setType(type);
         this.setType2(type2);
@@ -62,13 +62,14 @@ public class Pokemon{
         this.setSpd(spd);
         this.setSpe(spe);
         this.setImgsrc(imgsrc);
+        this.setMoves(moves);
     }
 
     public void checkStatus(){
         //For Poison, takes damage every turn when checkstatus is activated
         if(Objects.equals(this.getStatus(), Status.POISON)){
             System.out.println(this.getName() + " was hurt by Poison!");
-            this.setHp(this.getHp()-(this.getMaxHp()/16));
+            this.setHp(this.getHp()-(this.getMaxHp()/8));
         }
 
         //Half the speed when inflicted paralysis
@@ -200,11 +201,11 @@ public class Pokemon{
         this.maxHp = maxHp;
     }
 
-    public ArrayList<BaseSkill> getMoves() {
+    public BaseSkill[] getMoves() {
         return moves;
     }
 
-    public void setMoves(ArrayList<BaseSkill> moves) {
+    public void setMoves(BaseSkill[] moves) {
         this.moves = moves;
     }
 

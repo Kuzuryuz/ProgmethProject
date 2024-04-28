@@ -22,6 +22,7 @@ public enum Buff {
     SPADOWN2,
     SPDEFDOWN,
     SPDEFDOWN2,
-    HEAL
+    HEAL,
+    RECOIL
 
 }
