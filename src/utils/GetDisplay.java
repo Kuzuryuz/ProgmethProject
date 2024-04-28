@@ -1,5 +1,6 @@
 package utils;
 
+import game.GameUtils;
 import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -58,6 +59,24 @@ public class GetDisplay {
             bgSound.pause();
             PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
             delay.setOnFinished(event -> onReleaseAction.run());
+            delay.play();
+        });
+    }
+
+    public static void changePlayerTurn(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
+        clickNode.setOnMousePressed(e -> {
+            clickSound.play();
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> clickSound.pause());
+            delay.play();
+        });
+        clickNode.setOnMouseReleased(e->{
+            bgSound.pause();
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
+            delay.setOnFinished(event ->{
+                GameUtils.switchPlayerPlay();
+                onReleaseAction.run();
+            });
             delay.play();
         });
     }
