@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import pane.PokemonListPane;
 import pane.RootPane;
 import pokemon.Pokemon;
+import usage.Status;
 
 public class Goto {
     private static RootPane rootPane;
@@ -545,8 +546,18 @@ public class Goto {
         AnchorPane.setTopAnchor(rightPokemon, 20.0);
 
         Text nameLeft = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(), 25, true, "Verdana");
-        //Text statusLeft = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getStatus().name(), 20, true, "Verdana");
         HBox leftNameStatus = new HBox(nameLeft);
+
+        Text statusTextL = GetDisplay.initText("PAR", 20, true, "Verdana");
+        statusTextL.setFill(Color.WHITE);
+        Rectangle rect1 = new Rectangle(60,30);
+        rect1.setStyle("-fx-fill: #386abb;");
+        rect1.setArcHeight(15);
+        rect1.setArcWidth(15);
+        StackPane statusLeft = new StackPane(rect1,statusTextL);
+        leftNameStatus.getChildren().add(statusLeft);
+        leftNameStatus.setSpacing(20);
+
         leftNameStatus.setSpacing(10);
         Text hpTextL = GetDisplay.initText("HP", 20, true, "Verdana");
         ProgressBar hpBarLeft = new ProgressBar(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getHp());
@@ -559,9 +570,18 @@ public class Goto {
         detailLeftPokemon.setSpacing(10);
 
         Text nameRight = GetDisplay.initText(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getName(), 25, true, "Verdana");
-        //Text statusRight = GetDisplay.initText(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getStatus().name(), 20, true, "Verdana");
         HBox rightNameStatus = new HBox(nameRight);
-        rightNameStatus.setSpacing(10);
+
+        Text statusTextR = GetDisplay.initText("PAR", 20, true, "Verdana");
+        statusTextR.setFill(Color.WHITE);
+        Rectangle rect2 = new Rectangle(60,30);
+        rect2.setStyle("-fx-fill: #386abb;");
+        rect2.setArcHeight(15);
+        rect2.setArcWidth(15);
+        StackPane statusRight = new StackPane(rect2,statusTextR);
+        rightNameStatus.getChildren().add(statusRight);
+        rightNameStatus.setSpacing(20);
+
         Text hpTextR = GetDisplay.initText("HP", 20, true, "Verdana");
         ProgressBar hpBarRight = new ProgressBar(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getHp());
         hpBarRight.setStyle("-fx-accent: #B4E66B");
@@ -573,10 +593,10 @@ public class Goto {
         detailRightPokemon.setSpacing(10);
 
         AnchorPane.setRightAnchor(detailLeftPokemon, 115.0);
-        AnchorPane.setBottomAnchor(detailLeftPokemon, 70.0);
+        AnchorPane.setBottomAnchor(detailLeftPokemon, 65.0);
 
         AnchorPane.setLeftAnchor(detailRightPokemon, 140.0);
-        AnchorPane.setTopAnchor(detailRightPokemon, 70.0);
+        AnchorPane.setTopAnchor(detailRightPokemon, 72.0);
 
         battlePage.getChildren().addAll(leftPokemon,rightPokemon,detailLeftPokemon,detailRightPokemon);
 
@@ -849,10 +869,16 @@ public class Goto {
         rect.setStroke(Color.WHITE);
         rect.setStrokeWidth(5);
         rect.setFill(Color.web("#386abb"));
+
+        Text winnerPlayer = GetDisplay.initText("Player X", 80, true, "Verdana");
+        winnerPlayer.setFill(Color.web("#ffc900"));
+
+        StackPane winnerBlock = new StackPane(rect, winnerPlayer);
+
         Button backToMainMenu = GetDisplay.initButton("Back to Main Menu", 450, "#386abb");
         GetDisplay.clickSoundEffect(backToMainMenu, clickSound, bgSound, () -> mainPage());
 
-        VBox vBox = new VBox(winner, rect, backToMainMenu);
+        VBox vBox = new VBox(winner, winnerBlock, backToMainMenu);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(80);
         StackPane stack = new StackPane(backgroundImageView, vBox);
