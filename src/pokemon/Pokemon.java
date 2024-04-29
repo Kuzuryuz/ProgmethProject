@@ -205,7 +205,7 @@ public class Pokemon{
     }
 
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.min(Math.max(0, hp), getMaxHp());
     }
 
     public int getMaxHp() {
