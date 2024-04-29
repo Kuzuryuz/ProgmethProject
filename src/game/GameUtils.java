@@ -57,40 +57,54 @@ public class GameUtils {
         switch (first.getAction()) {
             case "f1" -> {
                 Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-            }case  "f2" -> {
+            }
+            case  "f2" -> {
                 Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-            }case "f3" -> {
+            }
+            case "f3" -> {
                 Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-            }case "f4" -> {
+            }
+            case "f4" -> {
                 Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-            }case "i1" -> {
+            }
+            case "i1" -> {
                 Item item = first.getItems().get(0);
                 if (item instanceof Potion) {
                     ((Potion) item).useHeal(first.getCurrentPokemon());
+                    item.setAmount(item.getAmount() - 1);
                 } else {
                     System.out.println("This item is not a potion.");
                 }
-            }case "i2" -> {
+            }
+            case "i2" -> {
                 Item item = first.getItems().get(1);
                 if (item instanceof Revive) {
-                    ((Revive) item).useHeal(first.getCurrentPokemon());
+                    ((Revive) item).useCure(first.getCurrentPokemon());
+                    ((Revive) item).useRevive(first.getCurrentPokemon());
+                    item.setAmount(item.getAmount() - 1);
                 } else {
                     System.out.println("This item is not a Revive.");
                 }
-            }case "i3" -> {
+            }
+            case "i3" -> {
                 Item item = first.getItems().get(2);
                 if (item instanceof FullRestore) {
                     ((FullRestore) item).useHeal(first.getCurrentPokemon());
+                    ((FullRestore) item).useCure(first.getCurrentPokemon());
+                    item.setAmount(item.getAmount() - 1);
                 } else {
                     System.out.println("This item is not a FullResetore.");
                 }
-            }case "s1" -> {
+            }
+            case "s1" -> {
                 first.setCurrentPokemon(first.getSecondPokemon());
                 setpokemoninparty();
-            }case "s2" -> {
+            }
+            case "s2" -> {
                 first.setCurrentPokemon(first.getThirdPokemon());
                 setpokemoninparty();
-            }default -> {
+            }
+            default -> {
                 System.out.println("Invalid action: " + first.getAction());
             }
         }

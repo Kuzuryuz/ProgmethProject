@@ -27,10 +27,9 @@ public class Player {
     private void initItems() {
         items = new ArrayList<Item>();
         items.add(new Potion(100, 5));
-        items.add(new Revive(50,2));
+        items.add(new Revive(2));
         items.add(new FullRestore(1));
     }
-
 
     public String getAction() {
         return action;

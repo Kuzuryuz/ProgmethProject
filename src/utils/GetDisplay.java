@@ -48,35 +48,13 @@ public class GetDisplay {
         return mediaPlayer;
     }
 
-    public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
+    public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, Runnable onReleaseAction){
         clickNode.setOnMousePressed(e -> {
+            clickSound.stop();
             clickSound.play();
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(event -> clickSound.pause());
-            delay.play();
         });
         clickNode.setOnMouseReleased(e->{
-            bgSound.pause();
-            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-            delay.setOnFinished(event -> onReleaseAction.run());
-            delay.play();
-        });
-    }
-
-    public static void changePlayerTurn(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
-        clickNode.setOnMousePressed(e -> {
-            clickSound.play();
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(event -> clickSound.pause());
-            delay.play();
-        });
-        clickNode.setOnMouseReleased(e->{
-            bgSound.pause();
-            PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-            delay.setOnFinished(event ->{
-                onReleaseAction.run();
-            });
-            delay.play();
+            onReleaseAction.run();
         });
     }
 

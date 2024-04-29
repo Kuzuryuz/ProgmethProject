@@ -4,39 +4,24 @@ import pokemon.Pokemon;
 import usage.Curable;
 import usage.Healable;
 import usage.Revivable;
+import usage.Status;
 
-public class Revive extends Item implements Revivable, Healable, Curable {
-    private int restoreHP;
-
-    public Revive(int restoreHP,int amount){
+public class Revive extends Item implements Revivable, Curable {
+    public Revive(int amount){
         super("Revive", amount);
-        setRestoreHP(restoreHP);
     }
 
     @Override
-    public void useHeal(Pokemon target) {
+    public void useCure(Pokemon target) {
+        target.setStatus(Status.NONE);
+    }
+
+    @Override
+    public void useRevive(Pokemon target) {
         if(target.getHp()>0){
             return;
         }else{
             target.setHp(target.getMaxHp()/2);
         }
-    }
-
-    @Override
-    public void useCure(Pokemon target) {
-
-    }
-
-    @Override
-    public void useRevive(Pokemon target) {
-
-    }
-
-    public int getRestoreHP() {
-        return restoreHP;
-    }
-
-    public void setRestoreHP(int restoreHP) {
-        this.restoreHP = restoreHP;
     }
 }

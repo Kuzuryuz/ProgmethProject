@@ -1620,9 +1620,6 @@ public class BaseSkill {
         user.setHp(this.getUserHp());
     }
 
-    ;
-
-
     public String getName() {
         return name;
     }

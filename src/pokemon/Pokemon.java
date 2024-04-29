@@ -48,8 +48,6 @@ public class Pokemon{
     private String imgsrc;
     private BaseSkill[] moves;
 
-
-
     public Pokemon(String name, Type type,Type type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc, BaseSkill[] moves) {
         this.setName(name);
         this.setType(type);
@@ -63,6 +61,23 @@ public class Pokemon{
         this.setSpe(spe);
         this.setImgsrc(imgsrc);
         this.setMoves(moves);
+        this.setStatus(Status.NONE);
+    }
+
+    public Pokemon(Pokemon pokemon) {
+        this.setName(pokemon.getName());
+        this.setType(pokemon.getType());
+        this.setType2(pokemon.getType2());
+        this.setHp(pokemon.getHp());
+        this.setMaxHp(pokemon.getMaxHp());
+        this.setAtk(pokemon.getAtk());
+        this.setDef(pokemon.getDef());
+        this.setSpa(pokemon.getSpa());
+        this.setSpd(pokemon.getSpd());
+        this.setSpe(pokemon.getSpe());
+        this.setImgsrc(pokemon.getImgsrc());
+        this.setMoves(pokemon.getMoves());
+        this.setStatus(pokemon.getStatus());
     }
 
     public void checkStatus(){
