@@ -30,6 +30,7 @@ public class GameController {
 
     private void startGame() {
         setPlayerSelectTurn("Player 1");
+        setPlayerPlayTurn("Player 1");
         setIndexPlayerPlayTurn(0);
         setIndexRivalPlayTurn(1);
     }

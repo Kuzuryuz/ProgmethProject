@@ -1,12 +1,12 @@
 package utils;
 
-import game.GameUtils;
+import game.GameController;
 import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -18,6 +18,8 @@ import javafx.util.Duration;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import static utils.Goto.*;
 
 public class GetDisplay {
     public static Text initText(String title, int size, Boolean bold, String fontFamily) {
@@ -48,7 +50,36 @@ public class GetDisplay {
         return mediaPlayer;
     }
 
-    public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
+    public static StackPane soundState(){
+        ImageView soundON = GetDisplay.displayImg("sound/soundON.png");
+        ImageView soundOFF = GetDisplay.displayImg("sound/soundOFF.png");
+        if (getVolState()) {
+            getBgSound().play();
+            soundOFF.setVisible(false);
+        }else{
+            getBgSound().pause();
+            soundON.setVisible(false);
+        }
+        soundON.setFitWidth(30);
+        soundON.setFitHeight(30);
+        soundON.setOnMouseClicked(e -> {
+            getBgSound().pause();
+            setVolState(false);
+            soundON.setVisible(false);
+            soundOFF.setVisible(true);
+        });
+        soundOFF.setFitWidth(30);
+        soundOFF.setFitHeight(30);
+        soundOFF.setOnMouseClicked(e -> {
+            getBgSound().play();
+            setVolState(true);
+            soundON.setVisible(true);
+            soundOFF.setVisible(false);
+        });
+        return new StackPane(soundON,soundOFF);
+    }
+
+    public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, Runnable onReleaseAction){
         clickNode.setOnMousePressed(e -> {
             clickSound.play();
             PauseTransition delay = new PauseTransition(Duration.seconds(1));
@@ -56,14 +87,13 @@ public class GetDisplay {
             delay.play();
         });
         clickNode.setOnMouseReleased(e->{
-            bgSound.pause();
             PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
             delay.setOnFinished(event -> onReleaseAction.run());
             delay.play();
         });
     }
 
-    public static void changePlayerTurn(Node clickNode, MediaPlayer clickSound, MediaPlayer bgSound, Runnable onReleaseAction){
+    public static void changePlayerTurn(Node clickNode, MediaPlayer clickSound, Runnable page1, Runnable page2){
         clickNode.setOnMousePressed(e -> {
             clickSound.play();
             PauseTransition delay = new PauseTransition(Duration.seconds(1));
@@ -71,10 +101,10 @@ public class GetDisplay {
             delay.play();
         });
         clickNode.setOnMouseReleased(e->{
-            bgSound.pause();
             PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
             delay.setOnFinished(event ->{
-                onReleaseAction.run();
+                if (GameController.getInstance().getPlayerPlayTurn().equals("Player 2")) page1.run();
+                else page2.run();
             });
             delay.play();
         });
