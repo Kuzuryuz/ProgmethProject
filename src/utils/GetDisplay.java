@@ -1,19 +1,15 @@
 package utils;
 
-import game.GameUtils;
-import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,8 +40,7 @@ public class GetDisplay {
 
     public static MediaPlayer sound(String soundPath){
         Media media = new Media(new File(soundPath).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        return mediaPlayer;
+        return new MediaPlayer(media);
     }
 
     public static void clickSoundEffect(Node clickNode, MediaPlayer clickSound, Runnable onReleaseAction){
