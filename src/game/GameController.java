@@ -1,6 +1,7 @@
 package game;
 
 import player.Player;
+import pokemon.Pokemon;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,10 @@ public class GameController {
     private ArrayList<Player> players;
     private String playerSelectTurn;
     private String playerPlayTurn;
-
+    private int indexPlayerPlayTurn;
+    private int indexRivalPlayTurn;
+    private Pokemon secondPokemon;
+    private Pokemon thirdPokemon;
     private GameController() {
         players = new ArrayList<>();
         players.add(new Player("Player 1", new ArrayList<>()));
@@ -26,7 +30,8 @@ public class GameController {
 
     private void startGame() {
         setPlayerSelectTurn("Player 1");
-        setPlayerPlayTurn("Player 1");
+        setIndexPlayerPlayTurn(0);
+        setIndexRivalPlayTurn(1);
     }
 
     public void endGame() {
@@ -51,5 +56,28 @@ public class GameController {
 
     public void setPlayerPlayTurn(String playerPlayTurn) {
         this.playerPlayTurn = playerPlayTurn;
+    }
+
+    public int getIndexPlayerPlayTurn() {
+        return indexPlayerPlayTurn;
+    }
+
+    public void setIndexPlayerPlayTurn(int indexPlayerPlayTurn) {
+        this.indexPlayerPlayTurn = indexPlayerPlayTurn;
+    }
+
+    public int getIndexRivalPlayTurn() {
+        return indexRivalPlayTurn;
+    }
+
+    public void setIndexRivalPlayTurn(int indexRivalPlayTurn) {
+        this.indexRivalPlayTurn = indexRivalPlayTurn;
+    }
+
+
+    @Override
+    public String toString() {
+        return "t" + indexPlayerPlayTurn
+                ;
     }
 }

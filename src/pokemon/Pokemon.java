@@ -312,5 +312,6 @@ public class Pokemon{
     public void setCurrentSleep(int currentSleep) {
         this.currentSleep = currentSleep;
     }
+
 }
 

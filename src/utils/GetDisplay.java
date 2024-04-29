@@ -74,7 +74,6 @@ public class GetDisplay {
             bgSound.pause();
             PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
             delay.setOnFinished(event ->{
-                GameUtils.switchPlayerPlay();
                 onReleaseAction.run();
             });
             delay.play();

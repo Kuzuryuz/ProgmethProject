@@ -23,7 +23,10 @@ import javafx.util.Duration;
 import pane.PokemonListPane;
 import pane.RootPane;
 import pokemon.Pokemon;
+import skill.BaseSkill;
 import usage.Status;
+
+import java.util.Arrays;
 
 public class Goto {
     private static RootPane rootPane;
@@ -230,6 +233,10 @@ public class Goto {
             Text guideline = GetDisplay.initText(GameController.getInstance().getPlayerSelectTurn() + " selects pokemon.", 25, true, null);
             vbox.getChildren().addAll(guideline);
         } else {
+            //set current pokemon,play turn
+            GameController.getInstance().getPlayers().get(0).setCurrentPokemon(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0));
+            GameController.getInstance().getPlayers().get(1).setCurrentPokemon(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0));
+            GameUtils.setpokemoninparty();
             // init play button
             Button playButton = GetDisplay.initButton("START", 800, "#ffc900");
             GetDisplay.clickSoundEffect(playButton, clickSound, bgSound, () -> battlePage());
@@ -524,7 +531,6 @@ public class Goto {
 
     private static void battlePage(){
         clear();
-
         ImageView backgroundImageView = GetDisplay.displayImg("titleAndBackground/battle.jpeg");
         backgroundImageView.setFitHeight(500);
         backgroundImageView.setFitWidth(1400);
@@ -532,10 +538,10 @@ public class Goto {
         // set battle page
         AnchorPane battlePage = new AnchorPane();
 
-        ImageView leftPokemon = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getImgsrc());
+        ImageView leftPokemon = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getImgsrc());
         leftPokemon.setFitWidth(300);
         leftPokemon.setFitHeight(300);
-        ImageView rightPokemon = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getImgsrc());
+        ImageView rightPokemon = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()).getCurrentPokemon().getImgsrc());
         rightPokemon.setFitWidth(300);
         rightPokemon.setFitHeight(300);
 
@@ -545,10 +551,10 @@ public class Goto {
         AnchorPane.setRightAnchor(rightPokemon, 180.0);
         AnchorPane.setTopAnchor(rightPokemon, 20.0);
 
-        Text nameLeft = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getName(), 25, true, "Verdana");
+        Text nameLeft = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getName(), 25, true, "Verdana");
         HBox leftNameStatus = new HBox(nameLeft);
 
-        Text statusTextL = GetDisplay.initText("PAR", 20, true, "Verdana");
+        Text statusTextL = GetDisplay.initText("PAR1", 20, true, "Verdana");
         statusTextL.setFill(Color.WHITE);
         Rectangle rect1 = new Rectangle(60,30);
         rect1.setStyle("-fx-fill: #386abb;");
@@ -560,19 +566,19 @@ public class Goto {
 
         leftNameStatus.setSpacing(10);
         Text hpTextL = GetDisplay.initText("HP", 20, true, "Verdana");
-        ProgressBar hpBarLeft = new ProgressBar(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getHp());
+        ProgressBar hpBarLeft = new ProgressBar(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getHp());
         hpBarLeft.setStyle("-fx-accent: #B4E66B");
         hpBarLeft.setPrefWidth(320);
-        Text hpNumL = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getHp() +"/"+ GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(0).getHp(), 20, true, "Verdana");
+        Text hpNumL = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getHp() +"/"+ GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getMaxHp(), 20, true, "Verdana");
         HBox leftHP = new HBox(hpTextL, hpBarLeft, hpNumL);
         leftHP.setSpacing(10);
         VBox detailLeftPokemon = new VBox(leftNameStatus, leftHP);
         detailLeftPokemon.setSpacing(10);
 
-        Text nameRight = GetDisplay.initText(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getName(), 25, true, "Verdana");
+        Text nameRight = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()).getCurrentPokemon().getName(), 25, true, "Verdana");
         HBox rightNameStatus = new HBox(nameRight);
 
-        Text statusTextR = GetDisplay.initText("PAR", 20, true, "Verdana");
+        Text statusTextR = GetDisplay.initText("PAR2", 20, true, "Verdana");
         statusTextR.setFill(Color.WHITE);
         Rectangle rect2 = new Rectangle(60,30);
         rect2.setStyle("-fx-fill: #386abb;");
@@ -583,10 +589,10 @@ public class Goto {
         rightNameStatus.setSpacing(20);
 
         Text hpTextR = GetDisplay.initText("HP", 20, true, "Verdana");
-        ProgressBar hpBarRight = new ProgressBar(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getHp());
+        ProgressBar hpBarRight = new ProgressBar(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()).getCurrentPokemon().getHp());
         hpBarRight.setStyle("-fx-accent: #B4E66B");
         hpBarRight.setPrefWidth(320);
-        Text hpNumR = GetDisplay.initText(GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getHp() +"/"+ GameController.getInstance().getPlayers().get(1).getPokemonsParty().get(0).getHp(), 20, true, "Verdana");
+        Text hpNumR = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()).getCurrentPokemon().getHp() +"/"+ GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()).getCurrentPokemon().getMaxHp(), 20, true, "Verdana");
         HBox rightHP = new HBox(hpTextR, hpBarRight, hpNumR);
         rightHP.setSpacing(10);
         VBox detailRightPokemon = new VBox(rightNameStatus, rightHP);
@@ -677,15 +683,39 @@ public class Goto {
         AnchorPane fightPage = new AnchorPane();
 
         //make button
-        Button fight1 = GetDisplay.initButton("move1",400,"#ff1f1f");
+        Button fight1 = GetDisplay.initButton(Arrays.stream(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getMoves()).findFirst().get().getName(),400,"#ff1f1f");
         GetDisplay.changePlayerTurn(fight1, clickSound, bgSound, Goto::actionPage);
-        Button fight2 = GetDisplay.initButton("move2",400,"#ff1f1f");
+        Button fight2 = GetDisplay.initButton(Arrays.stream(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getMoves()).skip(1).findFirst().get().getName(),400,"#ff1f1f");
         GetDisplay.changePlayerTurn(fight2, clickSound, bgSound, Goto::actionPage);
-        Button fight3 = GetDisplay.initButton("move3",400,"#ff1f1f");
+        Button fight3 = GetDisplay.initButton(Arrays.stream(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getMoves()).skip(2).findFirst().get().getName(),400,"#ff1f1f");
         GetDisplay.changePlayerTurn(fight3, clickSound, bgSound, Goto::actionPage);
-        Button fight4 = GetDisplay.initButton("move4",400,"#ff1f1f");
+        Button fight4 = GetDisplay.initButton(Arrays.stream(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getCurrentPokemon().getMoves()).skip(3).findFirst().get().getName(),400,"#ff1f1f");
         GetDisplay.changePlayerTurn(fight4, clickSound, bgSound, Goto::actionPage);
+        //set action in button
+        fight1.setOnMouseClicked(e->{
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("f1");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
 
+        });
+        fight2.setOnMouseClicked(e->{
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("f2");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        fight3.setOnMouseClicked(e->{
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("f3");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        fight4.setOnMouseClicked(e->{
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("f4");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
         Button backButton = GetDisplay.initButton("⮐",150,"#386abb");
         GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, Goto::actionPage);
         AnchorPane.setLeftAnchor(backButton, -10.0);
@@ -739,6 +769,26 @@ public class Goto {
         GetDisplay.changePlayerTurn(item2, clickSound, bgSound, Goto::actionPage);
         Button item3 = GetDisplay.initButton("Full Restore x",450,"#363b81");
         GetDisplay.changePlayerTurn(item3, clickSound, bgSound, Goto::actionPage);
+        //set action button
+        item1.setOnMouseClicked(e-> {
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("i1");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        item2.setOnMouseClicked(e-> {
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("i2");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        item3.setOnMouseClicked(e-> {
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("i3");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+
 
         Button backButton = GetDisplay.initButton("⮐",150,"#386abb");
         GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, Goto::actionPage);
@@ -788,11 +838,11 @@ public class Goto {
         rect1.setArcHeight(25);
         rect1.setArcWidth(25);
 
-        ImageView imageView1 = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(1).getImgsrc());
+        ImageView imageView1 = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(GameController.instance.getIndexPlayerPlayTurn()).getSecondPokemon().getImgsrc());
         imageView1.setFitWidth(60);
         imageView1.setFitHeight(60);
 
-        Text text1 = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(1).getName(), 35, true, "Verdana");
+        Text text1 = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getSecondPokemon().getName(), 35, true, "Verdana");
         text1.setFill(Color.WHITE);
 
         HBox hBox1 = new HBox(imageView1, text1);
@@ -807,11 +857,11 @@ public class Goto {
         rect2.setArcHeight(25);
         rect2.setArcWidth(25);
 
-        ImageView imageView2 = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getImgsrc());
+        ImageView imageView2 = GetDisplay.displayImg(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getThirdPokemon().getImgsrc());
         imageView2.setFitWidth(60);
         imageView2.setFitHeight(60);
 
-        Text text2 = GetDisplay.initText(GameController.getInstance().getPlayers().get(0).getPokemonsParty().get(2).getName(), 35, true, "Verdana");
+        Text text2 = GetDisplay.initText(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getThirdPokemon().getName(), 35, true, "Verdana");
         text2.setFill(Color.WHITE);
 
         HBox hBox2 = new HBox(imageView2, text2);
@@ -829,7 +879,20 @@ public class Goto {
         Button playerTurn = GetDisplay.initButton(GameController.getInstance().getPlayerPlayTurn(),200,"#386abb");
         AnchorPane.setRightAnchor(playerTurn, -10.0);
         AnchorPane.setTopAnchor(playerTurn, -138.5);
-
+        //set action to change pokemon
+        pokemon1.setOnMouseClicked(e-> {
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s1");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        pokemon2.setOnMouseClicked(e-> {
+            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s2");
+            GameUtils.switchPlayerPlay();
+            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+            Goto.battlePage();
+        });
+        //
         HBox hBox = new HBox(pokemon1, pokemon2);
         hBox.setSpacing(100);
         hBox.setAlignment(Pos.CENTER);
@@ -842,6 +905,46 @@ public class Goto {
 
         //add all to children
         bottomBattle.getChildren().addAll(switchPage);
+    }
+    public static void DialogPage() {
+        //copy form switchpage
+        bottomBattle.getChildren().clear();
+        //start turn
+        Goto.battlePage();
+        //GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+        MediaPlayer bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound.setCycleCount(MediaPlayer.INDEFINITE);
+        bgSound.setVolume(0.2);
+        if (getVolState()) {
+            bgSound.play();
+        }else bgSound.pause();
+
+        MediaPlayer clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound.setVolume(0.4);
+
+        AnchorPane dialogPage = new AnchorPane();
+
+        Button backButton = GetDisplay.initButton("⮐",150,"#386abb");
+        GetDisplay.clickSoundEffect(backButton, clickSound, bgSound, Goto::actionPage);
+        AnchorPane.setLeftAnchor(backButton, -10.0);
+        AnchorPane.setBottomAnchor(backButton, 117.5);
+
+        Button playerTurn = GetDisplay.initButton(GameController.getInstance().getPlayerPlayTurn(),200,"#386abb");
+        AnchorPane.setRightAnchor(playerTurn, -10.0);
+        AnchorPane.setTopAnchor(playerTurn, -138.5);
+
+        //next button
+        Button next = GetDisplay.initButton("next",200,"BDBFFC");
+        next.setOnMouseClicked(e-> {
+            actionPage();
+        });
+
+        dialogPage.getChildren().addAll(backButton, playerTurn,next);
+        //
+
+        //add all to children
+        bottomBattle.getChildren().addAll(dialogPage);
+
     }
 
     private static void winnerPage(){
