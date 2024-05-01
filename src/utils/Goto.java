@@ -791,7 +791,11 @@ public class Goto {
         AnchorPane switchPage = new AnchorPane();
 
         Rectangle rect1 = new Rectangle(400, 75);
-        rect1.setStyle("-fx-fill: #5db9ff;");
+        if (GameController.getInstance().getPlayers().get(GameController.instance.getIndexPlayerPlayTurn()).getSecondPokemon().getHp() > 0) {
+            rect1.setStyle("-fx-fill: #5db9ff;");
+        } else {
+            rect1.setStyle("-fx-fill: #333333;");
+        }
         rect1.setArcHeight(25);
         rect1.setArcWidth(25);
 
@@ -807,17 +811,23 @@ public class Goto {
         hBox1.setSpacing(10);
 
         StackPane pokemon1 = new StackPane(rect1, hBox1);
-        GetDisplay.clickSoundEffect(pokemon1, clickSound, () -> {
-            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s1");
-            GameUtils.switchPlayerPlay();
-            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
-            Goto.battlePage();
-            if (GameController.getInstance().getIndexPlayerPlayTurn() == 0) DialogPage();
-            else actionPage();
-        });
+        if(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getSecondPokemon().getHp() > 0) {
+            GetDisplay.clickSoundEffect(pokemon1, clickSound, () -> {
+                GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s1");
+                GameUtils.switchPlayerPlay();
+                GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+                Goto.battlePage();
+                if (GameController.getInstance().getIndexPlayerPlayTurn() == 0) DialogPage();
+                else actionPage();
+            });
+        }
 
         Rectangle rect2 = new Rectangle(400, 75);
-        rect2.setStyle("-fx-fill: #5db9ff;");
+        if (GameController.getInstance().getPlayers().get(GameController.instance.getIndexPlayerPlayTurn()).getThirdPokemon().getHp() > 0) {
+            rect2.setStyle("-fx-fill: #5db9ff;");
+        } else {
+            rect2.setStyle("-fx-fill: #333333;");
+        }
         rect2.setArcHeight(25);
         rect2.setArcWidth(25);
 
@@ -833,14 +843,16 @@ public class Goto {
         hBox2.setSpacing(10);
 
         StackPane pokemon2 = new StackPane(rect2, hBox2);
-        GetDisplay.clickSoundEffect(pokemon2, clickSound, () -> {
-            GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s2");
-            GameUtils.switchPlayerPlay();
-            GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
-            Goto.battlePage();
-            if (GameController.getInstance().getIndexPlayerPlayTurn() == 0) DialogPage();
-            else actionPage();
-        });
+        if (GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).getThirdPokemon().getHp() > 0) {
+            GetDisplay.clickSoundEffect(pokemon2, clickSound, () -> {
+                GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()).setAction("s2");
+                GameUtils.switchPlayerPlay();
+                GameUtils.startTurn(GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexPlayerPlayTurn()),GameController.getInstance().getPlayers().get(GameController.getInstance().getIndexRivalPlayTurn()));
+                Goto.battlePage();
+                if (GameController.getInstance().getIndexPlayerPlayTurn() == 0) DialogPage();
+                else actionPage();
+            });
+        }
 
         Button backButton = GetDisplay.initButton("⮐",150,"#386abb");
         GetDisplay.clickSoundEffect(backButton, clickSound, Goto::actionPage);

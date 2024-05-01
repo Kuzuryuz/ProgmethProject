@@ -52,8 +52,8 @@ public class Pokemon{
         this.setName(name);
         this.setType(type);
         this.setType2(type2);
-        this.setHp(hp);
         this.setMaxHp(hp);
+        this.setHp(hp);
         this.setAtk(atk);
         this.setDef(def);
         this.setSpa(spa);
@@ -68,8 +68,8 @@ public class Pokemon{
         this.setName(pokemon.getName());
         this.setType(pokemon.getType());
         this.setType2(pokemon.getType2());
-        this.setHp(pokemon.getHp());
         this.setMaxHp(pokemon.getMaxHp());
+        this.setHp(pokemon.getHp());
         this.setAtk(pokemon.getAtk());
         this.setDef(pokemon.getDef());
         this.setSpa(pokemon.getSpa());
@@ -120,7 +120,7 @@ public class Pokemon{
         }
     }
     //(ทำแยกออกมาเพราะว่าต้องเอาไว้ก่อน pokemon attack) randomise sleep turns (1-7) and immobilizes the pokemon until the counter reaches the turn
-    public void checkSleep(){
+    public boolean checkSleep(){
         if(Objects.equals(this.getStatus(), Status.SLEEP)){
             if(!isSleep) {
                 int min = 1;
@@ -136,7 +136,7 @@ public class Pokemon{
             if(currentSleep<sleepTurns){
                 System.out.println(this.getName()+ " is fast asleep! ");
                 special = 1;
-                return;
+                return true;
             }else{
                 System.out.println(this.getName()+ " woke up! ");
                 special = 0;
@@ -146,35 +146,31 @@ public class Pokemon{
                 this.setNotSleep(true);
             }
             if(this.isNotSleep()){
-
                 this.setStatus(Status.NONE);
             }
         }
+        return false;
     }
 
     //similar to checkSleep but the Pokemon has a 20% chance to be able to move again each check instead of a predetermined amount of turns
-    public void checkFrozen(){
+    public boolean checkFrozen(){
         if(Objects.equals(this.getStatus(), Status.FREEZE)){
-
             int min = 1;
             int max = 100;
             int gacha = (int) (Math.random() * (max - min + 1)) + min;
-            if(gacha<=80){
+            if(gacha<=60){
                 System.out.println(this.getName()+" is frozen solid!");
                 special=1;
-                return;
-
-
+                return true;
             }else{
                 System.out.println(this.getName()+" thawed out!");
                 this.setStatus(Status.NONE);
                 special=0;
+                return false;
             }
-
         }
+        return false;
     }
-
-
 
     public String getName() {
         return name;

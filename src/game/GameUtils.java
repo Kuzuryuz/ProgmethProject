@@ -54,18 +54,28 @@ public class GameUtils {
     }
     public static void startAction(Player first,Player opponent) {
         //เอาไว้ใช้action
+        first.getCurrentPokemon().checkStatus();
+
         switch (first.getAction()) {
             case "f1" -> {
-                Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                if (!first.getCurrentPokemon().checkFrozen()) {
+                    Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                }
             }
             case  "f2" -> {
-                Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                if (!first.getCurrentPokemon().checkFrozen()) {
+                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                }
             }
             case "f3" -> {
-                Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                if (!first.getCurrentPokemon().checkFrozen()) {
+                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                }
             }
             case "f4" -> {
-                Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                if (!first.getCurrentPokemon().checkFrozen()) {
+                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                }
             }
             case "i1" -> {
                 Item item = first.getItems().get(0);
