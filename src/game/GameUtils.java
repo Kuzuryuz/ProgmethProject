@@ -60,21 +60,46 @@ public class GameUtils {
             case "f1" -> {
                 if (!first.getCurrentPokemon().checkFrozen()) {
                     Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserHp());
+                    first.getCurrentPokemon().setSpe(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpe());
+                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpd());
+                    first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpa());
+                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserDef());
+                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserAtk());
+
                 }
             }
             case  "f2" -> {
                 if (!first.getCurrentPokemon().checkFrozen()) {
                     Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserHp());
+                    first.getCurrentPokemon().setSpe(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpe());
+                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpd());
+                    first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpa());
+                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserDef());
+                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserAtk());
                 }
             }
             case "f3" -> {
                 if (!first.getCurrentPokemon().checkFrozen()) {
                     Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserHp());
+                    first.getCurrentPokemon().setSpe(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpe());
+                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpd());
+                    first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpa());
+                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserDef());
+                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserAtk());
                 }
             }
             case "f4" -> {
                 if (!first.getCurrentPokemon().checkFrozen()) {
                     Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserHp());
+                    first.getCurrentPokemon().setSpe(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpe());
+                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpd());
+                    first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpa());
+                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserDef());
+                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserAtk());
                 }
             }
             case "i1" -> {

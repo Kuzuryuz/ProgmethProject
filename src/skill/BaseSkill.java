@@ -1603,7 +1603,7 @@ public class BaseSkill {
                     System.out.println(name + "'s speed fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
-                    this.setUserHp(this.getUserMaxHp()*50/100);
+                    this.setUserHp(this.getUserHp() + (this.getUserMaxHp()*50/100));
                     System.out.println(name + "'s HP recovered!");
                 }
 
