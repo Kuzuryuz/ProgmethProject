@@ -1,50 +1,33 @@
 package pokemon;
 
+import game.GameController;
 import skill.BaseSkill;
 import usage.Status;
 import usage.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Pokemon{
-
     private String name;
     private Type type;
-
     private Type type2;
     private int hp;
-
     private int maxHp;
-
     private int atk;
-
     private int def;
-
     private int spa;
-
     private int spd;
-
     private int spe;
-
     private boolean wasPara;
-
     private boolean wasBurn;
-
     private boolean isSleep;
-
     private boolean notSleep;
-
-
     private int sleepTurns;
-
     private int currentSleep = 0;
-
     private int special = 0;
-
-
     private Status status;
-
     private String imgsrc;
     private BaseSkill[] moves;
 
@@ -76,14 +59,18 @@ public class Pokemon{
         this.setSpd(pokemon.getSpd());
         this.setSpe(pokemon.getSpe());
         this.setImgsrc(pokemon.getImgsrc());
-        this.setMoves(pokemon.getMoves());
+        this.setMoves(Arrays.stream(pokemon.getMoves())
+            .map(skill -> new BaseSkill(skill.getName(), skill.getType(), skill.getCategory(), skill.getStatus(), skill.getBuff(), skill.getPp(), skill.getPower(), skill.getBuffChance(), skill.getStatusChance(), skill.getAccuracy(), skill.isSelfBuff() ))
+            .toArray(BaseSkill[]::new));
         this.setStatus(pokemon.getStatus());
     }
 
     public void checkStatus(){
+        ArrayList<String> actions = GameController.getInstance().getActions();
+
         //For Poison, takes damage every turn when checkstatus is activated
         if(Objects.equals(this.getStatus(), Status.POISON)){
-            System.out.println(this.getName() + " was hurt by Poison!");
+            actions.add(this.getName() + " was hurt by Poison!");
             this.setHp(this.getHp()-(this.getMaxHp()/8));
         }
 
@@ -101,7 +88,7 @@ public class Pokemon{
                 this.setAtk(this.getAtk()/2);
                 this.setWasBurn(true);
             }
-            System.out.println(this.getName() + " was hurt by burn!");
+            actions.add(this.getName() + " was hurt by burn!");
             this.setHp(this.getHp()-(this.getMaxHp()/16));
         }
 
@@ -115,10 +102,9 @@ public class Pokemon{
                 this.setAtk(this.getAtk()*2);
                 this.setWasBurn(false);
             }
-
-
         }
     }
+
     //(ทำแยกออกมาเพราะว่าต้องเอาไว้ก่อน pokemon attack) randomise sleep turns (1-7) and immobilizes the pokemon until the counter reaches the turn
     public boolean checkSleep(){
         if(Objects.equals(this.getStatus(), Status.SLEEP)){
@@ -154,21 +140,25 @@ public class Pokemon{
 
     //similar to checkSleep but the Pokemon has a 20% chance to be able to move again each check instead of a predetermined amount of turns
     public boolean checkFrozen(){
-        if(Objects.equals(this.getStatus(), Status.FREEZE)){
+        ArrayList<String> actions = GameController.getInstance().getActions();
+
+        if (Objects.equals(this.getStatus(), Status.FREEZE)){
             int min = 1;
             int max = 100;
             int gacha = (int) (Math.random() * (max - min + 1)) + min;
             if(gacha<=60){
-                System.out.println(this.getName()+" is frozen solid!");
+                actions.add(this.getName()+" is frozen solid!");
                 special=1;
                 return true;
-            }else{
-                System.out.println(this.getName()+" thawed out!");
+            } else {
+                actions.add(this.getName()+" thawed out!");
                 this.setStatus(Status.NONE);
                 special=0;
                 return false;
             }
         }
+
+        GameController.getInstance().setActions(actions);
         return false;
     }
 

@@ -12,8 +12,8 @@ public class GameController {
     private String playerPlayTurn;
     private int indexPlayerPlayTurn;
     private int indexRivalPlayTurn;
-    private Pokemon secondPokemon;
-    private Pokemon thirdPokemon;
+    private ArrayList<String> actions;
+
     private GameController() {
         players = new ArrayList<>();
         players.add(new Player("Player 1", new ArrayList<>()));
@@ -33,6 +33,7 @@ public class GameController {
         setPlayerPlayTurn("Player 1");
         setIndexPlayerPlayTurn(0);
         setIndexRivalPlayTurn(1);
+        setActions(new ArrayList<>());
     }
 
     public void endGame() {
@@ -75,10 +76,11 @@ public class GameController {
         this.indexRivalPlayTurn = indexRivalPlayTurn;
     }
 
+    public ArrayList<String> getActions() {
+        return actions;
+    }
 
-    @Override
-    public String toString() {
-        return "t" + indexPlayerPlayTurn
-                ;
+    public void setActions(ArrayList<String> actions) {
+        this.actions = actions;
     }
 }
