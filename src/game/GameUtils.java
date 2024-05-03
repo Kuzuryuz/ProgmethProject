@@ -53,7 +53,7 @@ public class GameUtils {
         }
     }
 
-    public static void startAction(Player first,Player opponent) {
+    public static void startAction(Player first, Player opponent) {
         //เอาไว้ใช้action
         ArrayList<String> action = GameController.getInstance().getActions();
         first.getCurrentPokemon().checkStatus();
@@ -71,6 +71,13 @@ public class GameUtils {
                     first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpa());
                     first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserDef());
                     first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserAtk());
+
+                    if (opponent.getCurrentPokemon().getHp() == 0) {
+                        action = GameController.getInstance().getActions();
+                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                        GameController.getInstance().setActions(action);
+                        opponent.setAction("fainted");
+                    }
                 }
             }
             case "f2" -> {
@@ -85,6 +92,13 @@ public class GameUtils {
                     first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpa());
                     first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserDef());
                     first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserAtk());
+
+                    if (opponent.getCurrentPokemon().getHp() == 0) {
+                        action = GameController.getInstance().getActions();
+                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                        GameController.getInstance().setActions(action);
+                        opponent.setAction("fainted");
+                    }
                 }
             }
             case "f3" -> {
@@ -99,6 +113,13 @@ public class GameUtils {
                     first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpa());
                     first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserDef());
                     first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserAtk());
+
+                    if (opponent.getCurrentPokemon().getHp() == 0) {
+                        action = GameController.getInstance().getActions();
+                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                        GameController.getInstance().setActions(action);
+                        opponent.setAction("fainted");
+                    }
                 }
             }
             case "f4" -> {
@@ -113,6 +134,13 @@ public class GameUtils {
                     first.getCurrentPokemon().setSpa(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpa());
                     first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserDef());
                     first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserAtk());
+
+                    if (opponent.getCurrentPokemon().getHp() == 0) {
+                        action = GameController.getInstance().getActions();
+                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                        GameController.getInstance().setActions(action);
+                        opponent.setAction("fainted");
+                    }
                 }
             }
             case "i1" -> {
@@ -162,6 +190,11 @@ public class GameUtils {
                 setPokemonInParty();
 
                 action.add(first.getName() + " switched pokemon to " + first.getCurrentPokemon().getName() + ".");
+                GameController.getInstance().setActions(action);
+            }
+            // อันนี้ทำแค่ดูผลเฉยๆ ตอนทำจริงน่าจะต้องเป็น fainted1 fainted2 เพื่อดูว่าเปลี่ยนเป็นโปเกม่อนตัวไหน
+            case "fainted" -> {
+                action.add(first.getName() + " switched pokemon to");
                 GameController.getInstance().setActions(action);
             }
         }

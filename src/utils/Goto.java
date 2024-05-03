@@ -1003,6 +1003,8 @@ public class Goto {
         GetDisplay.clickSoundEffect(next, clickSound, () -> {
             GameController.getInstance().setActions(new ArrayList<>());
             if (GameUtils.getLast().getAction() != null) GameUtils.startAction(GameUtils.getLast(), GameUtils.getFirst());
+            // หลัง else if ให้ไปหน้าเลือกตัวโปเกม่อนเพื่อเปลี่ยนตัวที่ตายออก ละหน้านั้นค่อยเรียก startAction แต่ยังไม่ได้ทำหน้าเลือกเลยใส่อันนี้ไปก่อน
+            else if (GameUtils.getFirst().getAction() != null && GameUtils.getFirst().getAction().equals("fainted")) GameUtils.startAction(GameUtils.getFirst(), GameUtils.getLast());
             else actionPage();
         });
         AnchorPane.setRightAnchor(next, -10.0);
