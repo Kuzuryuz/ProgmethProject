@@ -6,13 +6,16 @@ import pokemon.Pokemon;
 import java.util.ArrayList;
 
 public class GameController {
-    public static GameController instance;
+    private static GameController instance;
     private ArrayList<Player> players;
     private String playerSelectTurn;
     private String playerPlayTurn;
     private int indexPlayerPlayTurn;
     private int indexRivalPlayTurn;
     private ArrayList<String> actions;
+    private boolean isFainted;
+    private boolean isGameEnded;
+    private String winner;
 
     private GameController() {
         players = new ArrayList<>();
@@ -34,6 +37,8 @@ public class GameController {
         setIndexPlayerPlayTurn(0);
         setIndexRivalPlayTurn(1);
         setActions(new ArrayList<>());
+        setFainted(false);
+        setGameEnded(false);
     }
 
     public void endGame() {
@@ -82,5 +87,29 @@ public class GameController {
 
     public void setActions(ArrayList<String> actions) {
         this.actions = actions;
+    }
+
+    public boolean isFainted() {
+        return isFainted;
+    }
+
+    public void setFainted(boolean fainted) {
+        isFainted = fainted;
+    }
+
+    public boolean isGameEnded() {
+        return isGameEnded;
+    }
+
+    public void setGameEnded(boolean gameEnded) {
+        isGameEnded = gameEnded;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 }

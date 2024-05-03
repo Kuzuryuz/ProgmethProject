@@ -53,7 +53,7 @@ public class GetDisplay {
         });
     }
 
-    public static String getColorOfType(String type){
+    public static String getColorOfType(String type) {
         Map<String, String> colorOfType = new HashMap<>();
         colorOfType.put("NORMAL", "#AAB09F");
         colorOfType.put("BUG", "#94BC4A");
@@ -74,5 +74,16 @@ public class GetDisplay {
         colorOfType.put("STEEL", "#89A1B0");
         colorOfType.put("WATER", "#539AE2");
         return colorOfType.get(type);
+    }
+
+    public static String getColorOfStatus(String status) {
+        return switch (status) {
+            case "BRN" -> "#ed2121";
+            case "FRZ" -> "#3cbbe6";
+            case "PAR" -> "#edc40e";
+            case "PSN" -> "#9b14c4";
+            case "SLP" -> "#808080";
+            default -> throw new IllegalStateException("Unexpected value: " + status);
+        };
     }
 }

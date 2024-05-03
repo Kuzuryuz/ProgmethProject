@@ -8,7 +8,6 @@ import usage.Status;
 import usage.Type;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class BaseSkill {
@@ -23,7 +22,6 @@ public class BaseSkill {
     private Buff[] buff;
     private int buffChance;
     private boolean selfBuff;
-    private int maxPP;
 
     //Read line 1392 for more info
     private int userAtk;
@@ -43,7 +41,6 @@ public class BaseSkill {
         this.setPower(power);
         this.setStatusChance(statusChance);
         this.setAccuracy(accuracy);
-        this.setMaxPP(pp * 160 / 100);
         this.setBuff(buff);
         this.setBuffChance(buffChance);
         this.setSelfBuff(selfBuff);
@@ -52,9 +49,9 @@ public class BaseSkill {
     public void useSkill(Pokemon opponent, Pokemon user) {
         this.setUserAtk(user.getAtk());
         this.setUserDef(user.getDef());
-        this.setUserSpa(user.getSpa());
-        this.setUserSpd(user.getSpd());
-        this.setUserSpe(user.getSpe());
+        this.setUserSpa(user.getSpAtk());
+        this.setUserSpd(user.getSpDef());
+        this.setUserSpe(user.getSpd());
         this.setUserHp(user.getHp());
         this.setUserMaxHp(user.getMaxHp());
 
@@ -91,7 +88,7 @@ public class BaseSkill {
             if (this.getCategory() == Category.PHYSICAL) {
                 damage = (int) Math.round((1.3 * this.getPower() * ((double) this.getUserAtk() / opponent.getDef())) + 2);
             } else if (this.getCategory() == Category.SPECIAL) {
-                damage = (int) Math.round((1.3 * this.getPower() * ((double) this.getUserSpa() / opponent.getSpd())) + 2);
+                damage = (int) Math.round((1.3 * this.getPower() * ((double) this.getUserSpa() / opponent.getSpDef())) + 2);
             } else {
                 damage = 0;
             }
@@ -1171,27 +1168,27 @@ public class BaseSkill {
                         actions.add(opponent.getName() + "'s defense rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
-                        opponent.setSpa(opponent.getSpa() * 2);
+                        opponent.setSpAtk(opponent.getSpAtk() * 2);
                         actions.add(opponent.getName() + "'s special attack rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
-                        opponent.setSpa(opponent.getSpa() * 4);
+                        opponent.setSpAtk(opponent.getSpAtk() * 4);
                         actions.add(opponent.getName() + "'s special attack rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
-                        opponent.setSpd(opponent.getSpd() * 2);
+                        opponent.setSpDef(opponent.getSpDef() * 2);
                         actions.add(opponent.getName() + "'s special defense rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
-                        opponent.setSpd(opponent.getSpd() * 4);
+                        opponent.setSpDef(opponent.getSpDef() * 4);
                         actions.add(opponent.getName() + "'s special defense rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
-                        opponent.setSpe(opponent.getSpe() * 2);
+                        opponent.setSpd(opponent.getSpd() * 2);
                         actions.add(opponent.getName() + "'s speed rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
-                        opponent.setSpe(opponent.getSpe() * 4);
+                        opponent.setSpd(opponent.getSpd() * 4);
                         actions.add(opponent.getName() + "'s speed rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
@@ -1211,27 +1208,27 @@ public class BaseSkill {
                         actions.add(opponent.getName() + "'s defense fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
-                        opponent.setSpa(opponent.getSpa() / 2);
+                        opponent.setSpAtk(opponent.getSpAtk() / 2);
                         actions.add(opponent.getName() + "'s special attack fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
-                        opponent.setSpa(opponent.getSpa() / 4);
+                        opponent.setSpAtk(opponent.getSpAtk() / 4);
                         actions.add(opponent.getName() + "'s special attack fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
-                        opponent.setSpd(opponent.getSpd() / 2);
+                        opponent.setSpDef(opponent.getSpDef() / 2);
                         actions.add(opponent.getName() + "'s special defense fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
-                        opponent.setSpd(opponent.getSpd() / 4);
+                        opponent.setSpDef(opponent.getSpDef() / 4);
                         actions.add(opponent.getName() + "'s special defense fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
-                        opponent.setSpe(opponent.getSpe() / 2);
+                        opponent.setSpd(opponent.getSpd() / 2);
                         actions.add(opponent.getName() + "'s speed fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
-                        opponent.setSpe(opponent.getSpe() / 4);
+                        opponent.setSpd(opponent.getSpd() / 4);
                         actions.add(opponent.getName() + "'s speed fell harshly!");
                     }
                     if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
@@ -1433,27 +1430,27 @@ public class BaseSkill {
                     actions.add(opponent.getName() + "'s defense rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
-                    opponent.setSpa(opponent.getSpa() * 2);
+                    opponent.setSpAtk(opponent.getSpAtk() * 2);
                     actions.add(opponent.getName() + "'s special attack rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
-                    opponent.setSpa(opponent.getSpa() * 4);
+                    opponent.setSpAtk(opponent.getSpAtk() * 4);
                     actions.add(opponent.getName() + "'s special attack rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
-                    opponent.setSpd(opponent.getSpd() * 2);
+                    opponent.setSpDef(opponent.getSpDef() * 2);
                     actions.add(opponent.getName() + "'s special defense rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
-                    opponent.setSpd(opponent.getSpd() * 4);
+                    opponent.setSpDef(opponent.getSpDef() * 4);
                     actions.add(opponent.getName() + "'s special defense rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
-                    opponent.setSpe(opponent.getSpe() * 2);
+                    opponent.setSpd(opponent.getSpd() * 2);
                     actions.add(opponent.getName() + "'s speed rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
-                    opponent.setSpe(opponent.getSpe() * 4);
+                    opponent.setSpd(opponent.getSpd() * 4);
                     actions.add(opponent.getName() + "'s speed rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
@@ -1473,27 +1470,27 @@ public class BaseSkill {
                     actions.add(opponent.getName() + "'s defense fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
-                    opponent.setSpa(opponent.getSpa() / 2);
+                    opponent.setSpAtk(opponent.getSpAtk() / 2);
                     actions.add(opponent.getName() + "'s special attack fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
-                    opponent.setSpa(opponent.getSpa() / 4);
+                    opponent.setSpAtk(opponent.getSpAtk() / 4);
                     actions.add(opponent.getName() + "'s special attack fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
-                    opponent.setSpd(opponent.getSpd() / 2);
+                    opponent.setSpDef(opponent.getSpDef() / 2);
                     actions.add(opponent.getName() + "'s special defense fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
-                    opponent.setSpd(opponent.getSpd() / 4);
+                    opponent.setSpDef(opponent.getSpDef() / 4);
                     actions.add(opponent.getName() + "'s special defense fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
-                    opponent.setSpe(opponent.getSpe() / 2);
+                    opponent.setSpd(opponent.getSpd() / 2);
                     actions.add(opponent.getName() + "'s speed fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
-                    opponent.setSpe(opponent.getSpe() / 4);
+                    opponent.setSpd(opponent.getSpd() / 4);
                     actions.add(opponent.getName() + "'s speed fell harshly!");
                 }
             }
@@ -1615,9 +1612,9 @@ public class BaseSkill {
         this.setPp(this.getPp() - 1);
         user.setAtk(this.getUserAtk());
         user.setDef(this.getUserDef());
-        user.setSpa(this.getUserSpa());
-        user.setSpd(this.getUserSpd());
-        user.setSpe(this.getUserSpe());
+        user.setSpAtk(this.getUserSpa());
+        user.setSpDef(this.getUserSpd());
+        user.setSpd(this.getUserSpe());
         user.setHp(this.getUserHp());
 
         GameController.getInstance().setActions(actions);
@@ -1685,14 +1682,6 @@ public class BaseSkill {
 
     public void setStatusChance(int statusChance) {
         this.statusChance = statusChance;
-    }
-
-    public int getMaxPP() {
-        return maxPP;
-    }
-
-    public void setMaxPP(int maxPP) {
-        this.maxPP = maxPP;
     }
 
     public Buff[] getBuff() {
@@ -1773,5 +1762,13 @@ public class BaseSkill {
 
     public void setUserMaxHp(int userMaxHp) {
         this.userMaxHp = userMaxHp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseSkill baseSkill = (BaseSkill) o;
+        return Objects.equals(name, baseSkill.name);
     }
 }

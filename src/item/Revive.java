@@ -18,10 +18,10 @@ public class Revive extends Item implements Revivable, Curable {
 
     @Override
     public void useRevive(Pokemon target) {
-        if(target.getHp()>0){
+        if (target.getHp() > 0) {
             return;
-        }else{
-            target.setHp(target.getMaxHp()/2);
+        } else {
+            target.setHp(target.getMaxHp() / 2);
         }
     }
 }

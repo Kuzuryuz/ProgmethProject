@@ -13,7 +13,7 @@ public class Potion extends Item implements Healable{
 
     @Override
     public void useHeal(Pokemon target) {
-        target.setHp(target.getHp()+this.getRestoreHP());
+        target.setHp(target.getHp() + this.getRestoreHP());
     }
 
     public int getRestoreHP() {
