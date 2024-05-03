@@ -9,21 +9,13 @@ public enum Status {
     SLEEP;
 
     public String toString() {
-        switch (this) {
-            case NONE:
-                return "NORM";
-            case BURN:
-                return "BURN";
-            case FREEZE:
-                return "FRE";
-            case PARALYSIS:
-                return "PAR";
-            case POISON:
-                return "POI";
-            case SLEEP:
-                return "SlP";
-            default:
-                return super.toString();
-        }
+        return switch (this) {
+            case NONE -> "NORM";
+            case BURN -> "BRN";
+            case FREEZE -> "FRZ";
+            case PARALYSIS -> "PAR";
+            case POISON -> "PSN";
+            case SLEEP -> "SLP";
+        };
     }
 }

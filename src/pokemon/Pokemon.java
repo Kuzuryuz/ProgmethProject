@@ -1,54 +1,37 @@
 package pokemon;
 
+import game.GameController;
 import skill.BaseSkill;
 import usage.Status;
 import usage.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Pokemon{
-
     private String name;
     private Type type;
-
     private Type type2;
     private int hp;
-
     private int maxHp;
-
     private int atk;
-
     private int def;
-
-    private int spa;
-
+    private int spAtk;
+    private int spDef;
     private int spd;
-
-    private int spe;
-
     private boolean wasPara;
-
     private boolean wasBurn;
-
     private boolean isSleep;
-
     private boolean notSleep;
-
-
     private int sleepTurns;
-
     private int currentSleep = 0;
-
     private int special = 0;
-
-
     private Status status;
-
     private String imgsrc;
     private BaseSkill[] moves;
 
-    public Pokemon(String name, Type type,Type type2, int hp, int atk, int def, int spa, int spd, int spe, String imgsrc, BaseSkill[] moves) {
+    public Pokemon(String name, Type type, Type type2, int hp, int atk, int def, int spAtk, int spDef, int spd, String imgsrc, BaseSkill[] moves) {
         this.setName(name);
         this.setType(type);
         this.setType2(type2);
@@ -56,9 +39,9 @@ public class Pokemon{
         this.setHp(hp);
         this.setAtk(atk);
         this.setDef(def);
-        this.setSpa(spa);
+        this.setSpAtk(spAtk);
+        this.setSpDef(spDef);
         this.setSpd(spd);
-        this.setSpe(spe);
         this.setImgsrc(imgsrc);
         this.setMoves(moves);
         this.setStatus(Status.NONE);
@@ -72,25 +55,29 @@ public class Pokemon{
         this.setHp(pokemon.getHp());
         this.setAtk(pokemon.getAtk());
         this.setDef(pokemon.getDef());
-        this.setSpa(pokemon.getSpa());
+        this.setSpAtk(pokemon.getSpAtk());
+        this.setSpDef(pokemon.getSpDef());
         this.setSpd(pokemon.getSpd());
-        this.setSpe(pokemon.getSpe());
         this.setImgsrc(pokemon.getImgsrc());
-        this.setMoves(pokemon.getMoves());
+        this.setMoves(Arrays.stream(pokemon.getMoves())
+            .map(skill -> new BaseSkill(skill.getName(), skill.getType(), skill.getCategory(), skill.getStatus(), skill.getBuff(), skill.getPp(), skill.getPower(), skill.getBuffChance(), skill.getStatusChance(), skill.getAccuracy(), skill.isSelfBuff() ))
+            .toArray(BaseSkill[]::new));
         this.setStatus(pokemon.getStatus());
     }
 
     public void checkStatus(){
+        ArrayList<String> actions = GameController.getInstance().getActions();
+
         //For Poison, takes damage every turn when checkstatus is activated
         if(Objects.equals(this.getStatus(), Status.POISON)){
-            System.out.println(this.getName() + " was hurt by Poison!");
+            actions.add(this.getName() + " was hurt by Poison!");
             this.setHp(this.getHp()-(this.getMaxHp()/8));
         }
 
         //Half the speed when inflicted paralysis
         if(Objects.equals(this.getStatus(), Status.PARALYSIS)){
             if(!wasPara) {
-                this.setSpe(this.getSpe() / 2);
+                this.setSpd(this.getSpd() / 2);
                 this.setWasPara(true);
             }
         }
@@ -101,24 +88,23 @@ public class Pokemon{
                 this.setAtk(this.getAtk()/2);
                 this.setWasBurn(true);
             }
-            System.out.println(this.getName() + " was hurt by burn!");
+            actions.add(this.getName() + " was hurt by burn!");
             this.setHp(this.getHp()-(this.getMaxHp()/16));
         }
 
         //if wasPara or wasBurn is true, if the pokemon is healed of its status this will return its attack and speed back to normal
         if(Objects.equals(this.getStatus(),Status.NONE)){
             if(wasPara){
-                this.setSpe(this.getSpe()*2);
+                this.setSpd(this.getSpd()*2);
                 this.setWasPara(false);
             }
             if(wasBurn){
                 this.setAtk(this.getAtk()*2);
                 this.setWasBurn(false);
             }
-
-
         }
     }
+
     //(ทำแยกออกมาเพราะว่าต้องเอาไว้ก่อน pokemon attack) randomise sleep turns (1-7) and immobilizes the pokemon until the counter reaches the turn
     public boolean checkSleep(){
         if(Objects.equals(this.getStatus(), Status.SLEEP)){
@@ -154,21 +140,25 @@ public class Pokemon{
 
     //similar to checkSleep but the Pokemon has a 20% chance to be able to move again each check instead of a predetermined amount of turns
     public boolean checkFrozen(){
-        if(Objects.equals(this.getStatus(), Status.FREEZE)){
+        ArrayList<String> actions = GameController.getInstance().getActions();
+
+        if (Objects.equals(this.getStatus(), Status.FREEZE)){
             int min = 1;
             int max = 100;
             int gacha = (int) (Math.random() * (max - min + 1)) + min;
-            if(gacha<=60){
-                System.out.println(this.getName()+" is frozen solid!");
+            if(gacha <= 75){
+                actions.add(this.getName() + " is frozen solid!");
                 special=1;
                 return true;
-            }else{
-                System.out.println(this.getName()+" thawed out!");
+            } else {
+                actions.add(this.getName() + " thawed out!");
                 this.setStatus(Status.NONE);
                 special=0;
                 return false;
             }
         }
+
+        GameController.getInstance().setActions(actions);
         return false;
     }
 
@@ -236,12 +226,20 @@ public class Pokemon{
         this.def = def;
     }
 
-    public int getSpa() {
-        return spa;
+    public int getSpAtk() {
+        return spAtk;
     }
 
-    public void setSpa(int spa) {
-        this.spa = spa;
+    public void setSpAtk(int spAtk) {
+        this.spAtk = spAtk;
+    }
+
+    public int getSpDef() {
+        return spDef;
+    }
+
+    public void setSpDef(int spDef) {
+        this.spDef = spDef;
     }
 
     public int getSpd() {
@@ -250,14 +248,6 @@ public class Pokemon{
 
     public void setSpd(int spd) {
         this.spd = spd;
-    }
-
-    public int getSpe() {
-        return spe;
-    }
-
-    public void setSpe(int spe) {
-        this.spe = spe;
     }
 
     public Status getStatus() {
@@ -324,5 +314,11 @@ public class Pokemon{
         this.currentSleep = currentSleep;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pokemon pokemon = (Pokemon) o;
+        return Objects.equals(name, pokemon.name);
+    }
 }
-
