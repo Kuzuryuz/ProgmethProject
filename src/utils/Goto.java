@@ -55,7 +55,7 @@ public class Goto {
     }
 
     private static void initBgSound() {
-        bgSound = GetDisplay.sound("res/sound/MainPage.mp3");
+        bgSound = GetDisplay.sound("sound/MainPage.mp3");
         bgSound.setCycleCount(MediaPlayer.INDEFINITE);
         bgSound.setVolume(0.2);
         if (getVolState()) {
@@ -64,7 +64,7 @@ public class Goto {
     }
 
     private static void initClickSound() {
-        clickSound = GetDisplay.sound("res/sound/clickSound.mp3");
+        clickSound = GetDisplay.sound("sound/clickSound.mp3");
         clickSound.setVolume(0.4);
     }
 

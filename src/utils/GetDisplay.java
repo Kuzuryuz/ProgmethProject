@@ -39,7 +39,8 @@ public class GetDisplay {
     }
 
     public static MediaPlayer sound(String soundPath){
-        Media media = new Media(new File(soundPath).toURI().toString());
+        String classLoaderPath = ClassLoader.getSystemResource(soundPath).toString();
+        Media media = new Media(classLoaderPath);
         return new MediaPlayer(media);
     }
 
