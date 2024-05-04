@@ -1,7 +1,6 @@
 package game;
 
 import player.Player;
-import pokemon.Pokemon;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class GameController {
         setGameEnded(false);
     }
 
-    public void endGame() {
+    public void newGame() {
         instance = new GameController();
     }
 

@@ -138,7 +138,7 @@ public class Goto {
         // init Play button
         Button playButton = GetDisplay.initButton("Play", 350, "#386abb");
         GetDisplay.clickSoundEffect(playButton, clickSound, () -> {
-            GameController.getInstance().endGame();
+            GameController.getInstance().newGame();
             playPage();
         });
 
