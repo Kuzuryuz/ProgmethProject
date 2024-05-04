@@ -61,10 +61,10 @@ public class PokemonListPane {
                         new BaseSkill("Swords Dance", Type.NORMAL, Category.BUFF, Status.NONE, new Buff[]{Buff.ATKUP2}, 20,0,100,0,100,true),
                         new BaseSkill("Shadow Claw", Type.GHOST, Category.PHYSICAL, Status.NONE, new Buff[]{Buff.NONE}, 15,70,0,0,100,false)}));
         pokemons.add(new Pokemon("Magcargo", Type.FIRE, Type.ROCK, 300, 50, 120, 90, 80, 30, "pokemons/magcargo.png",
-                new BaseSkill[]{new BaseSkill("Blaze Kick", Type.FIRE, Category.PHYSICAL, Status.BURN, new Buff[]{Buff.NONE}, 10,85,0,10,90,false),
-                        new BaseSkill("Close Combat", Type.FIGHTING, Category.PHYSICAL, Status.NONE, new Buff[]{Buff.DEFDOWN2, Buff.SPDEFDOWN2}, 5,120,100,0,100,true),
-                        new BaseSkill("Swords Dance", Type.NORMAL, Category.BUFF, Status.NONE, new Buff[]{Buff.ATKUP2}, 20,0,100,0,100,true),
-                        new BaseSkill("Stone Edge", Type.ROCK, Category.PHYSICAL, Status.NONE, new Buff[]{Buff.NONE}, 5,100,0,0,80,false)}));
+                new BaseSkill[]{new BaseSkill("Flamethrower", Type.FIRE, Category.SPECIAL, Status.BURN, new Buff[]{Buff.NONE}, 15,90,0,10,100,false),
+                        new BaseSkill("Earth Power", Type.GROUND, Category.SPECIAL, Status.NONE, new Buff[]{Buff.SPDEFDOWN}, 10,90,10,0,100,false),
+                        new BaseSkill("Acid Armor", Type.POISON, Category.BUFF, Status.NONE, new Buff[]{Buff.DEFUP2}, 20,0,100,0,100,true),
+                        new BaseSkill("Rock Tomb", Type.ROCK, Category.PHYSICAL, Status.NONE, new Buff[]{Buff.SPEEDDOWN}, 15,60,100,0,95,false)}));
         pokemons.add(new Pokemon("Mimikyu", Type.GHOST, Type.FAIRY, 275, 90, 80, 50, 105, 96, "pokemons/mimikyu.png",
                 new BaseSkill[]{new BaseSkill("Will-o-Wisp", Type.FIRE, Category.STATUS, Status.BURN, new Buff[]{Buff.NONE}, 15,0,100,0,85,false),
                         new BaseSkill("Curse", Type.GHOST, Category.BUFF, Status.NONE, new Buff[]{Buff.SPEEDDOWN,Buff.ATKUP,Buff.DEFUP}, 10,0,100,0,100,true),
