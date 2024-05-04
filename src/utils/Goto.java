@@ -310,18 +310,26 @@ public class Goto {
         VBox vBoxIN = new VBox();
         vBoxIN.setPrefSize(900,450);
 
-        Text explanation = new Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
-                "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
-                "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit " +
-                "anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
-                "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
-                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat " +
-                "cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor" +
-                " sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea");
+        Text explanation = new Text("Rules\n" +
+            "1. Each player can view the details of each Pokemon and must select 3 different Pokemon.\n" +
+            "2. After the players have made their selection, click on \"START\" to begin the game.\n" +
+            "3. First, player 1 can choose 1 of 4 actions, which are:\n" +
+            "     a. Fight: This includes 4 movesets of the current Pokemon with the PP displayed (the\n" +
+            "         amount of times this move can be used), the player can choose 1 of 4 movesets to\n" +
+            "         attack the other player's Pokemon.\n" +
+            "     b. Item: Each player starts the game with 5 Potion, 2 Revive and 1 Full Restore, the\n" +
+            "         player can choose 1 of 3 items to heal the player's Pokemon.\n" +
+            "         I.   Potion: heals the selected Pokémon by increasing its HP by 150. However, if a\n" +
+            "              Pokémon loses all of its HP, it faints and can no longer be healed with Potion.\n" +
+            "         II.  Revive: Revives selected Pokémon that have fainted, restoring half of their\n" +
+            "              maximum HP.\n" +
+            "         III. Full Restore: Revives selected Pokémon that have fainted and restores their\n" +
+            "              maximum HP.\n" +
+            "     c. Switch: Switch the current Pokémon for another Pokémon that has not yet fainted.\n" +
+            "     d. Surrender: End the game with the victory of the opposite player.\n" +
+            "4. After player 1's turn ends, player 2 can choose 1 of 4 actions.\n" +
+            "5. If a player chooses to surrender or if the HP of the Pokemon on that player's side has\n" +
+            "    been reduced to 0, the game ends and the other player wins the game.");
         explanation.setLineSpacing(15);
         explanation.setWrappingWidth(800);
         explanation.setFont(Font.font(20));
