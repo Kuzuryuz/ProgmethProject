@@ -1241,91 +1241,91 @@ public class BaseSkill {
                 for(int i=0;i< this.getBuff().length;i++) {
                     if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
                         this.setUserAtk(this.getUserAtk() * 2);
-                        actions.add(name + "'s attack rose!");
+                        actions.add(user.getName() + "'s attack rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
                         this.setUserAtk(this.getUserAtk() * 4);
-                        actions.add(name + "'s attack rose sharply!");
+                        actions.add(user.getName() + "'s attack rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
                         this.setUserDef(this.getUserDef() * 2);
-                        actions.add(name + "'s defense rose!");
+                        actions.add(user.getName() + "'s defense rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
                         this.setUserDef(this.getUserDef() * 4);
-                        actions.add(name + "'s defense rose sharply!");
+                        actions.add(user.getName() + "'s defense rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
                         this.setUserSpa(this.getUserSpa() * 2);
-                        actions.add(name + "'s special attack rose!");
+                        actions.add(user.getName() + "'s special attack rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
                         this.setUserSpa(this.getUserSpa() * 4);
-                        actions.add(name + "'s special attack rose sharply!");
+                        actions.add(user.getName() + "'s special attack rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
                         this.setUserSpd(this.getUserSpd() * 2);
-                        actions.add(name + "'s special defense rose!");
+                        actions.add(user.getName() + "'s special defense rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
                         this.setUserSpd(this.getUserSpd() * 4);
-                        actions.add(name + "'s special defense rose sharply!");
+                        actions.add(user.getName() + "'s special defense rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
                         this.setUserSpe(this.getUserSpe() * 2);
-                        actions.add(name + "'s speed rose!");
+                        actions.add(user.getName() + "'s speed rose!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
                         this.setUserSpe(this.getUserSpe() * 4);
-                        actions.add(name + "'s speed rose sharply!");
+                        actions.add(user.getName() + "'s speed rose sharply!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
                         this.setUserAtk(this.getUserAtk() / 2);
-                        actions.add(name + "'s attack fell!");
+                        actions.add(user.getName() + "'s attack fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
                         this.setUserAtk(this.getUserAtk() / 4);
-                        actions.add(name + "'s attack fell harshly!");
+                        actions.add(user.getName() + "'s attack fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
                         this.setUserDef(this.getUserDef() / 2);
-                        actions.add(name + "'s defense fell!");
+                        actions.add(user.getName() + "'s defense fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
                         this.setUserDef(this.getUserDef() / 4);
-                        actions.add(name + "'s defense fell harshly!");
+                        actions.add(user.getName() + "'s defense fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
                         this.setUserSpa(this.getUserSpa() / 2);
-                        actions.add(name + "'s special attack fell!");
+                        actions.add(user.getName() + "'s special attack fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
                         this.setUserSpa(this.getUserSpa() / 4);
-                        actions.add(name + "'s special attack fell harshly!");
+                        actions.add(user.getName() + "'s special attack fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
                         this.setUserSpd(this.getUserSpd() / 2);
-                        actions.add(name + "'s special defense fell!");
+                        actions.add(user.getName() + "'s special defense fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
                         this.setUserSpd(this.getUserSpd() / 4);
-                        actions.add(name + "'s special defense fell harshly!");
+                        actions.add(user.getName() + "'s special defense fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
                         this.setUserSpe(this.getUserSpe() / 2);
-                        actions.add(name + "'s speed fell!");
+                        actions.add(user.getName() + "'s speed fell!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
                         this.setUserSpe(this.getUserSpe() / 4);
-                        actions.add(name + "'s speed fell harshly!");
+                        actions.add(user.getName() + "'s speed fell harshly!");
                     }
                     if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
                         this.setUserHp(this.getUserMaxHp()*50/100);
-                        actions.add(name + "'s HP recovered!");
+                        actions.add(user.getName() + "'s HP recovered!");
                     }
                     if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
                         this.setUserHp(this.getUserHp()-(damage/4));
-                        actions.add(name + " took recoil damage!");
+                        actions.add(user.getName() + " took recoil damage!");
                     }
                 }
             }
@@ -1523,87 +1523,91 @@ public class BaseSkill {
             for(int i=0;i< this.getBuff().length;i++) {
                 if (Objects.equals(this.getBuff()[i], Buff.ATKUP)) {
                     this.setUserAtk(this.getUserAtk() * 2);
-                    actions.add(name + "'s attack rose!");
+                    actions.add(user.getName() + "'s attack rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.ATKUP2)) {
                     this.setUserAtk(this.getUserAtk() * 4);
-                    actions.add(name + "'s attack rose sharply!");
+                    actions.add(user.getName() + "'s attack rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.DEFUP)) {
                     this.setUserDef(this.getUserDef() * 2);
-                    actions.add(name + "'s defense rose!");
+                    actions.add(user.getName() + "'s defense rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.DEFUP2)) {
                     this.setUserDef(this.getUserDef() * 4);
-                    actions.add(name + "'s defense rose sharply!");
+                    actions.add(user.getName() + "'s defense rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPAUP)) {
                     this.setUserSpa(this.getUserSpa() * 2);
-                    actions.add(name + "'s special attack rose!");
+                    actions.add(user.getName() + "'s special attack rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPAUP2)) {
                     this.setUserSpa(this.getUserSpa() * 4);
-                    actions.add(name + "'s special attack rose sharply!");
+                    actions.add(user.getName() + "'s special attack rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP)) {
                     this.setUserSpd(this.getUserSpd() * 2);
-                    actions.add(name + "'s special defense rose!");
+                    actions.add(user.getName() + "'s special defense rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFUP2)) {
                     this.setUserSpd(this.getUserSpd() * 4);
-                    actions.add(name + "'s special defense rose sharply!");
+                    actions.add(user.getName() + "'s special defense rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP)) {
                     this.setUserSpe(this.getUserSpe() * 2);
-                    actions.add(name + "'s speed rose!");
+                    actions.add(user.getName() + "'s speed rose!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDUP2)) {
                     this.setUserSpe(this.getUserSpe() * 4);
-                    actions.add(name + "'s speed rose sharply!");
+                    actions.add(user.getName() + "'s speed rose sharply!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN)) {
                     this.setUserAtk(this.getUserAtk() / 2);
-                    actions.add(name + "'s attack fell!");
+                    actions.add(user.getName() + "'s attack fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.ATKDOWN2)) {
                     this.setUserAtk(this.getUserAtk() / 4);
-                    actions.add(name + "'s attack fell harshly!");
+                    actions.add(user.getName() + "'s attack fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN)) {
                     this.setUserDef(this.getUserDef() / 2);
-                    actions.add(name + "'s defense fell!");
+                    actions.add(user.getName() + "'s defense fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.DEFDOWN2)) {
                     this.setUserDef(this.getUserDef() / 4);
-                    actions.add(name + "'s defense fell harshly!");
+                    actions.add(user.getName() + "'s defense fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPADOWN)) {
                     this.setUserSpa(this.getUserSpa() / 2);
-                    actions.add(name + "'s special attack fell!");
+                    actions.add(user.getName() + "'s special attack fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPADOWN2)) {
                     this.setUserSpa(this.getUserSpa() / 4);
-                    actions.add(name + "'s special attack fell harshly!");
+                    actions.add(user.getName() + "'s special attack fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN)) {
                     this.setUserSpd(this.getUserSpd() / 2);
-                    actions.add(name + "'s special defense fell!");
+                    actions.add(user.getName() + "'s special defense fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPDEFDOWN2)) {
                     this.setUserSpd(this.getUserSpd() / 4);
-                    actions.add(name + "'s special defense fell harshly!");
+                    actions.add(user.getName() + "'s special defense fell harshly!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN)) {
                     this.setUserSpe(this.getUserSpe() / 2);
-                    actions.add(name + "'s speed fell!");
+                    actions.add(user.getName() + "'s speed fell!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.SPEEDDOWN2)) {
                     this.setUserSpe(this.getUserSpe() / 4);
-                    actions.add(name + "'s speed fell harshly!");
+                    actions.add(user.getName() + "'s speed fell harshly!");
+                }
+                if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
+                    this.setUserHp(this.getUserMaxHp()*50/100);
+                    actions.add(user.getName() + "'s HP recovered!");
                 }
                 if (Objects.equals(this.getBuff()[i], Buff.HEAL)) {
                     this.setUserHp(this.getUserHp() + (this.getUserMaxHp()*50/100));
-                    actions.add(name + "'s HP recovered!");
+                    actions.add(user.getName() + "'s HP recovered!");
                 }
             }
         }
