@@ -56,206 +56,147 @@ public class GameUtils {
     public static void startAction(Player first, Player opponent) {
         //เอาไว้ใช้action
         ArrayList<String> action = GameController.getInstance().getActions();
+        if (!GameController.getInstance().isFainted()) first.getCurrentPokemon().checkStatus();
+        if (first.getCurrentPokemon().getHp() == 0 && !GameController.getInstance().isFainted()) {
+            action = GameController.getInstance().getActions();
+            action.add(first.getCurrentPokemon().getName() + " fainted!");
+            GameController.getInstance().setActions(action);
+            first.setAction("fainted");
+            GameController.getInstance().setFainted(true);
 
-        switch (first.getAction()) {
-            case "f1" -> {
-                first.getCurrentPokemon().checkStatus();
-                if (!first.getCurrentPokemon().checkFrozen()) {
-                    action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getName() + "!");
-                    GameController.getInstance().setActions(action);
+            checkIsAllDead(first, opponent);
 
-                    Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserHp());
-                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpe());
-                    first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpd());
-                    first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpa());
-                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserDef());
-                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserAtk());
-
-                    if (opponent.getCurrentPokemon().getHp() == 0) {
-                        action = GameController.getInstance().getActions();
-                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+            Goto.battlePage();
+            Goto.dialogPage();
+        } else {
+            switch (first.getAction()) {
+                case "f1" -> {
+                    if (!first.getCurrentPokemon().checkFrozen()) {
+                        action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getName() + "!");
                         GameController.getInstance().setActions(action);
-                        opponent.setAction("fainted");
-                        GameController.getInstance().setFainted(true);
-                    }
 
-                    boolean isAllDead = true;
-                    for (Pokemon pokemon : opponent.getPokemonsParty()) {
-                        if (pokemon.getHp() > 0) {
-                            isAllDead = false;
-                            break;
-                        }
-                    }
-                    if (isAllDead) {
-                        GameController.getInstance().setGameEnded(true);
-                        GameController.getInstance().setWinner(first.getName());
+                        Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                        first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserHp());
+                        first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpe());
+                        first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpd());
+                        first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserSpa());
+                        first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserDef());
+                        first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).findFirst().get().getUserAtk());
+
+                        checkIsPokemonDead(opponent);
+                        checkIsAllDead(opponent, first);
                     }
                 }
-            }
-            case "f2" -> {
-                first.getCurrentPokemon().checkStatus();
-                if (!first.getCurrentPokemon().checkFrozen()) {
-                    action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getName() + "!");
-                    GameController.getInstance().setActions(action);
-
-                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserHp());
-                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpe());
-                    first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpd());
-                    first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpa());
-                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserDef());
-                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserAtk());
-
-                    if (opponent.getCurrentPokemon().getHp() == 0) {
-                        action = GameController.getInstance().getActions();
-                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                case "f2" -> {
+                    if (!first.getCurrentPokemon().checkFrozen()) {
+                        action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getName() + "!");
                         GameController.getInstance().setActions(action);
-                        opponent.setAction("fainted");
-                        GameController.getInstance().setFainted(true);
-                    }
 
-                    boolean isAllDead = true;
-                    for (Pokemon pokemon : opponent.getPokemonsParty()) {
-                        if (pokemon.getHp() > 0) {
-                            isAllDead = false;
-                            break;
-                        }
-                    }
-                    if (isAllDead) {
-                        GameController.getInstance().setGameEnded(true);
-                        GameController.getInstance().setWinner(first.getName());
+                        Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                        first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserHp());
+                        first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpe());
+                        first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpd());
+                        first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserSpa());
+                        first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserDef());
+                        first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(1).findFirst().get().getUserAtk());
+
+                        checkIsPokemonDead(opponent);
+                        checkIsAllDead(opponent, first);
                     }
                 }
-            }
-            case "f3" -> {
-                first.getCurrentPokemon().checkStatus();
-                if (!first.getCurrentPokemon().checkFrozen()) {
-                    action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getName() + "!");
-                    GameController.getInstance().setActions(action);
-
-                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserHp());
-                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpe());
-                    first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpd());
-                    first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpa());
-                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserDef());
-                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserAtk());
-
-                    if (opponent.getCurrentPokemon().getHp() == 0) {
-                        action = GameController.getInstance().getActions();
-                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                case "f3" -> {
+                    if (!first.getCurrentPokemon().checkFrozen()) {
+                        action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getName() + "!");
                         GameController.getInstance().setActions(action);
-                        opponent.setAction("fainted");
-                        GameController.getInstance().setFainted(true);
-                    }
 
-                    boolean isAllDead = true;
-                    for (Pokemon pokemon : opponent.getPokemonsParty()) {
-                        if (pokemon.getHp() > 0) {
-                            isAllDead = false;
-                            break;
-                        }
-                    }
-                    if (isAllDead) {
-                        GameController.getInstance().setGameEnded(true);
-                        GameController.getInstance().setWinner(first.getName());
+                        Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                        first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserHp());
+                        first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpe());
+                        first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpd());
+                        first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserSpa());
+                        first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserDef());
+                        first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(2).findFirst().get().getUserAtk());
+
+                        checkIsPokemonDead(opponent);
+                        checkIsAllDead(opponent, first);
                     }
                 }
-            }
-            case "f4" -> {
-                first.getCurrentPokemon().checkStatus();
-                if (!first.getCurrentPokemon().checkFrozen()) {
-                    action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getName() + "!");
-                    GameController.getInstance().setActions(action);
-
-                    Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
-                    first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserHp());
-                    first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpe());
-                    first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpd());
-                    first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpa());
-                    first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserDef());
-                    first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserAtk());
-
-                    if (opponent.getCurrentPokemon().getHp() == 0) {
-                        action = GameController.getInstance().getActions();
-                        action.add(opponent.getCurrentPokemon().getName() + " fainted!");
+                case "f4" -> {
+                    if (!first.getCurrentPokemon().checkFrozen()) {
+                        action.add(first.getCurrentPokemon().getName() + " used " + Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getName() + "!");
                         GameController.getInstance().setActions(action);
-                        opponent.setAction("fainted");
-                        GameController.getInstance().setFainted(true);
-                    }
 
-                    boolean isAllDead = true;
-                    for (Pokemon pokemon : opponent.getPokemonsParty()) {
-                        if (pokemon.getHp() > 0) {
-                            isAllDead = false;
-                            break;
-                        }
-                    }
-                    if (isAllDead) {
-                        GameController.getInstance().setGameEnded(true);
-                        GameController.getInstance().setWinner(first.getName());
+                        Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().useSkill(opponent.getCurrentPokemon(),first.getCurrentPokemon());
+                        first.getCurrentPokemon().setHp(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserHp());
+                        first.getCurrentPokemon().setSpd(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpe());
+                        first.getCurrentPokemon().setSpDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpd());
+                        first.getCurrentPokemon().setSpAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserSpa());
+                        first.getCurrentPokemon().setDef(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserDef());
+                        first.getCurrentPokemon().setAtk(Arrays.stream(first.getCurrentPokemon().getMoves()).skip(3).findFirst().get().getUserAtk());
+
+                        checkIsPokemonDead(opponent);
+                        checkIsAllDead(opponent, first);
                     }
                 }
-            }
-            case "i1" -> {
-                Item item = first.getItems().get(0);
-                if (item instanceof Potion) {
-                    ((Potion) item).useHeal(first.getPokemonUseItemWith());
-                    item.setAmount(item.getAmount() - 1);
+                case "i1" -> {
+                    Item item = first.getItems().get(0);
+                    if (item instanceof Potion) {
+                        ((Potion) item).useHeal(first.getPokemonUseItemWith());
+                        item.setAmount(item.getAmount() - 1);
 
-                    action.add(first.getName() + " used a Potion with " + first.getPokemonUseItemWith().getName() + ".");
-                    action.add(first.getPokemonUseItemWith().getName() + "'s HP was restored.");
+                        action.add(first.getName() + " used a Potion with " + first.getPokemonUseItemWith().getName() + ".");
+                        action.add(first.getPokemonUseItemWith().getName() + "'s HP was restored.");
+                        GameController.getInstance().setActions(action);
+                    }
+                }
+                case "i2" -> {
+                    Item item = first.getItems().get(1);
+                    if (item instanceof Revive) {
+                        ((Revive) item).useCure(first.getPokemonUseItemWith());
+                        ((Revive) item).useRevive(first.getPokemonUseItemWith());
+                        item.setAmount(item.getAmount() - 1);
+
+                        action.add(first.getName() + " used a Revive with " + first.getPokemonUseItemWith().getName() + ".");
+                        action.add(first.getPokemonUseItemWith().getName() + " recovered from fainting!");
+                        GameController.getInstance().setActions(action);
+                    }
+                }
+                case "i3" -> {
+                    Item item = first.getItems().get(2);
+                    if (item instanceof FullRestore) {
+                        ((FullRestore) item).useHeal(first.getPokemonUseItemWith());
+                        ((FullRestore) item).useCure(first.getPokemonUseItemWith());
+                        item.setAmount(item.getAmount() - 1);
+
+                        action.add(first.getName() + " used a Full Restore with " + first.getPokemonUseItemWith().getName() + ".");
+                        action.add(first.getPokemonUseItemWith().getName() + "'s HP was restored.");
+                        GameController.getInstance().setActions(action);
+                    }
+                }
+                case "s1" -> {
+                    first.setCurrentPokemon(first.getSecondPokemon());
+                    setPokemonInParty();
+
+                    action.add(first.getName() + " switched pokemon to " + first.getCurrentPokemon().getName() + ".");
                     GameController.getInstance().setActions(action);
+
+                    GameController.getInstance().setFainted(false);
+                }
+                case "s2" -> {
+                    first.setCurrentPokemon(first.getThirdPokemon());
+                    setPokemonInParty();
+
+                    action.add(first.getName() + " switched pokemon to " + first.getCurrentPokemon().getName() + ".");
+                    GameController.getInstance().setActions(action);
+
+                    GameController.getInstance().setFainted(false);
                 }
             }
-            case "i2" -> {
-                Item item = first.getItems().get(1);
-                if (item instanceof Revive) {
-                    ((Revive) item).useCure(first.getPokemonUseItemWith());
-                    ((Revive) item).useRevive(first.getPokemonUseItemWith());
-                    item.setAmount(item.getAmount() - 1);
 
-                    action.add(first.getName() + " used a Revive with " + first.getPokemonUseItemWith().getName() + ".");
-                    action.add(first.getPokemonUseItemWith().getName() + " recovered from fainting!");
-                    GameController.getInstance().setActions(action);
-                }
-            }
-            case "i3" -> {
-                Item item = first.getItems().get(2);
-                if (item instanceof FullRestore) {
-                    ((FullRestore) item).useHeal(first.getPokemonUseItemWith());
-                    ((FullRestore) item).useCure(first.getPokemonUseItemWith());
-                    item.setAmount(item.getAmount() - 1);
-
-                    action.add(first.getName() + " used a Full Restore with " + first.getPokemonUseItemWith().getName() + ".");
-                    action.add(first.getPokemonUseItemWith().getName() + "'s HP was restored.");
-                    GameController.getInstance().setActions(action);
-                }
-            }
-            case "s1" -> {
-                first.setCurrentPokemon(first.getSecondPokemon());
-                setPokemonInParty();
-
-                action.add(first.getName() + " switched pokemon to " + first.getCurrentPokemon().getName() + ".");
-                GameController.getInstance().setActions(action);
-
-                GameController.getInstance().setFainted(false);
-            }
-            case "s2" -> {
-                first.setCurrentPokemon(first.getThirdPokemon());
-                setPokemonInParty();
-
-                action.add(first.getName() + " switched pokemon to " + first.getCurrentPokemon().getName() + ".");
-                GameController.getInstance().setActions(action);
-
-                GameController.getInstance().setFainted(false);
-            }
+            first.setAction(null);
+            Goto.battlePage();
+            Goto.dialogPage();
         }
-
-        first.setAction(null);
-        Goto.battlePage();
-        Goto.dialogPage();
     }
 
     public static void startTurn(Player p1,Player p2) {
@@ -268,7 +209,7 @@ public class GameUtils {
         startAction(first,last);
     }
 
-    public static Player whoFirst(Player p1, Player p2) {
+    private static Player whoFirst(Player p1, Player p2) {
         //เช้คว่าใครเริ่มก่อน
         if (Objects.equals(p1.getAction(), "s1") || Objects.equals(p1.getAction(), "s2") || Objects.equals(p1.getAction(), "i1") || Objects.equals(p1.getAction(), "i2") || Objects.equals(p1.getAction(), "i3")) {
             return p1;
@@ -282,6 +223,30 @@ public class GameUtils {
             return p2;
         }
         return p2;
+    }
+
+    private static void checkIsAllDead(Player player, Player opponent) {
+        boolean isAllDead = true;
+        for (Pokemon pokemon : player.getPokemonsParty()) {
+            if (pokemon.getHp() > 0) {
+                isAllDead = false;
+                break;
+            }
+        }
+        if (isAllDead) {
+            GameController.getInstance().setGameEnded(true);
+            GameController.getInstance().setWinner(opponent.getName());
+        }
+    }
+
+    private static void checkIsPokemonDead(Player player) {
+        if (player.getCurrentPokemon().getHp() == 0) {
+            ArrayList<String> action = GameController.getInstance().getActions();
+            action.add(player.getCurrentPokemon().getName() + " fainted!");
+            GameController.getInstance().setActions(action);
+            player.setAction("fainted");
+            GameController.getInstance().setFainted(true);
+        }
     }
 
     public static void setPokemonInParty() {

@@ -1232,7 +1232,7 @@ public class BaseSkill {
                         actions.add(opponent.getName() + "'s speed fell harshly!");
                     }
                     if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
-                        this.setUserHp(this.getUserHp()-(damage/4));
+                        this.setUserHp(Math.max(1, this.getUserHp()-(damage/4)));
                         actions.add(name + " took recoil damage!");
                     }
 
@@ -1324,7 +1324,7 @@ public class BaseSkill {
                         actions.add(user.getName() + "'s HP recovered!");
                     }
                     if(Objects.equals(this.getBuff()[i], Buff.RECOIL)){
-                        this.setUserHp(this.getUserHp()-(damage/4));
+                        this.setUserHp(Math.max(1, this.getUserHp()-(damage/4)));
                         actions.add(user.getName() + " took recoil damage!");
                     }
                 }

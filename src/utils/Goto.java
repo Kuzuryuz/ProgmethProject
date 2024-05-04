@@ -1041,7 +1041,8 @@ public class Goto {
                 winnerPage();
             } else {
                 GameController.getInstance().setActions(new ArrayList<>());
-                if (GameUtils.getLast().getAction() != null && !GameUtils.getLast().getAction().equals("fainted")) GameUtils.startAction(GameUtils.getLast(), GameUtils.getFirst());
+                if (GameUtils.getFirst().getAction() != null && GameUtils.getFirst().getAction().equals("fainted")) switchPage(GameUtils.getFirst());
+                else if (GameUtils.getLast().getAction() != null && !GameUtils.getLast().getAction().equals("fainted")) GameUtils.startAction(GameUtils.getLast(), GameUtils.getFirst());
                 else if (GameUtils.getFirst().getAction() != null || GameUtils.getLast().getAction() != null) {
                     if (GameUtils.getFirst().getAction() != null && GameUtils.getFirst().getAction().equals("fainted")) switchPage(GameUtils.getFirst());
                     else switchPage(GameUtils.getLast());
