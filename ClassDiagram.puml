@@ -1,0 +1,362 @@
+@startuml
+interface usage.Revivable {
+~ void useRevive(Pokemon)
+}
+class game.GameController {
+- {static} GameController instance
+- ArrayList<Player> players
+- String playerSelectTurn
+- String playerPlayTurn
+- int indexPlayerPlayTurn
+- int indexRivalPlayTurn
+- ArrayList<String> actions
+- boolean isFainted
+- boolean isGameEnded
+- String winner
+- <<Create>> GameController()
++ {static} GameController getInstance()
+- void startGame()
++ void newGame()
++ ArrayList<Player> getPlayers()
++ String getPlayerSelectTurn()
++ void setPlayerSelectTurn(String)
++ String getPlayerPlayTurn()
++ void setPlayerPlayTurn(String)
++ int getIndexPlayerPlayTurn()
++ void setIndexPlayerPlayTurn(int)
++ int getIndexRivalPlayTurn()
++ void setIndexRivalPlayTurn(int)
++ ArrayList<String> getActions()
++ void setActions(ArrayList<String>)
++ boolean isFainted()
++ void setFainted(boolean)
++ boolean isGameEnded()
++ void setGameEnded(boolean)
++ String getWinner()
++ void setWinner(String)
+}
+class item.Revive {
++ <<Create>> Revive(int)
++ void useCure(Pokemon)
++ void useRevive(Pokemon)
+}
+class item.Potion {
+- int restoreHP
++ <<Create>> Potion(int,int)
++ void useHeal(Pokemon)
++ int getRestoreHP()
++ void setRestoreHP(int)
+}
+class item.FullRestore {
++ <<Create>> FullRestore(int)
++ void useHeal(Pokemon)
++ void useCure(Pokemon)
+}
+class skill.BaseSkill {
+- String name
+- Type type
+- Category category
+- Status status
+- int pp
+- int power
+- int accuracy
+- int statusChance
+- Buff[] buff
+- int buffChance
+- boolean selfBuff
+- int userAtk
+- int userSpa
+- int userDef
+- int userSpd
+- int userSpe
+- int userHp
+- int userMaxHp
++ <<Create>> BaseSkill(String,Type,Category,Status,Buff[],int,int,int,int,int,boolean)
++ void useSkill(Pokemon,Pokemon)
++ String getName()
++ void setName(String)
++ Type getType()
++ void setType(Type)
++ Category getCategory()
++ void setCategory(Category)
++ Status getStatus()
++ void setStatus(Status)
++ int getPp()
++ void setPp(int)
++ int getPower()
++ void setPower(int)
++ int getAccuracy()
++ void setAccuracy(int)
++ int getStatusChance()
++ void setStatusChance(int)
++ Buff[] getBuff()
++ void setBuff(Buff[])
++ int getBuffChance()
++ void setBuffChance(int)
++ boolean isSelfBuff()
++ void setSelfBuff(boolean)
++ int getUserAtk()
++ void setUserAtk(int)
++ int getUserSpa()
++ void setUserSpa(int)
++ int getUserDef()
++ void setUserDef(int)
++ int getUserSpd()
++ void setUserSpd(int)
++ int getUserSpe()
++ void setUserSpe(int)
++ int getUserHp()
++ void setUserHp(int)
++ int getUserMaxHp()
++ void setUserMaxHp(int)
++ boolean equals(Object)
+}
+class pokemon.Pokemon {
+- String name
+- Type type
+- Type type2
+- int hp
+- int maxHp
+- int atk
+- int def
+- int spAtk
+- int spDef
+- int spd
+- boolean wasPara
+- boolean wasBurn
+- boolean isSleep
+- boolean notSleep
+- int sleepTurns
+- int currentSleep
+- int special
+- Status status
+- String imgsrc
+- BaseSkill[] moves
++ <<Create>> Pokemon(String,Type,Type,int,int,int,int,int,int,String,BaseSkill[])
++ <<Create>> Pokemon(Pokemon)
++ void checkStatus()
++ boolean checkSleep()
++ boolean checkFrozen()
++ String getName()
++ void setName(String)
++ Type getType()
++ void setType(Type)
++ Type getType2()
++ void setType2(Type)
++ int getHp()
++ void setHp(int)
++ int getMaxHp()
++ void setMaxHp(int)
++ BaseSkill[] getMoves()
++ void setMoves(BaseSkill[])
++ int getAtk()
++ void setAtk(int)
++ int getDef()
++ void setDef(int)
++ int getSpAtk()
++ void setSpAtk(int)
++ int getSpDef()
++ void setSpDef(int)
++ int getSpd()
++ void setSpd(int)
++ Status getStatus()
++ void setStatus(Status)
++ String getImgsrc()
++ void setImgsrc(String)
++ boolean isWasPara()
++ void setWasPara(boolean)
++ boolean isWasBurn()
++ void setWasBurn(boolean)
++ boolean isSleep()
++ void setSleep(boolean)
++ boolean isNotSleep()
++ void setNotSleep(boolean)
++ int getSleepTurns()
++ void setSleepTurns(int)
++ int getCurrentSleep()
++ void setCurrentSleep(int)
++ boolean equals(Object)
+}
+enum usage.Status {
++  NONE
++  BURN
++  FREEZE
++  PARALYSIS
++  POISON
++  SLEEP
++ String toString()
+}
+class player.Player {
+- String name
+- ArrayList<Pokemon> pokemonsParty
+- ArrayList<Item> items
+- Pokemon currentPokemon
+- Pokemon secondPokemon
+- Pokemon thirdPokemon
+- String action
+- Pokemon pokemonUseItemWith
++ <<Create>> Player(String,ArrayList<Pokemon>)
+- void initItems()
++ String getAction()
++ void setAction(String)
++ void changeCurrentPokemon(Pokemon)
++ String getName()
++ void setName(String)
++ ArrayList<Pokemon> getPokemonsParty()
++ void setPokemonsParty(ArrayList<Pokemon>)
++ ArrayList<Item> getItems()
++ void setItems(ArrayList<Item>)
++ Pokemon getCurrentPokemon()
++ void setCurrentPokemon(Pokemon)
++ Pokemon getSecondPokemon()
++ void setSecondPokemon(Pokemon)
++ Pokemon getThirdPokemon()
++ void setThirdPokemon(Pokemon)
++ Pokemon getPokemonUseItemWith()
++ void setPokemonUseItemWith(Pokemon)
+}
+enum usage.Category {
++  PHYSICAL
++  SPECIAL
++  STATUS
++  BUFF
+}
+class utils.GetDisplay {
++ {static} Text initText(String,int,Boolean,String)
++ {static} Button initButton(String,int,String)
++ {static} ImageView displayImg(String)
++ {static} MediaPlayer sound(String)
++ {static} void clickSoundEffect(Node,MediaPlayer,Runnable)
++ {static} String getColorOfType(String)
++ {static} String getColorOfStatus(String)
+}
+class pane.PokemonListPane {
+- {static} PokemonListPane instance
+- ArrayList<Pokemon> pokemons
+- <<Create>> PokemonListPane()
++ {static} PokemonListPane getInstance()
++ ArrayList<Pokemon> getPokemons()
+}
+class game.GameUtils {
+- {static} Player first
++ {static} void choosePokemon(Pokemon)
++ {static} boolean isFinishChoose()
++ {static} void switchPlayerPlay()
++ {static} void startAction(Player,Player)
++ {static} void startTurn(Player,Player)
++ {static} Player whoFirst(Player,Player)
++ {static} void setPokemonInParty()
++ {static} Player getFirst()
++ {static} Player getLast()
+}
+interface usage.Curable {
+~ void useCure(Pokemon)
+}
+class item.Item {
+- String name
+- int amount
++ <<Create>> Item(String,int)
++ String getName()
++ void setName(String)
++ int getAmount()
++ void setAmount(int)
++ boolean equals(Object)
+}
+class application.Main {
++ void start(Stage)
++ {static} void main(String[])
+}
+class utils.Goto {
+- {static} RootPane rootPane
+- {static} Stage stage
+- {static} MediaPlayer bgSound
+- {static} boolean volState
+- {static} VBox bottomBattle
+- {static} boolean getVolState()
+- {static} void setVolState(boolean)
++ {static} void setRootPane(RootPane)
++ {static} void setStage(Stage)
+- {static} void clear()
+- {static} void initBgSound()
+- {static} void initClickSound()
++ {static} void mainPage()
++ {static} void playPage()
++ {static} void howToPlayPage()
++ {static} void ListPage()
++ {static} void detailPage(int)
++ {static} void battlePage()
++ {static} void actionPage()
++ {static} void fightPage()
++ {static} void itemPage()
++ {static} void pokemonUseItemWithPage()
++ {static} void switchPage(Player)
++ {static} void dialogPage()
++ {static} void winnerPage()
+}
+interface usage.Healable {
+~ void useHeal(Pokemon)
+}
+enum usage.Buff {
++  NONE
++  ATKUP
++  ATKUP2
++  DEFUP
++  DEFUP2
++  SPEEDUP
++  SPEEDUP2
++  SPAUP
++  SPAUP2
++  SPDEFUP
++  SPDEFUP2
++  ATKDOWN
++  ATKDOWN2
++  DEFDOWN
++  DEFDOWN2
++  SPEEDDOWN
++  SPEEDDOWN2
++  SPADOWN
++  SPADOWN2
++  SPDEFDOWN
++  SPDEFDOWN2
++  HEAL
++  RECOIL
+}
+class pane.RootPane {
+- {static} RootPane instance
+- <<Create>> RootPane()
++ {static} RootPane getRootPane()
+}
+enum usage.Type {
++  NULL
++  NORMAL
++  FIRE
++  WATER
++  ROCK
++  ELECTRIC
++  GRASS
++  ICE
++  FIGHTING
++  POISON
++  GROUND
++  FLYING
++  PSYCHIC
++  BUG
++  GHOST
++  DRAGON
++  DARK
++  STEEL
++  FAIRY
+}
+
+
+usage.Revivable <|.. item.Revive
+usage.Curable <|.. item.Revive
+item.Item <|-- item.Revive
+usage.Healable <|.. item.Potion
+item.Item <|-- item.Potion
+usage.Healable <|.. item.FullRestore
+usage.Curable <|.. item.FullRestore
+item.Item <|-- item.FullRestore
+javafx.application.Application <|-- application.Main
+javafx.scene.layout.VBox <|-- pane.RootPane
+@enduml
